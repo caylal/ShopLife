@@ -1,0 +1,49 @@
+{
+  "pages":[
+    "pages/home/index",
+    "pages/logs/logs",
+    "pages/cart/index",
+    "pages/orders/index",
+    "pages/my/index",
+    "pages/component/search/search"
+  ],
+  "window":{
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "#d22222",
+    "enablePullDownRefresh": true,
+    "navigationBarTitleText": "近邻生活",
+    "navigationBarTextStyle":"white"
+  },
+  "tabBar": {
+    "color": "#cacaca",
+    "selectedColor": "#f40",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/home/index",
+        "iconPath": "images/home.png",
+        "selectedIconPath": "images/home-fill.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/cart/index",
+        "iconPath": "images/cart.png",
+        "selectedIconPath": "images/cart-fill.png",
+        "text": "购物车"
+      },
+      {
+        "pagePath": "pages/orders/index",
+        "iconPath": "images/order.png",
+        "selectedIconPath": "images/order-fill.png",
+        "text": "订单"
+      },
+      {
+        "pagePath": "pages/my/index",
+        "iconPath": "images/my.png",
+        "selectedIconPath": "images/my-fill.png",
+        "text": "我的"
+      }      
+    ]
+  }
+}

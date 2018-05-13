@@ -1,0 +1,15 @@
+<view class="search-bar"> 
+  <view class="search-bar-box">
+    <view class="search-bar-info">
+      <icon class="search-icon" type="search" size="14" color="#fff"></icon>
+      <input class="search-bar-input" placeholder="搜索栏" value="{{SearchData.value}}" bindinput="SearchInput" bindconfirm="SearchConfirm" />
+      <view class="search-icon-clear" wx:if="{{SearchData.value.length > 0}}" bindtap="SearchClear">
+        <icon type="clear" size="14"></icon>
+      </view>
+    </view> 
+  </view>
+  <view class="search-bar-cancel-btn" bindtap="SearchConfirm">
+    <text wx:if="{{wxSearchData.value.length>0}}" data-key='search'>搜索</text>
+    <text wx:else data-key='back'>取消</text>
+  </view>
+</view>

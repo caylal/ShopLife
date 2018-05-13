@@ -1,0 +1,26 @@
+<!--index.wxml-->
+
+<view class="index">
+  
+  <view class="banner">
+      <swiper class="swiper_box" indicator-dots="{{indicatorDots}}" circular="{{circular}}" vertical="{{vertical}}" indicator-color="rgba(255, 255, 255, .3)"         indicator-active-color="rgba(210, 34, 34, .7)" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" bindchange="swiperchange">
+        <block wx:for="{{imagesUrl}}" wx:key="{{item}}">
+          <swiper-item>
+            <image src="{{item}}" class="slide-image"/>
+          </swiper-item>
+        </block>        
+      </swiper>
+  </view>
+  <view class="header">
+    <view class="position">
+      <image class="position-img" src="../../../images/position.png" />
+      <text class="position-text">当前定位</text>
+      <image class="arrow-img" src="../../../images/b-arrow.png" />
+    </view>
+    <view class="search" bindtap="Search">
+      <image class="search-img" src="../../../images/search.png" />
+      <input class="search-box" placeholder="搜索栏" disabled="true"></input>
+    </view>
+    <view class="msg"></view>
+  </view>
+</view>
