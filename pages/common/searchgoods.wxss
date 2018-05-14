@@ -1,0 +1,25 @@
+.goods{
+  width: 250rpx;
+  height: 400rpx;
+  display: flex;
+  flex-direction: column;
+}
+.goods-img{
+  width:200rpx;
+  height:180rpx;
+
+}
+.goods-title{
+  height:50rpx;
+  width:100%;
+  overflow:hidden;
+  font-size:25rpx;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+}
+.goods-buy{
+  display:flex;
+  justify-content:space-btween;
+  font-size:25rpx;
+
+}

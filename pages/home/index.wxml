@@ -13,13 +13,12 @@
   </view>
   <view class="header">
     <view class="position">
-      <image class="position-img" src="../../../images/position.png" />
+      <icon class='iconfont icon-zuobiaofill'></icon>
       <text class="position-text">当前定位</text>
-      <image class="arrow-img" src="../../../images/b-arrow.png" />
-    </view>
+      <icon class='iconfont icon-xiajiantou'></icon>    </view>
     <view class="search" bindtap="Search">
-      <image class="search-img" src="../../../images/search.png" />
-      <input class="search-box" placeholder="搜索栏" disabled="true"></input>
+     
+      <input class="search-box" placeholder="搜索栏" placeholder-style='color: #eee' disabled="true"></input>
     </view>
     <view class="msg"></view>
   </view>

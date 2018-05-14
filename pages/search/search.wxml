@@ -1,0 +1,45 @@
+<import src="../common/searchgoods"/>
+<view class="weui-search-bar">
+   <view class="weui-search-bar__form">
+    <view class="weui-search-bar__box">
+      <icon class="weui-icon-search_in-box" type="search" size="14" color='#fff'></icon>
+      <input type="text" class="weui-search-bar__input" placeholder-style='color: #fff' placeholder="请输入查询内容" value="{{SearchVal}}" bindinput="SearchData"/>
+      <view class="weui-icon-clear" wx:if="{{SearchVal.length > 0}}" bindtap="SearchClear">
+        <icon type="clear" size="14"></icon>
+      </view>
+    </view>
+  </view>
+    <view class="weui-search-bar__cancel-btn" bindtap="SearchConfirm">
+         <text wx:if="{{SearchVal.length>0}}" data-key='search'>搜索</text>
+         <text wx:else data-key='back'>取消</text>
+     </view>
+</view>
+
+<view class="wxSearch">
+  <view class="wxSearchInner" wx:if="{{searchLogShowed}}" > 
+    <view wx:if="{{searchLogList.length > 0}}" class="wxSearchHistory" style="display:{{searchLogList.length < 0 ? 'none':'block'}}">
+      <view class="wxSearchHistoryItem">
+        <text class="wxSearchHistoryItemTitle">搜索记录</text>       
+        <icon type="clear" bindtap="SearchDeleteAll" size="18" />
+      </view>
+      <view class="wxSearchKeyList">
+        <block wx:for="{{searchLogList}}" wx:key="{{item}}">
+          <view class="wxSearchKeyItem" bindtap="SearchKeyTap" data-key="{{item}}">{{item}}</view>
+        </block>
+      </view>
+    </view>
+
+    <view class="wxSearchKey">
+      <text wx:if="{{searchHotList.length > 0}}" class="wxSearchTitle">搜索热点</text>
+      <view class="wxSearchKeyList">
+        <block wx:for="{{searchHotList}}" wx:key="{{item}}">
+          <view class="wxSearchKeyItem" bindtap="SearchKeyTap" data-key="{{item}}">{{item}}</view>
+        </block>
+      </view>
+    </view>
+  </view>
+
+  <view class='search-info' wx:if="{{searchGoodShowed}}">
+    <template is="search-good-list" data="{{goods}}"/>
+  </view>
+</view>

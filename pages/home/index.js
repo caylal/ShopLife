@@ -21,7 +21,10 @@ Page({
   // 搜索入口  
   Search: function () {
     wx.redirectTo({
-      url: '../component/search/search'
+      url: '../search/search'
     })
+  },
+  onLoad: function () {
+
   }
 })

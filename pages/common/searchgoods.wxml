@@ -1,0 +1,12 @@
+<template name="search-good-list">
+  <view class='goods' wx:for="{{goods}}" wx:key="{{item}}">
+    <image class='goods-img' src="../../images/goods.png"></image>
+    <text class='goods-title'>{{item.title}}</text>
+    <view class='goods-buy'>
+      <text>￥{{item.price}}</text>
+      <icon class='iconfont icon-addition'></icon>
+      <text>1</text>
+      <icon class='iconfont icon-offline'></icon>
+    </view>
+  </view>
+</template>
