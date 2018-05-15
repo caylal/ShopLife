@@ -2,11 +2,13 @@
   <view class='goods' wx:for="{{goods}}" wx:key="{{item}}">
     <image class='goods-img' src="../../images/goods.png"></image>
     <text class='goods-title'>{{item.title}}</text>
-    <view class='goods-buy'>
-      <text>￥{{item.price}}</text>
-      <icon class='iconfont icon-addition'></icon>
-      <text>1</text>
-      <icon class='iconfont icon-offline'></icon>
+    <view class='goods-buy'>      
+      <text class='goods-price'>￥{{item.price}}</text>     
+      <view class='goods-opt'>
+        <icon class='iconfont icon-offline goods-btn'></icon>
+        <text class='goods-num'>12</text>       
+        <icon class='iconfont icon-addition goods-btn'></icon>
+      </view>
     </view>
   </view>
 </template>

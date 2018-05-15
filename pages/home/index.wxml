@@ -1,6 +1,6 @@
 <!--index.wxml-->
 
-<view class="index">
+<view class="container">
   
   <view class="banner">
       <swiper class="swiper_box" indicator-dots="{{indicatorDots}}" circular="{{circular}}" vertical="{{vertical}}" indicator-color="rgba(255, 255, 255, .3)"         indicator-active-color="rgba(210, 34, 34, .7)" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" bindchange="swiperchange">
@@ -15,11 +15,21 @@
     <view class="position">
       <icon class='iconfont icon-zuobiaofill'></icon>
       <text class="position-text">当前定位</text>
-      <icon class='iconfont icon-xiajiantou'></icon>    </view>
+      <icon class='iconfont icon-xiajiantou'></icon>    
+    </view>
     <view class="search" bindtap="Search">
-     
+      <icon class="search-icon" type="search" size="16" color='#fff'></icon>
       <input class="search-box" placeholder="搜索栏" placeholder-style='color: #eee' disabled="true"></input>
     </view>
     <view class="msg"></view>
+  </view>
+
+  <view class='life-notice'>
+  
+  </view>
+  <view class='goods-category'>
+    <view class='category-title'>
+         <view class='title-text'><text class='text'>商品上门</text> </view> 
+    </view>
   </view>
 </view>

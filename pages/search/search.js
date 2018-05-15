@@ -7,7 +7,7 @@ Page({
     searchGoodShowed: false,
     searchLogList: [], //搜索历史记录，
     searchHotList: ['啤酒', '可乐', "零食", "牛奶", '水果', '槟榔'],
-    goods: [{ title: "Apple iPad 平板电脑9.7英寸", price: "2899" }, { title: "Apple iPad 平板电脑9.7英寸", price: "2899" }, { title: "Apple iPad 平板电脑9.7英寸", price: "2899" }, { title: "Apple iPad 平板电脑9.7英寸", price: "2899" }, { title: "Apple iPad 平板电脑9.7英寸", price: "2899" }]
+    goods: [{ title: "Apple iPad 平板电脑9.7英寸", price: "2899" }, { title: "Apple iPad 平板电脑9.7英寸", price: "2899" }, { title: "Apple iPad 平板电脑9.7英寸", price: "2899" }, { title: "Apple iPad 平板电脑9.7英寸", price: "2899" }, { title: "Apple iPad 平板电脑9.7英寸", price: "2899" }, { title: "Apple iPad 平板电脑9.7英寸", price: "2899" }, { title: "Apple iPad 平板电脑9.7英寸", price: "2899" }, { title: "Apple iPad 平板电脑9.7英寸", price: "2899" }, { title: "Apple iPad 平板电脑9.7英寸", price: "2899" }, { title: "Apple iPad 平板电脑9.7英寸", price: "2899" }, { title: "Apple iPad 平板电脑9.7英寸", price: "2899" }]
   },
 
   // 搜索栏
