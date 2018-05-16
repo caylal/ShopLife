@@ -1,4 +1,32 @@
-<!--index.wxml-->
+
 <view class="container">
-  <text class="user-motto">{{motto}}</text>
+  <view class='cart'>
+    
+    <view class='cart-title'>     
+      <view class="title-text">商品上门</view>
+    </view>
+    <view class='cart-goods'>
+      <view class='cart-store'>
+        <view class='store-opt'></view>
+        <view class='store-items'>
+          <view class='store-check'></view>
+          <view class='store-info'></view>
+          <view class='store-btn'></view>
+        </view>
+      </view>
+    </view>
+  </view>
+  
+  <view class='cart-count'>
+    <view class='cart-checked'>
+      <span class='iconfont icon-yuanxingweixuanzhong checkbox'> </span>
+      <text class='allchecked'>全选</text>
+    </view>
+    
+    <view class='cart-text'>
+      <text>不含运费合计：</text><text class='cart-money'>￥44.5</text>
+      <view class='cart-btn'>去结算</view>
+    </view>
+    
+  </view>
 </view>

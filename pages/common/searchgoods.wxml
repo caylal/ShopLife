@@ -5,9 +5,9 @@
     <view class='goods-buy'>      
       <text class='goods-price'>￥{{item.price}}</text>     
       <view class='goods-opt'>
-        <icon class='iconfont icon-offline goods-btn'></icon>
+        <span class='iconfont icon-offline goods-btn'></span>
         <text class='goods-num'>12</text>       
-        <icon class='iconfont icon-addition goods-btn'></icon>
+        <span class='iconfont icon-addition goods-btn'></span>
       </view>
     </view>
   </view>
