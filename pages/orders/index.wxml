@@ -1,4 +1,31 @@
-<!--index.wxml-->
 <view class="container">
-  <text class="user-motto">{{motto}}</text>
+  <view class='swiper-tab'>
+    <view class="tab-item {{currentid == index ? 'active' : ''}}" wx:for="{{tab}}"  bindtap='bindTap' data-id="{{index}}" data-type="{{item.type}}" wx:key="{{index}}"><text>{{item.title}}</text></view> 
+  </view>
+
+  <view class="order-section">
+    <view class='order' wx:if="{{orderList.length > 0}}" wx:for="{{orderList}}" wx:key="{{index}}">
+      <view class='order-top'>
+        <view class='order-type'>{{item.type}}</view>
+        <view class='order-status'>{{item.status}}</view>
+      </view>
+      <view class='order-no'>
+        <text>订单号：{{item.no}}</text>
+        <text class='order-time'>{{item.time}}</text>
+      </view>
+      <view class='order-goods'>
+        <view class='goods-pic'>
+          <image class='g-pic' src='../../images/orange.png'></image>
+        </view>
+        <view class='goods-count'>
+          <text class='g-p'>￥26</text>
+          <text class='g-n'>共3件</text>
+        </view>
+      </view>
+    </view>
+    <view wx:if="{{orderList.length <= 0}}">
+      <text>没有订单信息</text>
+    </view>
+  </view>
+ 
 </view>

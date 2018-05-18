@@ -1,7 +1,14 @@
-.cart{
+.cart-box{
+  background-color: #eee;
   width: 100%;
   height: 100%;
-  background-color: #eee;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 80rpx; 
+}
+.cart{ 
+  width: 100%;
+  height: 100%;
 }
 .cart-title{
   height: 80rpx;
@@ -11,8 +18,7 @@
 }
 .cart-title .title-text{
   display: table;
-  width: 100%;
-  color: #fc4104;
+  width: 100%;  
   font-size: 35rpx;
   padding-top: 20rpx;
   white-space: nowrap;
@@ -21,10 +27,22 @@
 .cart-title .title-text:before, .cart-title .title-text:after{
   display: table-cell;
   content: '';
-  width:50%;
+  width:50%; 
+  background-size: 1px 1px;
+}
+.title-red{
+  color: #fc4104;
+}
+.title-red:before, .title-red:after{
   background: -webkit-linear-gradient(#fc4104,#fc4104) repeat-x left center;
   background: linear-gradient(#fc4104,#fc4104) repeat-x left center;
-  background-size: 1px 1px;
+}
+.title-green{
+  color: #390;
+}
+.title-green:before, .title-green:after{
+  background: -webkit-linear-gradient(#390,#390) repeat-x left center;
+  background: linear-gradient(#390,#390) repeat-x left center;
 }
 .cart-count{
   width: 100%;
@@ -66,8 +84,99 @@
 .cart-goods{
   width: 100%;
 }
+
 .cart-goods .cart-store{
-  padding: 10rpx;
-  border: 1px solid #efeff4;
-  background-color: #fff;
+  background-color: #fff;  
+  margin: 10rpx;
+  border: 1px solid #ddd; 
+}
+.cart-store .store-title .store-avatar{
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 50%;
+  margin-left: 10rpx;
+}
+.cart-store .store-title{
+  height: 70rpx; 
+  font-size: 30rpx; 
+  display: flex;
+  align-items: center;
+  padding: 5rpx;
+  box-sizing: border-box;
+}
+ .store-title .store-name{
+  margin-left: 10rpx;
+}
+.cart-store .store-box {
+  margin:0 5rpx; 
+  border-top: 1px solid #ddd;
+}
+.store-box .store-items{
+  margin-top: 20rpx;
+  display: flex;
+  align-items: center; 
+}
+.store-box .store-items:last-child .store-goods{
+   border-bottom: none;
+}
+.store-items .store-check{
+  width: 10%;
+  box-sizing: border-box;
+}
+.store-items .store-check span{
+  padding-left:20rpx;
+}
+.store-items .store-goods {
+  width: calc(90% - 25rpx);
+  margin-left: 25rpx;
+  display: flex;
+  align-items: center;  
+  border-bottom: 1px solid #ddd;
+  padding-bottom:10rpx;
+  box-sizing:border-box;
+
+}
+.store-items .store-goods .goods-pic{
+  width: 100rpx;
+  height: 100rpx;
+}
+.store-items .store-goods .goods-info{
+  width: calc(100% - 100rpx);
+  padding: 0 20rpx;
+  box-sizing: border-box;
+  font-size: 30rpx;
+  display: flex;
+  align-items: center;
+}
+.goods-info .goods-title{
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+}
+.goods-info .goods-title .title{
+  width: 100%;
+  font-size: 28rpx;
+  overflow:hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.goods-info .goods-title .price{
+  font-size: 25rpx;
+  color: #fc4104;
+  font-weight: bold;
+  margin-top:10rpx;
+}
+.goods-info .goods-opt{
+  width: 30%;  
+  display: flex;
+  align-items: center;
+  
+}
+.goods-info .goods-opt span{
+  font-size: 45rpx;
+  color: #fc4104;
+}
+.goods-info .goods-opt .goods-num{
+  flex-grow:1;
+  text-align:center;
 }
