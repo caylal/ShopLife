@@ -9,3 +9,16 @@
   line-height: 50rpx;
   letter-spacing: 2rpx;
 }
+.l-current{
+  padding: 15rpx 30rpx 15rpx 15rpx;
+  display: flex;
+  font-size: 28rpx;
+  justify-content: space-between;
+  border: 1px solid #eee;
+}
+.l-position :first-child{
+  margin-left: 0;
+}
+.l-position .l-c{
+  margin-left: 20rpx;
+}

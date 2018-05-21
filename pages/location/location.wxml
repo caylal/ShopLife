@@ -33,6 +33,14 @@
 
     <view class='location'>
       <view class='l-title'>当前定位信息</view>
+      <view>
+        <view class='l-current'>
+          <view class='l-position'>
+           <text class='l-c'>深圳市</text><text class='l-c'>南山区</text><text class='l-c'>科技园</text>
+          </view>
+          <span class="iconfont icon-dingwei"></span></view>
+      </view>
+      <view></view>
     </view>   
   </view>
 </view>
