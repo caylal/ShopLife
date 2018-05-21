@@ -1,0 +1,11 @@
+@import "../search/search.wxss";
+
+.l-title{
+  height: 50rpx;
+  width: 100%;
+  background: #eee;
+  font-size: 28rpx;
+  padding-left:15rpx;
+  line-height: 50rpx;
+  letter-spacing: 2rpx;
+}

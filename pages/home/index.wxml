@@ -13,8 +13,8 @@
   </view>
   <view class="header">
     <view class="position">
-      <icon class='iconfont icon-zuobiaofill'></icon>
-      <text class="position-text">当前定位</text>
+      <icon class='iconfont icon-zuobiaofill' bindtap='getLocation'></icon>
+      <text class="position-text">{{location}}</text>
       <icon class='iconfont icon-xiajiantou'></icon>    
     </view>
     <view class="search" bindtap="Search">
@@ -24,8 +24,5 @@
     <view class="msg"></view>
   </view>
 
-  <view class='life-notice'>
-  
-  </view>
    <template is="goods-category" data="{{category}}"> </template>
 </view>
