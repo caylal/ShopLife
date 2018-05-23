@@ -41,7 +41,7 @@ Page({
     let _this = this;
     if (key == 'back'){
       wx.switchTab({
-        url: '../home/index',
+        url: '../home/index/index',
       })
     } else {
       let searchVal = _this.data.SearchVal;

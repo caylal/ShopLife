@@ -1,4 +1,4 @@
-// pages/location/location.js
+// pages/category/index.js
 Page({
 
   /**

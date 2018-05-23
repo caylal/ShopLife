@@ -1,7 +1,7 @@
 .goods{
   width: 32%;
   height: 320rpx;
-  background-color: #eee;
+   background-color: #fff; 
   float: left;
   display: flex;
   flex-direction: column;

@@ -1,22 +1,22 @@
 <import src="../common/searchgoods"/>
 <view class='container'> 
-  <view class="weui-search-bar">
-    <view class="weui-search-bar__form">
-      <view class="weui-search-bar__box">
-        <icon class="weui-icon-search_in-box" type="search" size="14" color='#fff'></icon>
-        <input type="text" class="weui-search-bar__input" placeholder-style='color: #fff' placeholder="请输入查询内容" value="{{SearchVal}}" bindinput="SearchData"/>
-        <view class="weui-icon-clear" wx:if="{{SearchVal.length > 0}}" bindtap="SearchClear">
-          <icon type="clear" size="14"></icon>
+  <view class="search-bar">
+      <view class="search-bar__form">
+        <view class="search-bar__box">
+          <icon class="weui-icon-search_in-box" type="search" size="14" color='#fff'></icon>
+          <input type="text" placeholder-style='color: #fff' placeholder="请输入查询内容" value="{{SearchVal}}" bindinput="SearchData"/>
+          <view class="weui-icon-clear" wx:if="{{SearchVal.length > 0}}" bindtap="SearchClear">
+            <icon type="clear" size="14"></icon>
+          </view>
         </view>
-    </view>
+      </view>
+      <view class="search-bar__cancel-btn" bindtap="SearchConfirm">
+        <text wx:if="{{SearchVal.length>0}}" data-key='search'>搜索</text>
+        <text wx:else data-key='back'>取消</text>
+      </view>
   </view>
-  <view class="weui-search-bar__cancel-btn" bindtap="SearchConfirm">
-    <text wx:if="{{SearchVal.length>0}}" data-key='search'>搜索</text>
-    <text wx:else data-key='back'>取消</text>
-  </view>
-</view>
 
-  <view class="wxSearch">
+   <view class="wxSearch">
     <view class="wxSearchInner" wx:if="{{searchLogShowed}}" > 
       <view wx:if="{{searchLogList.length > 0}}" class="wxSearchHistory" style="display:{{searchLogList.length < 0 ? 'none':'block'}}">
         <view class="wxSearchHistoryItem">
@@ -48,9 +48,9 @@
         <icon class='iconfont icon-gouwuchefill search-icon' />
         <text class='cart-num'>￥50.0</text>
       </view>
-    <view class='search-cart-btn'>
-      <text> 去结算</text>
+      <view class='search-cart-btn'>
+        <text> 去结算</text>
+      </view>
     </view>
-  </view>
-</view>
+  </view>   
 </view>

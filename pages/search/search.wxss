@@ -1,15 +1,11 @@
 @import "../common/searchgoods.wxss";
 
 /** 整个区域 */
-.wxSearch{
-  position: absolute;
-  top: 36px;
-  left: 0;
+.wxSearch{ 
   width: 100%;
-  height: calc(100% - 37);
-  /* border-top: 1px #eee solid; */
-  /* background-color: rgba(200, 200, 200, 0.1); */
-  /* z-index: 9999;  */
+  height: 100%;
+  padding-top: 80rpx;
+  box-sizing: border-box;
 
 }
 
@@ -81,26 +77,22 @@
   border-radius: 2px;
 }
 
-/** ---------------------- 以下是搜索框的 we-ui 样式--------------------------------*/
-
-/*!
- * WeUI v1.1.1 (https://github.com/weui/weui-wxss)
- * Copyright 2017 Tencent, Inc.
- * Licensed under the MIT license
- */
-
-.weui-search-bar {
-  position: fixed;
-  padding: 2px 10px;
-  display: -webkit-box;
-  display: -webkit-flex;
+.search-box{
+  height: 100%;
+  width: 100%;
   display: flex;
+  flex-direction: column;
+}
+.search-bar { 
+  width: 100%;
+  height: 80rpx;
+  padding: 5px; 
+  display: flex;
+  position: fixed;
+  font-size: 30rpx;
   box-sizing: border-box;
   background-color: #efeff4;
-  top:0;
-  left:0;
-  right:0;
-  z-index:1;
+  top:0; 
   border-bottom: 1rpx solid #d7d6dc; 
 }
 
@@ -114,36 +106,19 @@
   left: 10px;
   top: 7px;
 }
-
-.weui-search-bar__text {
-  display: inline-block;
-  font-size: 14px;
-  vertical-align: middle;
-}
-
-.weui-search-bar__form {
-  position: relative;
-  -webkit-box-flex: 1;
-  -webkit-flex: auto;
-  flex: auto;
+.search-bar__form {   
+  width: 100%;
   border-radius: 5px;
   background-color: rgba(0,0,0,0.1); 
   border: 1rpx solid #e6e6ea;
 }
 
-.weui-search-bar__box {
+.search-bar__box {
   position: relative;
   padding-left: 30px;
-  padding-right: 30px;
-  width: 100%;
-  box-sizing: border-box;
-  z-index: 1;
-}
-
-.weui-search-bar__input {
-  height: 28px;
-  line-height: 28px;
-  font-size: 14px;
+  padding-right: 10px;  
+  width: 85%;
+  box-sizing: border-box; 
 }
 
 .weui-icon-clear {
@@ -154,30 +129,18 @@
   font-size: 0;
 }
 
-.weui-search-bar__label {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 2;
-  border-radius: 3px;
+.search-bar__cancel-btn {
+  line-height: 28px; 
+  width: 15%;
   text-align: center;
-  color: #9b9b9b;
-  background: #fff;
-  line-height: 28px;
-}
-
-.weui-search-bar__cancel-btn {
-  margin-left: 10px;
-  line-height: 28px;  
-  white-space: nowrap;
-  font-size: 14px;
 }
 .search-info{
   box-sizing: border-box;
   width: 100%;
   height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  
 }
 .search-cart{
   height: 80rpx;

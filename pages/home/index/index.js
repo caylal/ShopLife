@@ -24,7 +24,7 @@ Page({
   // 搜索入口  
   Search () {
     wx.redirectTo({
-      url: '../search/search'
+      url: '../../search/search'
     })
   },
   getLocation(){
@@ -33,6 +33,9 @@ Page({
     })
   },
   onLoad: function () {
-
+    this.setData({
+      category: cate,
+      imagesUrl: imgUrl
+    })
   }
 })

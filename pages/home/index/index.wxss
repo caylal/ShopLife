@@ -1,5 +1,5 @@
 /**index.wxss**/
-@import "../common/goodsitem.wxss";
+@import "../../common/goodsitem.wxss";
 .header{ 
   display: flex;
   top: 0;

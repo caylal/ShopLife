@@ -1,4 +1,4 @@
-@import "../search/search.wxss";
+@import "../../search/search.wxss";
 
 .l-title{
   height: 50rpx;
@@ -16,9 +16,23 @@
   justify-content: space-between;
   border: 1px solid #eee;
 }
+
+.l-position .l-c{
+  margin-left: 20rpx;
+}
 .l-position :first-child{
   margin-left: 0;
 }
-.l-position .l-c{
-  margin-left: 20rpx;
+.l-area{
+  font-size: 30rpx;
+  padding: 10rpx;
+}
+.l-sort{
+  width: 100%;
+  background: #eee;
+  display: inline-block;
+}
+.l-city{
+  line-height: 60rpx;
+  border-bottom: 1px solid #eee;
 }

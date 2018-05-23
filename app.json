@@ -1,12 +1,13 @@
 {
   "pages":[
-    "pages/home/index",
+    "pages/home/index/index",
     "pages/logs/logs",
     "pages/cart/index",
     "pages/orders/index",
     "pages/my/index",
     "pages/search/search",
-    "pages/location/location" 
+    "pages/home/location/location",
+    "pages/category/index" 
   ],
   "window":{
     "backgroundTextStyle":"light",
@@ -22,7 +23,7 @@
     "backgroundColor": "#ffffff",
     "list": [
       {
-        "pagePath": "pages/home/index",
+        "pagePath": "pages/home/index/index",
         "iconPath": "images/home.png",
         "selectedIconPath": "images/home-fill.png",
         "text": "首页"

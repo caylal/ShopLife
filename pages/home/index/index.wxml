@@ -1,5 +1,5 @@
 <!--index.wxml-->
-<import src="../common/goodsitem"/>
+<import src="../../common/goodsitem"/>
 <view class="container">
   
   <view class="banner">

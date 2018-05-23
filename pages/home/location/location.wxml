@@ -8,13 +8,13 @@
         <view class="weui-icon-clear" wx:if="{{SearchVal.length > 0}}" bindtap="SearchClear">
           <icon type="clear" size="14"></icon>
         </view>
+      </view>
+    </view>
+    <view class="weui-search-bar__cancel-btn" bindtap="SearchConfirm">
+      <text wx:if="{{SearchVal.length>0}}" data-key='search'>搜索</text>
+      <text wx:else data-key='back'>取消</text>
     </view>
   </view>
-  <view class="weui-search-bar__cancel-btn" bindtap="SearchConfirm">
-    <text wx:if="{{SearchVal.length>0}}" data-key='search'>搜索</text>
-    <text wx:else data-key='back'>取消</text>
-  </view>
-</view>
 
   <view class="wxSearch">
     <view class="wxSearchInner" wx:if="{{searchLogShowed}}" > 
@@ -36,11 +36,32 @@
       <view>
         <view class='l-current'>
           <view class='l-position'>
-           <text class='l-c'>深圳市</text><text class='l-c'>南山区</text><text class='l-c'>科技园</text>
+            <text class='l-c'>深圳市</text><text class='l-c'>南山区</text><text class='l-c'>科技园</text>
           </view>
-          <span class="iconfont icon-dingwei"></span></view>
+          <span class="iconfont icon-dingwei"></span>
+        </view>
       </view>
-      <view></view>
+      <!-- <view class='l-area'>
+        <view>
+          <text class='l-sort'>B</text>
+          <view class='l-city'>北京</view>
+          <view class='l-city'>保定</view>
+        </view>
+         <view>
+          <text class='l-sort'>B</text>
+          <view class='l-city'>北京</view>
+          <view class='l-city'>保定</view>
+        </view>
+      </view> -->
+      <view class='l-area'>
+        <view class='l-city'>朝阳区</view>
+        <view class='l-city'>全城</view>
+      </view>
+      <view class='l-area'>
+        <view class='l-city'>朝阳区</view>
+        <view class='l-city'>朝阳区</view>
+      </view>
     </view>   
   </view>
+
 </view>

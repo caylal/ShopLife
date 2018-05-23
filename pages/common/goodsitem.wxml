@@ -16,8 +16,8 @@
       <view class='goods-items' >    
         <view class='goods' wx:for="{{goodsItem.items}}" wx:for-item="items"  wx:key="{{index}}">
           <view class='item'>
-            <image class='goods-img' src="../../images/goods.png"></image>
-            <text class='goods-title'>{{items.title}}</text>
+            <image class='goods-img' src="../../../images/goods.png"></image>
+            <text class='goods-name'>{{items.title}}</text>
             <view class='goods-buy'>      
               <text class='goods-price'>￥{{items.price}}</text>     
               <view class='goods-opt'>

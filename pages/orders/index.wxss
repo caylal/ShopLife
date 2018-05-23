@@ -27,6 +27,7 @@
 .order-section{
   margin-top: 80rpx;
   padding: 10rpx;
+  background:#fff;
 }
 .order{
   display: flex;
