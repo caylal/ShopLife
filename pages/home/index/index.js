@@ -1,5 +1,6 @@
 //index.js
 //获取应用实例
+import util from '../../../utils/util.js';
 const app = getApp()
 const cate = [{ title: "商品上门", color: "#76e3ee", goodsItem: [{ tag: "推荐商品", icon: "tuijianshangjia", items: [{ title: "Apple iPad 平板电脑9.7英寸", price: "2899" }, { title: "Apple iPad 平板电脑9.7英寸", price: "2899" }, { title: "Apple iPad 平板电脑9.7英寸", price: "2899" }, { title: "Apple iPad 平板电脑9.7英寸", price: "2899" }, { title: "Apple iPad 平板电脑9.7英寸", price: "2899" }, { title: "Apple iPad 平板电脑9.7英寸", price: "2899" }, { title: "Apple iPad 平板电脑9.7英寸", price: "2899" }, { title: "Apple iPad 平板电脑9.7英寸", price: "2899" }, { title: "Apple iPad 平板电脑9.7英寸", price: "2899" }, { title: "Apple iPad 平板电脑9.7英寸", price: "2899" }, { title: "Apple iPad 平板电脑9.7英寸", price: "2899" }] }, { tag: "热卖商品", icon: "rexiaochanpin", items: [{ title: "Apple iPad 平板电脑9.7英寸", price: "2899" }, { title: "Apple iPad 平板电脑9.7英寸", price: "2899" }, { title: "Apple iPad 平板电脑9.7英寸", price: "2899" }, { title: "Apple iPad 平板电脑9.7英寸", price: "2899" }, { title: "Apple iPad 平板电脑9.7英寸", price: "2899" }, { title: "Apple iPad 平板电脑9.7英寸", price: "2899" }, { title: "Apple iPad 平板电脑9.7英寸", price: "2899" }, { title: "Apple iPad 平板电脑9.7英寸", price: "2899" }, { title: "Apple iPad 平板电脑9.7英寸", price: "2899" }, { title: "Apple iPad 平板电脑9.7英寸", price: "2899" }, { title: "Apple iPad 平板电脑9.7英寸", price: "2899" }] }] }, { title: "洗护上门", color: "#f4aaaa", goodsItem: [{ tag: "推荐洗护", icon: "tuijianshangjia", items: [{ title: "Apple iPad 平板电脑9.7英寸", price: "2899" }, { title: "Apple iPad 平板电脑9.7英寸", price: "2899" }, { title: "Apple iPad 平板电脑9.7英寸", price: "2899" }, { title: "Apple iPad 平板电脑9.7英寸", price: "2899" }, { title: "Apple iPad 平板电脑9.7英寸", price: "2899" }, { title: "Apple iPad 平板电脑9.7英寸", price: "2899" }, { title: "Apple iPad 平板电脑9.7英寸", price: "2899" }, { title: "Apple iPad 平板电脑9.7英寸", price: "2899" }, { title: "Apple iPad 平板电脑9.7英寸", price: "2899" }, { title: "Apple iPad 平板电脑9.7英寸", price: "2899" }, { title: "Apple iPad 平板电脑9.7英寸", price: "2899" }] }, { tag: "热卖洗护", icon: "rexiaochanpin", items: [{ title: "Apple iPad 平板电脑9.7英寸", price: "2899" }, { title: "Apple iPad 平板电脑9.7英寸", price: "2899" }, { title: "Apple iPad 平板电脑9.7英寸", price: "2899" }, { title: "Apple iPad 平板电脑9.7英寸", price: "2899" }, { title: "Apple iPad 平板电脑9.7英寸", price: "2899" }, { title: "Apple iPad 平板电脑9.7英寸", price: "2899" }, { title: "Apple iPad 平板电脑9.7英寸", price: "2899" }, { title: "Apple iPad 平板电脑9.7英寸", price: "2899" }, { title: "Apple iPad 平板电脑9.7英寸", price: "2899" }, { title: "Apple iPad 平板电脑9.7英寸", price: "2899" }, { title: "Apple iPad 平板电脑9.7英寸", price: "2899" }] }] }];
 const imgUrl = [
@@ -33,6 +34,10 @@ Page({
     })
   },
   onLoad: function () {
+    wx.setNavigationBarTitle({
+      title: util.pageTitle.forget
+    });
+
     this.setData({
       category: cate,
       imagesUrl: imgUrl

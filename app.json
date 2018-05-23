@@ -13,7 +13,7 @@
     "backgroundTextStyle":"light",
     "navigationBarBackgroundColor": "#d22222",
     "enablePullDownRefresh": true,
-    "navigationBarTitleText": "近邻生活",
+    "navigationBarTitleText": "",
     "navigationBarTextStyle":"white"
   },
   "tabBar": {
