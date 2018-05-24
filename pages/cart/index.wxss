@@ -1,5 +1,5 @@
 .cart-box{
-  background-color: #eee;
+  background-color: #f4f4f4;
   width: 100%;
   height: 100%;
   display: flex;
@@ -51,8 +51,8 @@
   position: fixed;
   justify-content: space-between;
   bottom: 0;
-  background-color:#efeff4;
-  border-top:1rpx solid #d7d6dc; 
+  background-color: #f4f4f4;
+  border-top:1rpx solid #dedede; 
 }
 .cart-count .cart-checked {
   display: flex;

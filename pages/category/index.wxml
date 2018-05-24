@@ -1,5 +1,23 @@
 <view class="container">
-  <view class='title'>
-    <text>商品列表</text>
+  <view class='search'>
+    <view class='form'>
+      <icon class="search-icon" type="search" size="18" color='#8a8a8a'></icon>
+      <input class='s-input' placeholder='输入商品名称'></input>
+    </view>
   </view>
+  <view class='category'>
+    <scroll-view class='nav-left' scroll-y="true">
+      <view class='nav-item' wx:for="{{navList}}" data-id='{{item.id}}'>{{item.name}}</view>
+    </scroll-view>
+  </view>
+
+  <view class='search-cart'>
+      <view class='search-cart-info'>
+        <icon class='iconfont icon-gouwuchefill cart-icon' />
+        <text class='cart-num'>￥50.0</text>
+      </view>
+      <view class='search-cart-btn'>
+        <text> 去结算</text>
+      </view>
+    </view>
 </view>

@@ -35,7 +35,7 @@ Page({
   },
   onLoad: function () {
     wx.setNavigationBarTitle({
-      title: util.pageTitle.forget
+      title: util.pageTitle.home
     });
 
     this.setData({

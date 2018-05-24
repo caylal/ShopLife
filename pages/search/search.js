@@ -1,4 +1,4 @@
-
+import util from '../../utils/util.js';
 Page({
   data: {
     resultList: [], //搜索结果
@@ -12,6 +12,10 @@ Page({
 
   // 搜索栏
   onLoad () {
+    wx.setNavigationBarTitle({
+      title: util.pageTitle.search
+    });
+
     let _this = this;
     let value = wx.getStorageSync('searchLog');
     _this.setData({
