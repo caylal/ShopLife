@@ -1,4 +1,56 @@
-<!--index.wxml-->
+
 <view class="container">
-  <text class="user-motto">{{motto}}</text>
+  <view class="title">
+    <view class="setting">
+      <view class="set"><span class="iconfont icon-liuyanfill img"></span></view>
+      <view class="set"><span class="iconfont icon-setup setup"></span></view>
+    </view>
+    <view class="user">
+      <image class="user-pic" src='../../images/pic.jpg'></image>
+      <view class="user-name">
+        <text class=" s-all name">广东雨神</text>
+        <text class="s-all adr">发源地： 深圳龙华区中央原著1栋</text>
+      </view>
+    </view>
+  </view>
+  <view class="info">   
+    <view class='info-title'>
+      <text>我的收藏</text>
+      <navigator class="info-all"><text>全部</text><span class='iconfont icon-shuangjiantouyou'></span></navigator>
+    </view>
+    <view class="info-content">
+      <view class="store">
+        <image src="../../images/orange.png" class="s-pic"></image>
+        <text class="s-title"> 彩虹便利店（原著店）</text>
+      </view>
+       <view class="store">
+        <image src="../../images/orange.png" class="s-pic"></image>
+        <text class="s-title"> 彩虹便利店（原著店）</text>
+      </view>
+       <view class="store">
+        <image src="../../images/orange.png" class="s-pic"></image>
+        <text class="s-title"> 彩虹便利店（原著店）</text>
+      </view>
+    </view>      
+  </view>
+  <view class="info">   
+    <view class='info-title'>
+      <text>我的收藏</text>
+      <navigator class="info-all"><text>全部</text><span class='iconfont icon-shuangjiantouyou'></span></navigator>
+    </view>
+    <view class="info-content">
+      <view class="store">
+        <image src="../../images/orange.png" class="s-pic"></image>
+        <text class="s-title"> 彩虹便利店（原著店）</text>
+      </view>
+       <view class="store">
+        <image src="../../images/orange.png" class="s-pic"></image>
+        <text class="s-title"> 彩虹便利店（原著店）</text>
+      </view>
+       <view class="store">
+        <image src="../../images/orange.png" class="s-pic"></image>
+        <text class="s-title"> 彩虹便利店（原著店）</text>
+      </view>
+    </view>      
+  </view>
 </view>

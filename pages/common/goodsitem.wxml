@@ -10,7 +10,7 @@
             <icon class='iconfont icon-{{goodsItem.icon}}'></icon>
             <text class='item-text'>{{goodsItem.tag}}</text>
           </view>
-          <navigator class='goods-more' url="/pages/category/index">更多<icon class='iconfont icon-shuangjiantouyou'></icon></navigator>
+          <navigator class='goods-more' url="/pages/category/index"><text>更多</text><span class='iconfont icon-shuangjiantouyou'></span></navigator>
         </view>
       </view>
       <view class='goods-items' >    

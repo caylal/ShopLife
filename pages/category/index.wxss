@@ -24,25 +24,80 @@
 }
 .category{
   width: 100%;
-  border-top: 1px solid #eee;
+  border-top: 1px solid #dedede;
   display: flex;
-  background: #fff;
-  font-size: 30rpx;
+  font-size: 28rpx;
 }
 .category .nav-left{
   width: 30%;
-  border-right: 1px solid #eee;
+  border-right: 1px solid #dedede;
   text-align: center;
 }
 .nav-left .nav-item{
   height: 80rpx;
   line-height: 80rpx;
-  background: #efeff4;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #dedede;
 }
-
-
-
+.nav-left .active{
+  background: #fff;
+  border-left: 8rpx solid #ab2b2b;
+}
+.category .nav-right{
+  width: 70%;
+  background: #fff;
+  box-sizing: border-box;
+  border-bottom: 1px solid #dedede;
+}
+.nav-right .good-item{
+  display: flex;
+  width: 100%;
+  padding: 15rpx 5rpx;
+  box-sizing: border-box;
+  border-bottom: 1px solid #dedede;
+}
+.good-item .good-pic{
+  width: 100rpx;
+  height: 100rpx;
+}
+.good-item .good-info{
+  width: calc(100% - 100rpx);
+  padding-left: 20rpx;
+  box-sizing: border-box;
+  font-size: 30rpx;
+  display: flex;
+  align-items: center;
+}
+.good-info .good-title{
+  width: 65%;
+  display: flex;
+  flex-direction: column;
+}
+.good-info .good-title .title{
+  width: 100%;
+  font-size: 28rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.good-info .good-title .price{
+  font-size: 25rpx;
+  color: #fc4104;
+  font-weight: bold;
+  margin-top: 10rpx;
+}
+.good-info .good-opt{
+  width: 35%;
+  display: flex;
+  align-items: center;
+}
+.good-info .good-opt span{
+  font-size: 45rpx;
+  color: #fc4104;
+}
+.good-info .good-opt .good-num{
+  flex-grow: 1;
+  text-align: center;
+}
 
 
 
@@ -54,7 +109,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #efeff4;
+  background: #f4f4f4;
   border-top: 1rpx solid #d7d6dc; 
 }
 .cart-icon{

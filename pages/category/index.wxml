@@ -6,8 +6,41 @@
     </view>
   </view>
   <view class='category'>
+    <!-- 左侧导航 -->
     <scroll-view class='nav-left' scroll-y="true">
-      <view class='nav-item' wx:for="{{navList}}" data-id='{{item.id}}'>{{item.name}}</view>
+      <view class="nav-item {{curId == item.id ? 'active' : ''}}" wx:for="{{navList}}" bindtap="switchRightTab" data-id='{{item.id}}'>{{item.name}}</view>
+    </scroll-view>
+
+    <!-- 右侧商品 -->
+    <scroll-view class='nav-right' scroll-y="true">
+      <view class="good-item">
+        <image class="good-pic" src="../../images/orange.png"></image>
+        <view class="good-info">
+          <view class="good-title">
+            <view class="title">华润五丰 美仑达三峡秭归伦晚脐橙 2.5kg装 精品果</view>
+            <view class="price">￥20.5</view>
+          </view>
+          <view class="good-opt">
+            <span class="iconfont icon-offline"></span>
+            <text class='good-num'>1</text>
+            <span class="iconfont icon-addition"></span>
+          </view>
+        </view>
+      </view>
+      <view class="good-item">
+        <image class="good-pic" src="../../images/orange.png"></image>
+        <view class="good-info">
+          <view class="good-title">
+            <view class="title">华润五丰 美仑达三峡秭归伦晚脐橙 2.5kg装 精品果</view>
+            <view class="price">￥20.5</view>
+          </view>
+          <view class="good-opt">
+            <span class="iconfont icon-offline"></span>
+            <text class='good-num'>1</text>
+            <span class="iconfont icon-addition"></span>
+          </view>
+        </view>
+      </view>
     </scroll-view>
   </view>
 

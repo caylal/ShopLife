@@ -5,7 +5,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    navList: [{ id: "1", name: "热销榜" }, { id: "2", name: "休闲零食" }, { id: "3", name: "饮料酒水" }, { id: "4", name: "生活用品" },{ id: "1", name: "粮油调品" }]
+    navList: [{ id: "1", name: "热销榜" }, { id: "2", name: "休闲零食" }, { id: "3", name: "饮料酒水" }, { id: "4", name: "生活用品" },{ id: "15", name: "粮油调品" }],
+    curId: 1
   },
 
   /**
@@ -15,6 +16,12 @@ Page({
     wx.setNavigationBarTitle({
       title: util.pageTitle.goods.list
     });
+  },
+  switchRightTab(e){
+    let id = e.target.dataset.id;
+    this.setData({
+      curId: id
+    })
   },
 
   /**

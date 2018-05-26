@@ -51,9 +51,15 @@
   margin-left: 20rpx;
 }
 .goods-more{
+  display: flex;
+  align-items: center;
   font-size:28rpx;
   color: #8d8d8d;
   padding-right: 20rpx;
+}
+.goods-more span{
+  font-size: 25rpx;
+  margin-left: 5rpx;
 }
 .goods-items{
   width: 100%;
