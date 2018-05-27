@@ -13,12 +13,90 @@ const formatNumber = n => {
   n = n.toString()
   return n[1] ? n : '0' + n
 }
+
+/**封装微信的request */
+function request(url,data={},method = "Get"){
+  return new Promise((resolve,reject) =>{
+    wx.request({
+      url: url,
+      data: data,
+      method: method,
+      header: {
+        'Content-Type': 'application/json'
+      },
+      success: res =>{
+        console.log("success");
+        if (res.statusCode == 200){
+          if(res.data)
+          resolve(res)
+        }
+        else{
+          reject(res.errMsg)
+        }
+      },
+      fail: res => {
+        console.log("failed");
+        reject(res);
+      }
+    })
+  })
+}
+
+/**检查微信会话是否过期 */
+function checkSession(){
+  return new Promise((resolve,reject) => {
+    wx.checkSession({
+      success:() => {
+        resolve(true);
+      },
+      fail: () => {
+        reject(false);
+      }
+    })
+  })
+}
+
+/**调用微信登录 */
+function login(){
+  return Promise((resolve, reject) => {
+    wx.login({
+      success: res =>{
+        if(res.code){
+          console.log(res);
+          resolve(res);
+        }
+        else{
+          reject(res);
+        }
+      },
+      fail: err => {
+        reject(err);
+       }
+    })
+  })
+}
+
+/**获取用户信息 */
+function getUserInfo() {
+  return new Promise((resolve, reject) => {
+    wx.getUserInfo({
+      withCredentials: true,
+      success: res => {
+        resolve(res);
+       },
+       fail: err =>{
+         reject(err);
+       }
+    })
+  })
+}
+
 const pageTitle = {
   home: "近邻生活",
   cart: "购物车",
   goods: {
     list: '商品列表',
-    detail: '宝贝详情',
+    detail: '商品详情',
     catalog: '商品分类'
   },
   member: "个人中心",
@@ -45,5 +123,9 @@ const pageTitle = {
 };
 module.exports = {
   formatTime: formatTime,
-  pageTitle: pageTitle
+  pageTitle: pageTitle,
+  request,
+  checkSession,
+  login,
+  getUserInfo
 }

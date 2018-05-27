@@ -1,4 +1,4 @@
-<import src="../common/searchgoods"/>
+<import src="../goods/searchgoods"/>
 <view class='container'> 
   <view class="search-bar">
       <view class="search-bar__form">

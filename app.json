@@ -7,7 +7,8 @@
     "pages/member/index",
     "pages/search/search",
     "pages/home/location/location",
-    "pages/category/index" 
+    "pages/category/index" ,
+    "pages/goods/detail/detail"
   ],
   "window":{
     "backgroundTextStyle":"light",

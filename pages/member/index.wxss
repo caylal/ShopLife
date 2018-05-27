@@ -1,7 +1,7 @@
 .title{  
   width: 100%;
   background: #fff;
-  border-bottom: 1px solid #dedede;
+  border-bottom: 1rpx solid #dedede;
 }
 .title .setting{
   height: 50rpx;
@@ -15,6 +15,7 @@
 .setting .set{
  display: flex;
  margin-left: 20rpx; 
+ color: #8d8d8d;
 }
  .set .img{
   font-size:46rpx; 
@@ -64,7 +65,7 @@
   padding: 15rpx;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #dedede;
+  border-bottom: 1rpx solid #dedede;
 }
 .info-title .info-all{
   color: #8d8d8d;

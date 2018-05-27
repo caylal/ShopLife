@@ -1,0 +1,37 @@
+<template name="goods-category">
+  <view class='goods-category' wx:for="{{category}}" wx:for-item="item" wx:key="{{index}}">
+    <view class='category-title' style="border-bottom: 2px solid {{item.color}};">
+      <view class='title-text' style=' background-color: {{item.color}};'><text class='text'>{{item.title}}</text></view> 
+    </view>
+    <view class='goods-info' wx:for="{{item.goodsItem}}" wx:for-item="goodsItem" wx:key="{{index}}">
+      <view class='goods-title'>
+        <view class='item-title'>        
+          <view>
+            <icon class='iconfont icon-{{goodsItem.icon}}'></icon>
+            <text class='item-text'>{{goodsItem.tag}}</text>
+          </view>
+          <navigator class='goods-more' url="/pages/category/index"><text>更多</text><span class='iconfont icon-shuangjiantouyou'></span></navigator>
+        </view>
+      </view>
+      <view class='goods-items' >    
+        <view class='goods' wx:for="{{goodsItem.items}}" wx:for-item="items"  data-gid="{{items.goodsid}}" wx:key="{{items.id}}">
+          <navigator url="/pages/goods/detail/detail?id={{items.id}}">
+            <view class='item'>
+              <image class='goods-img' src="{{items.img}}"></image>
+              <text class='goods-name'>{{items.name}}</text>
+              <view class='goods-buy'>      
+                <text class='goods-price'>￥{{items.retailprice}}</text>     
+                <view class='goods-opt'>
+                  <span class='iconfont icon-offline goods-btn'></span>
+                  <text class='goods-num'>12</text>       
+                  <span class='iconfont icon-addition goods-btn'></span>
+                </view>
+              </view>
+            </view> 
+          </navigator>       
+        </view>      
+      </view>
+    </view> 
+    
+  </view>
+</template>

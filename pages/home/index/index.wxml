@@ -1,12 +1,12 @@
 <!--index.wxml-->
-<import src="../../common/goodsitem"/>
+<import src="../../goods/goodsitem"/>
 <view class="container">
   
   <view class="banner">
       <swiper class="swiper_box" indicator-dots="{{indicatorDots}}" circular="{{circular}}" vertical="{{vertical}}" indicator-color="rgba(255, 255, 255, .3)"         indicator-active-color="rgba(210, 34, 34, .7)" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" bindchange="swiperchange">
-        <block wx:for="{{imagesUrl}}" wx:key="{{item}}">
+        <block wx:for="{{imagesUrl}}" wx:key="{{item.id}}">
           <swiper-item>
-            <image src="{{item}}" class="slide-image"/>
+            <image src="{{item.img}}" class="slide-image"/>
           </swiper-item>
         </block>        
       </swiper>

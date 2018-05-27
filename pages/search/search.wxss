@@ -1,4 +1,4 @@
-@import "../common/searchgoods.wxss";
+@import "../goods/searchgoods.wxss";
 
 /** 整个区域 */
 .wxSearch{ 
@@ -117,7 +117,7 @@
   position: relative;
   padding-left: 30px;
   padding-right: 10px;  
-  width: 85%;
+  width: 100%;
   box-sizing: border-box; 
 }
 
@@ -143,7 +143,7 @@
   
 }
 .search-cart{
-  height: 80rpx;
+  height: 90rpx;
   position: fixed;
   display: flex;
   justify-content: space-between;

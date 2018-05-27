@@ -5,6 +5,7 @@
   background: #f4f4f4; 
   flex-direction: column;  
   box-sizing: border-box;
+  font-size: 30rpx;
 } 
 
 
