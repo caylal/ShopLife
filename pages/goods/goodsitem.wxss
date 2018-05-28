@@ -107,6 +107,8 @@
   font-size:28rpx;
   white-space:nowrap;
   text-overflow:ellipsis;
+  text-align:center;
+  box-sizing:border-box;
 }
 .goods-buy{
   display:flex;  

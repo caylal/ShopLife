@@ -1,7 +1,7 @@
 /**index.wxss**/
 @import "../../goods/goodsitem.wxss";
 .header{ 
-  display: flex;googgssssssvdzgdgfdzdd
+  display: flex;
   top: 0;
   width: 100%;
   height: 60rpx;
@@ -50,6 +50,8 @@
 .swiper_box{
   width: 100%;
   height: 280rpx;
+  background:#fff;
+
 }
 .slide-image{
   width: 100%;  

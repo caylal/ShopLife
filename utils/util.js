@@ -1,4 +1,5 @@
 const formatTime = date => {
+  date = new Date(date)
   const year = date.getFullYear()
   const month = date.getMonth() + 1
   const day = date.getDate()
@@ -14,8 +15,15 @@ const formatNumber = n => {
   return n[1] ? n : '0' + n
 }
 
+const isEmpty = n => {
+  if(n != "" && n != null && n != undefined){
+    return true;
+  }
+  return false;
+}
+
 /**封装微信的request */
-function request(url,data={},method = "Get"){
+const request = (url,data={},method = "Get") => {
   return new Promise((resolve,reject) =>{
     wx.request({
       url: url,
@@ -26,8 +34,7 @@ function request(url,data={},method = "Get"){
       },
       success: res =>{
         console.log("success");
-        if (res.statusCode == 200){
-          if(res.data)
+        if (res.statusCode == 200){         
           resolve(res)
         }
         else{
@@ -43,7 +50,7 @@ function request(url,data={},method = "Get"){
 }
 
 /**检查微信会话是否过期 */
-function checkSession(){
+const checkSession = () => {
   return new Promise((resolve,reject) => {
     wx.checkSession({
       success:() => {
@@ -57,7 +64,7 @@ function checkSession(){
 }
 
 /**调用微信登录 */
-function login(){
+const login = () => {
   return Promise((resolve, reject) => {
     wx.login({
       success: res =>{
@@ -77,7 +84,7 @@ function login(){
 }
 
 /**获取用户信息 */
-function getUserInfo() {
+const getUserInfo = () => {
   return new Promise((resolve, reject) => {
     wx.getUserInfo({
       withCredentials: true,
@@ -127,5 +134,6 @@ module.exports = {
   request,
   checkSession,
   login,
-  getUserInfo
+  getUserInfo,
+  isEmpty
 }
