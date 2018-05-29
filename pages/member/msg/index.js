@@ -1,19 +1,11 @@
-import util from '../../../utils/util.js'
-const areal = [{id:"01",name:"宝安区"},{id:"02",name:"南山区"}];
-const cityl = [{ sort: "S", data: [{ id: "1", name: "深圳" }, { id: "1", name: "上海" }] },{ sort: "B", data: [{ id: "1", name: "北京" }, { id: "1", name: "保定" }]}];
-const nbhdl = [{id:"001",name:"西乡街道"},{id:"002",name:"粤海大道"}]
+import util from '../../../utils/util.js';
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    city:'',
-    area: '',
-    nbhd: '',
-    cityList: [],
-    areaList: [],
-    nbhdList: [],
+  
   },
 
   /**
@@ -21,7 +13,7 @@ Page({
    */
   onLoad (options) {
     wx.setNavigationBarTitle({
-      title: util.pageTitle.nbhd.list
+      title: util.pageTitle.member.msg
     });
   },
 

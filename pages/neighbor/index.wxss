@@ -1,0 +1,57 @@
+ .t-map{
+  position: absolute;
+  width: 150rpx;
+  font-size: 25rpx;
+  border: 1rpx solid #009900;
+  border-radius: 20rpx;
+  color: #009900;
+  line-height:45rpx;
+  right:220rpx;
+  top:10rpx;
+}
+.nbhd-box{
+  display: flex;
+  background: #fff;
+  border-bottom: 1rpx solid #8d8d8d;
+  padding: 10rpx 5rpx 10rpx 15rpx;
+  box-sizing: border-box;
+}
+.nbhd-box .n-left{
+  width: 80%;
+  border-right: 1rpx solid #8d8d8d;
+}
+.n-left .n-title{  
+  display: flex;
+  justify-content: space-between;
+  padding-right: 20rpx;
+  box-sizing: border-box;
+}
+.n-title .n-t-name{
+  font-weight: 600;
+}
+
+.t-map span{
+  margin-right: 8rpx;
+  padding-left: 5rpx;
+  box-sizing: border-box;
+}
+.n-left .n-title + .n-time{
+  margin-top: 10rpx;
+}
+.n-left .n-time{  
+  font-size: 25rpx;
+  color: #8d8d8d;
+}
+.nbhd-box .n-right{
+  width: 20%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 25rpx;
+  
+}
+.n-right span{
+  font-size: 46rpx;
+  color: #8d8d8d;
+}

@@ -1,7 +1,9 @@
 <template name="search-good-list">
   <view class='goods' wx:for="{{goods}}" wx:key="{{item}}">
-    <image class='goods-img' src="../../images/goods.png"></image>
-    <text class='goods-title'>{{item.title}}</text>
+    <navigator class="item-nav" url="/pages/goods/detail/detail?id={{item.id}}">
+      <image class='goods-img' src="../../images/goods.png"></image>
+      <text class='goods-title'>{{item.title}}</text>
+    </navigator>    
     <view class='goods-buy'>      
       <text class='goods-price'>￥{{item.price}}</text>     
       <view class='goods-opt'>

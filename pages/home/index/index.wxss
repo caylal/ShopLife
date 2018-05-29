@@ -9,9 +9,10 @@
   padding: 5rpx;
   background-color: rgba(0,0,0,0.1);
   position: fixed; 
+  align-items:center;
 }
 .header .search{
-  width: 100%;
+  width: 60%;
   border-radius: 5px;
   display: flex;
   background-color: rgba(0,0,0,0.1); 
@@ -28,7 +29,12 @@
   
 } 
 .header .msg{
-  width: 120rpx;  
+  width: 10%; 
+  text-align: center;  
+}
+.msg span{
+  font-size: 43rpx;
+  color: #fff;
 }
 .search-img{
   position: absolute;
@@ -38,14 +44,29 @@
   padding-left: 5rpx; 
 }
 .header .position{
-  width:320rpx;
+  width:30%;
   height: 35rpx;
   display: flex;
   align-items: center;
+  margin: 0 8rpx;
+  text-align:center;
+
+}
+.position .h-icon{
+  font-size: 35rpx;
+  color: #eee;
+}
+.position .j-icon{
+  font-size: 28rpx;
+  color: #eee;
 }
 .position-text{
-  color: #ddd;  
-  padding: 15rpx 5rpx 0 5rpx; 
+  color: #fff; 
+  font-size: 25rpx;
+  width: 70%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .swiper_box{
   width: 100%;

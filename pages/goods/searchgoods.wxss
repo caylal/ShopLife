@@ -9,7 +9,10 @@
   margin-top: 15rpx;   
   /* border: 10rpx solid rgba(255, 255,255, 1) */
 } 
- 
+ .goods .item-nav{
+  display:flex;
+  flex-direction:column;
+}
 .goods-img{
   width:200rpx;
   height:200rpx;

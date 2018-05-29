@@ -1,5 +1,8 @@
 @import "../../search/search.wxss";
 
+.location{
+  background: #fff;
+}
 .l-title{
   height: 50rpx;
   width: 100%;

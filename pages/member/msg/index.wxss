@@ -1,0 +1,46 @@
+.msg-btn{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10rpx;
+  box-sizing: border-box;
+  border-bottom: 1rpx solid #eee; 
+}
+.msg-btn .btn-icon{
+  display: flex;
+  flex-direction: column;
+  font-size: 28rpx;
+  align-items:center;
+  width:30%;
+}
+.btn-icon span{
+  font-size: 46rpx;
+  color: #8d8d8d;
+ 
+}
+.msg-content{ 
+  background: #fff; 
+  padding: 0 10rpx;  
+  box-sizing: border-box;  
+}
+.msg-content .msg-box{
+  border: 1rpx solid #eee;
+  margin-top: 10rpx;
+  background: #f4f4f4;
+}
+.msg-box .b-title{
+  padding: 15rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.msg-box .b-content{
+  font-size: 28rpx;
+  padding: 15rpx;
+}
+.msg-box .b-num{
+  font-size: 25rpx;
+  color: #8d8d8d;
+  padding: 15rpx;
+}

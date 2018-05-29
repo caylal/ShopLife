@@ -1,6 +1,4 @@
-//index.js
-//获取应用实例
-const app = getApp()
+import util from '../../utils/util.js';
 let goods = [{ type: "商品订单", status: "未发货", no: "15486126489615265", time: "5-17 18:01" }]
 let wash = [{type: "洗护订单", status: "未发货", no: "15486126489615265", time: "5-17 18:01" }]
 let all = goods.concat(wash)
@@ -11,6 +9,10 @@ Page({
     currentid: 0,
   },
   onLoad() {
+    wx.setNavigationBarTitle({
+      title: util.pageTitle.order
+    });
+
     this.setData({
       orderList: all
     })

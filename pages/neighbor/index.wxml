@@ -1,0 +1,18 @@
+<view class="container">
+  <view class="t-map"> <span class="iconfont icon-zuobiaofill"></span> <text>切换地图</text></view>
+  <block wx:for="{{nbhdList}}" wx:key="{{item.id}}" >
+    <view class="nbhd-box" >
+      <view class="n-left">
+        <navigator url="../category/index?id={{item.id}}"> 
+          <view class="n-title"><text class="n-t-name">{{item.name}}</text> </view>
+          <view class="n-time"> 营业时间：{{item.time}}</view>
+          <view class="n-time">{{item.addr}}</view>
+        </navigator>
+      </view>
+      <view class="n-right">   
+        <span class="iconfont icon-zuobiaofill"></span>
+        <text>{{item.distance}}</text>
+      </view>
+    </view>
+  </block>
+</view>

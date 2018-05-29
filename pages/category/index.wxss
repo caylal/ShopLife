@@ -1,5 +1,39 @@
 /* pages/category/index.wxss */
-
+.c-nbhd{
+  background: #fff;
+  padding: 10rpx;
+  box-sizing: border-box;
+}
+.nbhd-title{
+  display: flex;
+  justify-content: space-between;
+}
+.nbhd-title .n-name{
+  font-weight: 600;
+}
+.nbhd-title .n-state{
+  margin-right: 50rpx;
+}
+.n-state .r-btn{
+  font-size:38rpx;
+}
+.nbhd-title .n-url{
+  display: flex;
+  align-items: center;
+  color: #fc4104;
+}
+.n-url .p-btn{
+  font-size: 45rpx;
+  margin-right: 8rpx;
+}
+.n-url .j-btn{
+  font-size: 30rpx;
+  margin-left: 8rpx;
+}
+.nbhd-info{
+  font-size: 25rpx;
+  color: #8d8d8d;
+}
 .search{
   height: 100rpx;
   background: #fff;
@@ -130,7 +164,7 @@
   text-align: center;  
   width: 120px;
   height: 100%;
-  background-color: #07e307;
+  background-color: #009900;
   line-height:80rpx;
   font-size:30rpx;
   color:#fff;

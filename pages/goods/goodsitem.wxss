@@ -84,6 +84,10 @@
   display: flex;
   flex-direction: column;  
 }
+.item .item-nav{
+  display:flex;
+  flex-direction:column;
+}
 .goods-img{
   width:200rpx;
   height:200rpx;
@@ -120,6 +124,7 @@
 }
 .goods-price{
   font-size: 30rpx;
+  text-align:center;
   flex: 1;
   font-weight: bold;
   color: #fc4104;

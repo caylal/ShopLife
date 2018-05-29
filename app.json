@@ -5,10 +5,12 @@
     "pages/cart/index",
     "pages/orders/index",
     "pages/member/index",
+    "pages/neighbor/index",
     "pages/search/search",
     "pages/home/location/location",
     "pages/category/index" ,
-    "pages/goods/detail/detail"
+    "pages/goods/detail/detail",
+    "pages/member/msg/index"
   ],
   "window":{
     "backgroundTextStyle":"light",
@@ -28,6 +30,12 @@
         "iconPath": "images/icon_home.png",
         "selectedIconPath": "images/icon_home_active.png",
         "text": "首页"
+      },
+      {
+        "pagePath": "pages/neighbor/index",
+        "iconPath": "images/icon_friend.png",
+        "selectedIconPath": "images/icon_friend_active.png",
+        "text": "近邻"
       },
       {
         "pagePath": "pages/cart/index",

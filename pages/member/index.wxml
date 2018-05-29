@@ -2,7 +2,7 @@
 <view class="container">
   <view class="title">
     <view class="setting">
-      <view class="set"><span class="iconfont icon-liuyanfill img"></span></view>
+      <view class="set"><navigator url="msg/index"><span class="iconfont icon-liuyanfill img"></span></navigator></view>
       <view class="set"><span class="iconfont icon-setup setup"></span></view>
     </view>
     <view class="user">

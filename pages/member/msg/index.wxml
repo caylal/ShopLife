@@ -1,0 +1,19 @@
+<view class="container">
+  <view class="msg-btn">
+    <view class="btn-icon"><span class="iconfont icon-rili"></span> <text>交易进度</text></view>
+    <view class="btn-icon"><span class="iconfont icon-shengyin1"></span><text>通知</text></view>
+    <view class="btn-icon"><span class="iconfont icon-liuyanfill"></span><text>互动</text></view>
+  </view>
+  <view class='msg-content'>
+    <view class="msg-box">
+      <view class="b-title">
+        <text>订单配货中</text>
+        <text>17/04/18</text>
+      </view>
+      <view class="b-content">
+        老坛酸菜牛肉面 500g*2, 可口可乐香草味 600ml*1, 黄鹤楼香烟*1
+      </view>
+      <view class="b-num">订单编号： 38945485157954</view>
+    </view>
+  </view>
+</view>

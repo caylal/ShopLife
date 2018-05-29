@@ -17,9 +17,9 @@ const formatNumber = n => {
 
 const isEmpty = n => {
   if(n != "" && n != null && n != undefined){
-    return true;
+    return false;
   }
-  return false;
+  return true;
 }
 
 /**封装微信的request */
@@ -100,13 +100,20 @@ const getUserInfo = () => {
 
 const pageTitle = {
   home: "近邻生活",
+  nbhd: {
+    index: "近邻",
+    list: "社区列表"
+  },
   cart: "购物车",
   goods: {
     list: '商品列表',
     detail: '商品详情',
     catalog: '商品分类'
   },
-  member: "个人中心",
+  member: {
+    index: "个人中心",
+    msg: "我的消息"
+  },
   search: "搜索",
   order: "订单中心",
   orderM: {
