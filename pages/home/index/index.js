@@ -56,8 +56,8 @@ Page({
   },
   getIndexBanner(){
     let _this = this
-    util.request(api.bannerOfnbhd,{pageIndex: 1,pageSize: 3, id: "N000"}).then(res => {
-       console.log("result:" + JSON.stringify(res.data.result))
+    util.request(api.getBannerOfnbhd,{pageIndex: 1,pageSize: 3, id: "N000"}).then(res => {
+       console.log("result:" + JSON.stringify(res.data.result))      
         _this.setData({
           imagesUrl: res.data.result
         })       
@@ -68,9 +68,10 @@ Page({
   getRecomment(){
     let _this = this
     return new Promise((resolve, rejecet) => {
-      util.request(api.recommendGoodsOfMy, { pageIndex: 1, pageSize: 3, uid: "U00000000", nid: "N000" }).then(res => {
+      util.request(api.getRecommendGoodOfMy, { pageIndex: 1, pageSize: 3, uid: "U00000000", nid: "N000" }).then(res => {
         console.log("recomment:" + JSON.stringify(res.data.result));
         const cate = res.data.result.map(item => {
+          item.getapi = "getRecommendGood"
           let num = parseFloat(item.retailprice);
           num = num.toFixed(2);
           item.retailprice = num
@@ -86,9 +87,15 @@ Page({
   getHot(){
     let _this = this
     return new Promise((resolve,reject) => {
-      util.request(api.hotGoods, { pageIndex: 1, pageSize: 3 }).then(res => {
+      util.request(api.getHotGoodsOfNbhd, { pageIndex: 1, pageSize: 3, neighborhood: "N000"}).then(res => {
+        console.log("hot:" + JSON.stringify(res.data.result));
+        const list = res.data.result.map(item => {
+          item.getapi = "getHotGood"
+          return item
+        })
+        console.log("resultmap:" + JSON.stringify(list))
        _this.setData({
-         hotGoods: res.data.result
+         hotGoods: list
        })
         resolve(true)
       }).catch(err => reject(err))   
