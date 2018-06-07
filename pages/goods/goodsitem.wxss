@@ -106,12 +106,12 @@
 }
 .goods-name{
   width: 100%;
-  overflow:hidden;
+  /* overflow:hidden; */
   padding: 10rpx;
   font-size:28rpx;
-  white-space:nowrap;
-  text-overflow:ellipsis;
-  text-align:center;
+  white-space:pre-wrap;
+  /* text-overflow:ellipsis; */
+  text-align:left;
   box-sizing:border-box;
 }
 .goods-buy{

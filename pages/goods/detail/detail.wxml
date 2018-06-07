@@ -1,9 +1,9 @@
 <view class="container">
   <view class="goods-box">  
     <view class="g-pic">
-      <image class="g-img" src="../../../images/orange.png"></image>
-      <text class="g-t">华润五丰 美仑达三峡秭归伦晚脐橙 2.5kg装 精品果</text>
-      <text class="g-pr">￥25.5</text>
+      <image class="g-img" src="{{goodsInfo.img}}"></image>
+      <text class="g-t">{{goodsInfo.name}}</text>
+      <text class="g-pr">￥{{goodsInfo.retailprice}}</text>
     </view> 
     <view class="g-detail">
       <view class="g-intr">
@@ -11,10 +11,10 @@
           <view class="t-text title-red">商品介绍</view>
         </view>
         <view class="g-info">
-          <view class="g-info-c"><text class="g-info-t">供货门店</text> <text class="g-i-left">彩虹便利店原著店</text></view>
-          <view class="g-info-c"><text class="g-info-t">品牌</text> <text class="g-i-left">华润五丰 美仑达三峡秭归伦晚脐橙</text></view>
-          <view class="g-info-c"><text class="g-info-t">产品规格</text> <text class="g-i-left">2.5kg装</text></view>
-          <view class="g-info-c"><text class="g-info-t">保质期限</text> <text class="g-i-left">360天</text></view>
+          <view class="g-info-c" wx:if="{{goodsInfo.shopname}}"><text class="g-info-t">供货门店</text> <text class="g-i-left">{{goodsInfo.shopname}}</text></view>
+          <view class="g-info-c"><text class="g-info-t">品牌</text> <text class="g-i-left">{{goodsInfo.brand}}</text></view>
+          <view class="g-info-c"><text class="g-info-t">产品规格</text> <text class="g-i-left">{{goodsInfo.spec}}{{goodsInfo.unit}}</text></view>
+          <view class="g-info-c"><text class="g-info-t">保质期限</text> <text class="g-i-left">{{goodsInfo.days}}天</text></view>
         </view>
       </view>
       <view class="g-intr">

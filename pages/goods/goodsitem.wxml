@@ -36,9 +36,9 @@
   </view> -->
   <view class='goods' wx:for="{{goodItem}}" data-gid="{{item.goodsid}}" wx:key="{{item.id}}">  
           <view class='item'>
-            <navigator class="item-nav" url="/pages/goods/detail/detail?getapi={{item.getapi}}&&id={{item.id}}">
+            <navigator class="item-nav" url="/pages/goods/detail/detail?url={{item.url}}&&id={{item.id}}">
               <image class='goods-img' src="{{item.img}}"></image>
-              <text class='goods-name'>{{item.name}}</text>
+              <text class='goods-name'>{{item.name}} {{item.spec}} {{item.unit}}</text>
             </navigator>  
             <view class='goods-buy'>    
               <text class='goods-price'>￥{{item.retailprice}}</text>     

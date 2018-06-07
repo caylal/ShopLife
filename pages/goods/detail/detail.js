@@ -19,9 +19,19 @@ Page({
     this.getGoodsInfo(options)
   },
   getGoodsInfo(res){
-    const { id, getapi} = res
-    util.request(api.getapi,{id: id}).then(res => {
-      console.log("goodsInfo: " + res.data.result)
+    let _this = this
+    const { id, url} = res
+    util.request(url,{id: id}).then(res => {
+      console.log("goodsInfo: " + JSON.stringify(res.data.result))
+      const info = res.data.result;
+      let num = parseFloat(info.retailprice);
+      num = num.toFixed(2);
+      info.retailprice = num
+      info.days = util.numDate(info.effectivedt, info.expireddt) 
+      console.log("Info: " + JSON.stringify(info))    
+      _this.setData({
+        goodsInfo: info
+      })
     })
   },
 

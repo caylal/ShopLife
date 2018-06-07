@@ -15,6 +15,14 @@ const formatNumber = n => {
   return n[1] ? n : '0' + n
 }
 
+const numDate = (start, end) =>{
+  let start_date = new Date(start)
+  let end_date = new Date(end)
+  let days = end_date.getTime() - start_date.getTime();
+  let day = parseInt(days / (1000 * 60 * 60 * 24))
+  return day
+}
+
 const isEmpty = n => {
   if(n != "" && n != null && n != undefined){
     return false;
@@ -142,5 +150,6 @@ module.exports = {
   checkSession,
   login,
   getUserInfo,
-  isEmpty
+  isEmpty,
+  numDate
 }

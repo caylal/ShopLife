@@ -20,6 +20,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  text-align:center;
 }
 .g-pic .g-pr{
   margin-top: 10rpx;

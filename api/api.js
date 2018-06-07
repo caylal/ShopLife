@@ -1,4 +1,4 @@
-const BASE_URL = "http://2530013758.nat123.net/api/";
+const BASE_URL = "http://www.lifenearby.cn:8081/api/";
 
 module.exports = {
   getAllCity: BASE_URL + 'area/query/city',                        // 获取所有城市信息
