@@ -25,8 +25,9 @@
     <view class="msg"><navigator url="../../member/msg/index"><span class="iconfont icon-liuyanfill img"></span></navigator></view>
   </view>  
   <view class='goods-category'>
-    <view class='category-title' style="border-bottom: 2px solid #76e3ee;">
-      <view class='title-text' style=' background-color: #76e3ee;'><text class='text'>商品上门</text></view> 
+    <view class='category-title'>
+      <!-- <view class='title-text' style=' background-color: #76e3ee;'><text class='text'>商品上门</text></view>  -->
+      <text class="title-tag">商品上门</text>
     </view>
     <view class='goods-info'>
       <view class='goods-title'>

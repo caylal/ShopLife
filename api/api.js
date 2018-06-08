@@ -18,7 +18,7 @@ module.exports = {
   getShopGoodsQuery: BASE_URL + 'shop/goods/query/cate',           // 获取门店该类别的商品 参数{pageIndex:1, pageSize:10,shopid:"S0000",cateid:"C0001"}门店id，类别id
   
   getAllCategory: BASE_URL + 'category/All',                       // 获取所有商品类别
-  goodsByCate: BASE_URL + 'goods/query/cate',                      // 根据类别查询商品
+  goodsByCate: BASE_URL + 'goods/query/cate',                      // 根据类别查询商品 参数pageIndex=1&pageSize=20&id=C0025
 
   getAllBanner: BASE_URL + 'banner/all',                           // 获取所有banner
   getBannerQuery: BASE_URL + 'banner/query',                       // 分页获取banner 参数{pageIndex,pageSize}
