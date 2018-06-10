@@ -10,7 +10,8 @@
     "pages/home/location/location",
     "pages/category/index" ,
     "pages/goods/detail/detail",
-    "pages/member/msg/index"
+    "pages/member/msg/index",
+    "pages/neighbor/map/index"
   ],
   "window":{
     "backgroundTextStyle":"light",

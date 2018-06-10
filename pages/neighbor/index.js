@@ -1,4 +1,5 @@
-import util from '../../utils/util.js';
+import util from '../../utils/util.js'
+import api from '../../api/api.js'
 const list = [
   { id: 1, name: "彩虹便利店(中央原著店)", time: "07:00 -- 02:00", addr: "深圳市龙华区人民路39号", distance: "120m"},
   { id: 2, name: "小白兔干洗店", time: "07:00 -- 02:00", addr: "深圳市龙华区人民路21号", distance: "280m" },
@@ -18,7 +19,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    nbhdList: []
+    nbhdList: [],
+    showMap: false
   },
 
   /**
@@ -28,58 +30,55 @@ Page({
     wx.setNavigationBarTitle({
       title: util.pageTitle.nbhd.index
     });
-
-    this.setData({
-      nbhdList: list
+    wx.showLoading({
+      title: '加载中...'
+    });
+    this.getNbhdShop();
+  },
+  getNbhdShop(){
+    let _this = this  
+    const data = {
+      pageIndex: 1,
+      pageSize: 10,
+      id: "N000",                //所在社区id
+      lng: "22.6348928889",     //所在经纬度位置
+      lat: "114.0321329018"
+    }  
+    util.request(api.getNeighborShop, data).then( res => {
+      console.log("getNbhdShop:" + JSON.stringify(res.data.result))
+      const data = res.data.result
+      data.map(item => {
+        if(item.distance < 1000){
+          item.distance = item.distance.toFixed(2) +'m'
+        }else{           
+          item.distance = (Math.round(item.distance /100 ) / 10).toFixed(1) + 'km'
+        }
+        return item
+      })
+      _this.setData({
+        nbhdList: data,
+        showMap: true
+      })
+      wx.setStorage({
+        key: 'shopList',
+        data: data,
+      })
+      wx.hideLoading()
     })
   },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-  
+  showMapView(){
+    const data = JSON.stringify(this.data.nbhdList)
+    wx.navigateTo({
+      url: '../neighbor/map/index?item=' + data,
+    })
   },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-  
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-  
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-  
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-  
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-  
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-  
+  showShopView(event){
+    console.log("itemId:" + event.currentTarget.dataset.id)
+    let itemId = event.currentTarget.dataset.id    
+    wx.navigateTo({
+      url: '../category/index?itemId=' + itemId
+    })
   }
+
+ 
 })

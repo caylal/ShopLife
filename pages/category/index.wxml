@@ -7,8 +7,8 @@
   </view> -->
   <view class="c-nbhd" wx:if="{{showNbhd}}">
     <view class="nbhd-title">
-      <view class="n-name">{{nbhd.name}}</view>
-      <view class="n-state" wx:if="{{nbhd.state == 1}}"><span class="iconfont icon-right r-btn"></span>已关注</view>
+      <view class="n-name">{{shop.name}}</view>
+      <view class="n-state" wx:if="{{shop.isacitve}}"><span class="iconfont icon-right r-btn"></span>已关注</view>
       <view class="n-url">
         <span class="iconfont icon-renqun p-btn"></span>
         <text>部落领地</text>
@@ -17,9 +17,9 @@
       
     </view>
     <view class="nbhd-info">
-      <view>营业时间：{{nbhd.time}}</view>
-      <view>地址：{{nbhd.addr}}</view>
-      <view>电话：{{nbhd.tel}}</view>
+      <view>营业时间：{{shop.openingtime}}--{{shop.closinghour}}</view>
+      <view>地址：{{shop.address}}</view>
+      <view>电话：{{shop.phone}}</view>
     </view>
   </view>
   <view class='category'>
