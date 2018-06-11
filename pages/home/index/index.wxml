@@ -14,7 +14,7 @@
   <view class="header">
     <navigator class="position" url="../location/location">      
       <span class='iconfont icon-zuobiaofill h-icon'></span>
-      <text class="position-text">中央原著店</text>
+      <text class="position-text">{{}}</text>
       <span class='iconfont icon-xiajiantou j-icon'></span>
     </navigator>
     

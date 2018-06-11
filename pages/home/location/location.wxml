@@ -36,30 +36,33 @@
       <view>
         <view class='l-current'>
           <view class='l-position'>
-            <text class='l-c'>深圳市</text><text class='l-c'>南山区</text><text class='l-c'>科技园</text>
+            <text class='l-c'>{{city}}</text><text class='l-c'>{{area}}</text><text class='l-c'>{{nbhd}}</text>
           </view>
-          <span class="iconfont icon-dingwei"></span>
+          <span class="iconfont icon-dingwei" bindtap="choosed"></span>
         </view>
-      </view>
-      <!-- <view class='l-area'>
-        <view>
-          <text class='l-sort'>B</text>
-          <view class='l-city'>北京</view>
-          <view class='l-city'>保定</view>
-        </view>
-         <view>
-          <text class='l-sort'>B</text>
-          <view class='l-city'>北京</view>
-          <view class='l-city'>保定</view>
-        </view>
-      </view> -->
-      <view class='l-area'>
-        <view class='l-city'>朝阳区</view>
-        <view class='l-city'>全城</view>
-        <view class='l-city'>朝阳区</view>
-        <view class='l-city'>朝阳区</view>
       </view>
       
+      <view class='l-area' style="display:{{showCity ? 'block':'none'}}">
+        <view wx:for="{{cityList}}" wx:key="{{index}}">
+          <text class='l-sort'>{{item.forShort}}</text>
+          <block wx:for="{{item.cities}}" wx:for-item="cities" wx:key="{{cities.id}}" >
+            <view class='l-city'data-cityid="{{cities.id}}" bindtap="chooseCity">{{cities.namecn}}</view>
+          </block>          
+        </view>         
+      </view> 
+
+      <view class='l-area' style="display:{{showArea ? 'block':'none'}}">
+        <block wx:for="{{areaList}}" wx:key="item.id" >
+          <view class='l-city'data-areaid="{{item.id}}" data-areaname="{{item.namecn}}" bindtap="chooseArea">{{item.namecn}}</view>
+        </block>        
+      </view> 
+      
+      <view class='l-area' style="display:{{showArea ? 'none':'block'}}">
+        <block wx:for="{{nbhdList}}" wx:key="item.id" >
+          <view class='l-city'data-nbhdid="{{item.id}}" data-nbhdname="{{item.name}}"  bindtap="chooseNbhd">{{item.name}}</view>
+        </block>        
+      </view> 
+
     </view>   
   </view>
 

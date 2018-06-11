@@ -1,7 +1,7 @@
 import util from '../../../utils/util.js'
-const areal = [{id:"01",name:"宝安区"},{id:"02",name:"南山区"}];
-const cityl = [{ sort: "S", data: [{ id: "1", name: "深圳" }, { id: "1", name: "上海" }] },{ sort: "B", data: [{ id: "1", name: "北京" }, { id: "1", name: "保定" }]}];
-const nbhdl = [{id:"001",name:"西乡街道"},{id:"002",name:"粤海大道"}]
+import api from '../../../api/api.js'
+
+const cityAreaNbhd = []
 Page({
 
   /**
@@ -11,9 +11,16 @@ Page({
     city:'',
     area: '',
     nbhd: '',
+    showCity: true,
+    showArea: false,
+    showNbhd: false,   
     cityList: [],
     areaList: [],
-    nbhdList: [],
+    nbhdList: [],   
+    showCity: true,
+    showArea: false,
+    pageIndex: 1,
+    pageSize: 20
   },
 
   /**
@@ -23,54 +30,89 @@ Page({
     wx.setNavigationBarTitle({
       title: util.pageTitle.nbhd.list
     });
+    const areaNbhd = wx.getStorageSync('areaNbhd')
+    if(areaNbhd.length > 0){
+      this.setData({
+        city: areaNbhd.city.name,
+        area: areaNbhd.area.name,
+        nbhd: areaNbhd.nbhd.name
+      })
+    }
+    this.getAllCity()
   },
+  getAllCity(){
+    let _this = this
+    util.request(api.getAllCity).then(res => {
+      const data = res.data.result
+      console.log("city:" + JSON.stringify(data))
+      _this.setData({
+        cityList: data
+      })
+      const cites =[]
+      data.forEach(item => {
+        item.cities.forEach(val => cites.push(val)) 
+      })
+      console.log("cities:" + JSON.stringify(cites))
+      wx.setStorage({
+        key: 'allCitys',
+        data: cites,
+      })
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-  
+     
+    })
+  }, 
+  chooseCity(e){
+    let cityId = e.currentTarget.dataset.cityid
+    const cities = wx.getStorageSync('allCitys')
+    const areas = cities.filter(item => { return item.id == cityId})
+    console.log("areas:" + JSON.stringify(areas))
+    const children = areas[0].children
+    cityAreaNbhd["city"] = {cid:cityId,name:areas[0].namecn}
+    this.setData({
+      city: areas[0].namecn,
+      areaList: children || [],
+      showCity: children.length <= 0 ? true : false,
+      showArea: children.length >= 0 ? true : false,      
+    }) 
+     
   },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-  
+  chooseArea(e){
+    let areaId = e.currentTarget.dataset.areaid
+    let areaName = e.currentTarget.dataset.areaname    
+    let _this = this
+    cityAreaNbhd["area"] = { aid: areaId, name: areaName}   
+    util.request(api.getAreaNeighbor,{
+        pageIndex:_this.data.pageIndex, 
+        pageSize: _this.data.pageSize,
+        id: areaId
+      }).then(res => {
+        const data = res.data.result
+        console.log("nbhd:" + JSON.stringify(data))
+        _this.setData({
+          nbhdList: data || [],
+          showArea: false,
+          area: areaName         
+        })
+    })
   },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-  
+  chooseNbhd(e){
+    let nbhdId = e.currentTarget.dataset.nbhdid
+    let nbhdName = e.currentTarget.dataset.nbhdname
+    cityAreaNbhd["nbhd"] = {nid:nbhdId, name:nbhdName}
+    wx.setStorage({
+      key: 'areaNbhd',
+      data: cityAreaNbhd,
+    })
+    this.setData({
+      nbhd: nbhdName
+    })
+    wx.switchTab({
+      url: '../index/index',
+    })
   },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-  
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-  
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-  
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-  
+  choosed(){
+    wx.switchTab({
+      url: '../index/index',
+    })
   }
 })

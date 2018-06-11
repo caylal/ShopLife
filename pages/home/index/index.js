@@ -39,6 +39,13 @@ Page({
     wx.showLoading({
       title: '加载中...'
     });
+
+    const areaNbhd = wx.getStorageSync('areaNbhd')
+    if (areaNbhd.length > 0){
+      this.setData({
+        location: areaNbhd.nbhd.name
+      })
+    }
     //测试数据  
     // this.setData({
     //   recGoods: rec,
