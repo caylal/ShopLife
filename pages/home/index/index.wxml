@@ -14,7 +14,7 @@
   <view class="header">
     <navigator class="position" url="../location/location">      
       <span class='iconfont icon-zuobiaofill h-icon'></span>
-      <text class="position-text">{{}}</text>
+      <text class="position-text">{{locationName}}</text>
       <span class='iconfont icon-xiajiantou j-icon'></span>
     </navigator>
     

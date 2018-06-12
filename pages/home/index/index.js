@@ -15,7 +15,7 @@ Page({
     loadingHidden: false , // loading
     interval: 3000,
     duration: 1000,
-    location: '',
+    locationName: '',
     imagesUrl:[],
     recGoods: [],
     hotGoods:[]
@@ -43,7 +43,7 @@ Page({
     const areaNbhd = wx.getStorageSync('areaNbhd')
     if (areaNbhd.length > 0){
       this.setData({
-        location: areaNbhd.nbhd.name
+        locationName: areaNbhd[2].name
       })
     }
     //测试数据  
@@ -60,6 +60,9 @@ Page({
         wx.hideLoading()
     })
     
+  },
+  onShow(){
+    this.onLoad()
   },
   getIndexBanner(){
     let _this = this

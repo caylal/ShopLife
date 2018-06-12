@@ -1,24 +1,23 @@
 import util from '../../../utils/util.js'
 import api from '../../../api/api.js'
 
-const cityAreaNbhd = []
+let cityAreaNbhd = []
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    city:'',
-    area: '',
-    nbhd: '',
+    city:{},
+    area: {},
+    nbhd: {},
     showCity: true,
     showArea: false,
-    showNbhd: false,   
+    showNbhd: false,
+    choose: false,     
     cityList: [],
     areaList: [],
-    nbhdList: [],   
-    showCity: true,
-    showArea: false,
+    nbhdList: [], 
     pageIndex: 1,
     pageSize: 20
   },
@@ -33,46 +32,63 @@ Page({
     const areaNbhd = wx.getStorageSync('areaNbhd')
     if(areaNbhd.length > 0){
       this.setData({
-        city: areaNbhd.city.name,
-        area: areaNbhd.area.name,
-        nbhd: areaNbhd.nbhd.name
+        city: areaNbhd[0],
+        area: areaNbhd[1],
+        nbhd: areaNbhd[2]
       })
     }
     this.getAllCity()
   },
-  getAllCity(){
+  getAllCity(isback){
     let _this = this
-    util.request(api.getAllCity).then(res => {
-      const data = res.data.result
-      console.log("city:" + JSON.stringify(data))
+    const storeAll = wx.getStorageSync('allCitys')
+    if(storeAll){
       _this.setData({
-        cityList: data
+        cityList: storeAll,      
       })
-      const cites =[]
-      data.forEach(item => {
-        item.cities.forEach(val => cites.push(val)) 
+    }else{
+      util.request(api.getAllCity).then(res => {
+        const data = res.data.result
+        console.log("city:" + JSON.stringify(data))
+        _this.setData({
+          cityList: data
+        })
+        wx.setStorage({
+          key: 'allCitys',
+          data: data,
+        })
       })
-      console.log("cities:" + JSON.stringify(cites))
-      wx.setStorage({
-        key: 'allCitys',
-        data: cites,
+    }
+    if(isback){
+      _this.setData({
+        city: {},
+        area: {},
+        nbhd: {},
+        showCity: true,
+        showArea: false,
+        showNbhd: false,
       })
-
-     
-    })
+    }
+   
   }, 
   chooseCity(e){
     let cityId = e.currentTarget.dataset.cityid
-    const cities = wx.getStorageSync('allCitys')
-    const areas = cities.filter(item => { return item.id == cityId})
+    const areas = getStoreOfCity(cityId)
     console.log("areas:" + JSON.stringify(areas))
     const children = areas[0].children
-    cityAreaNbhd["city"] = {cid:cityId,name:areas[0].namecn}
+    const choose_city = { id: cityId, name: areas[0].namecn }
+    if(cityAreaNbhd.length > 0) {
+      cityAreaNbhd = []
+    }
+    cityAreaNbhd.push(choose_city)
     this.setData({
-      city: areas[0].namecn,
+      city: choose_city,
+      area: {},
+      nbhd: {},
       areaList: children || [],
       showCity: children.length <= 0 ? true : false,
-      showArea: children.length >= 0 ? true : false,      
+      showArea: children.length >= 0 ? true : false,
+      choose: true      
     }) 
      
   },
@@ -80,7 +96,8 @@ Page({
     let areaId = e.currentTarget.dataset.areaid
     let areaName = e.currentTarget.dataset.areaname    
     let _this = this
-    cityAreaNbhd["area"] = { aid: areaId, name: areaName}   
+    const choose_area = { id: areaId, name: areaName }
+    cityAreaNbhd.push(choose_area) 
     util.request(api.getAreaNeighbor,{
         pageIndex:_this.data.pageIndex, 
         pageSize: _this.data.pageSize,
@@ -91,20 +108,22 @@ Page({
         _this.setData({
           nbhdList: data || [],
           showArea: false,
-          area: areaName         
+          showNbhd: true,
+          area: choose_area    
         })
     })
   },
   chooseNbhd(e){
     let nbhdId = e.currentTarget.dataset.nbhdid
     let nbhdName = e.currentTarget.dataset.nbhdname
-    cityAreaNbhd["nbhd"] = {nid:nbhdId, name:nbhdName}
+    const choose_nbhd = { id: nbhdId, name: nbhdName }
+    cityAreaNbhd.push(choose_nbhd)
     wx.setStorage({
       key: 'areaNbhd',
       data: cityAreaNbhd,
     })
     this.setData({
-      nbhd: nbhdName
+      nbhd: choose_nbhd
     })
     wx.switchTab({
       url: '../index/index',
@@ -114,5 +133,38 @@ Page({
     wx.switchTab({
       url: '../index/index',
     })
+  },
+  backChoose(e){
+    if(this.data.choose){
+      let key = e.target.dataset.key
+      let id = e.target.dataset.id
+      if (key == 'backCity') {
+        this.getAllCity(true)
+      } else if (key == 'backArea') {
+        const areas = getStoreOfCity(id)
+        this.setData({
+          areaList: areas[0].children || [],
+          showCity: areas[0].children.length <= 0 ? true : false,
+          showArea: areas[0].children.length >= 0 ? true : false,
+          area: {},
+          showNbhd: false
+        })
+        cityAreaNbhd.splice(1,2)
+      } else {
+
+      }
+    }
+    return false
+   
   }
 })
+
+const getStoreOfCity = id =>{
+  const data = wx.getStorageSync('allCitys')
+  const cites = []
+  data.forEach(item => {
+    item.cities.forEach(val => cites.push(val))
+  })
+  console.log("cities:" + JSON.stringify(cites))
+  return cites.filter(item => { return item.id == id })
+}
