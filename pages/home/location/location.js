@@ -8,6 +8,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    SearchVal:"",
     city:{},
     area: {},
     nbhd: {},
@@ -156,6 +157,41 @@ Page({
     }
     return false
    
+  },
+   //搜索框输入
+  SearchData(e){
+    let _this = this;
+    _this.setData({
+      SearchVal: e.detail.value
+    })
+    console.log('SearchData' + _this.data.SearchVal)
+  },
+  //清空搜索框
+  SearchClear(e) {
+    let _this = this;
+    _this.setData({
+      SearchVal: ""
+    })
+  },
+  //提交搜索
+  SearchConfirm(e) {
+    let key = e.target.dataset.key;
+    let _this = this;
+    if (key == 'back') {
+      wx.switchTab({
+        url: '../index/index',
+      })
+    } else {     
+
+    }
+  },
+  //清除搜索记录
+  SearchDeleteAll() {
+    
+  },
+  //搜索历史记录
+  SearchKeyTap() {
+    
   }
 })
 

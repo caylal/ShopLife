@@ -6,10 +6,15 @@ Page({
    * 页面的初始数据
    */
   data: {
-    navList: [{ id: "1", name: "热销榜" }, { id: "2", name: "休闲零食" }, { id: "3", name: "饮料酒水" }, { id: "4", name: "生活用品" },{ id: "15", name: "粮油调品" }],
-    curId: 1,
+    navList: [],
+    shopList: [],
+    curId: '',
+    childId: '',
+    srollHeight: 300,
     shop: {},
-    showNbhd:false
+    showNbhd:false,
+    pageIndex:1,
+    pageSize: 20,
   },
 
   /**
@@ -19,13 +24,6 @@ Page({
     wx.setNavigationBarTitle({
       title: util.pageTitle.goods.list
     });
-    // if(JSON.stringify(options) != '{}'){
-    //   const obj = { name: "彩虹便利店(中央原著店)", state: 1, time: "07:00 -- 02:00",addr:"深圳市龙华区人民路39号", tel: "0755-123456"}
-    //   this.setData({
-    //     nbhd: obj,
-    //     showNbhd:true
-    //   })
-    // }
     if (!util.isEmpty(options.itemId)){
       this.showShopInfo(options.itemId)
     }else{
@@ -34,9 +32,27 @@ Page({
    
   },
   switchRightTab(e){
-    let id = e.target.dataset.id;
+    let id = e.currentTarget.dataset.id;
     this.setData({
       curId: id
+    })
+    getCateShop(this.data.pageIndex, this.data.pageSize, id).then(res =>{
+      console.log("res:" + res) 
+     this.setData({
+        shopList: res
+      })
+    })
+  },
+  switchChildTab(e){
+    let id = e.currentTarget.dataset.id;
+    this.setData({
+      childId: id
+    })
+    getCateShop(this.data.pageIndex, this.data.pageSize, id).then(res => {
+      console.log("res:" + res)
+      this.setData({
+        shopList: res
+      })
     })
   },
   getNavList(){
@@ -44,7 +60,14 @@ Page({
     return new Promise((resolve,reject) => {
       util.request(api.getAllCategory).then(res =>{
         console.log("category:" + JSON.stringify(res.data.result))
+        _this.setData({
+          navList: res.data.result,
+          curId: res.data.result[0].id
+        })
+        resolve(res.data.result[0].id)
       })
+    }).then(id => {
+      getCateShop(_this.data.pageIndex, _this.data.pageSize,id)
     })
   },
   showShopInfo(id){
@@ -60,6 +83,29 @@ Page({
     util.request(api.getShopGoodCate,{id:id}).then(res => {
       console.log("shopCategory: " + JSON.stringify(res.data.result))
     })
-  }  
-  
+  },
+  onShow(){
+    let _this = this
+    wx.getSystemInfo({
+      success: function (res) {
+        let height = res.windowHeight - 45; //footerpannelheight为底部组件的高度
+        _this.setData({
+          srollHeight: height
+        });
+      }
+    });
+  } 
 })
+const getCateShop = (index, size, id) => {
+  return new Promise((resolve, reject) => {
+    util.request(api.goodsByCate, {
+      pageIndex: index,
+      pageSize: size,
+      id: id
+    }).then(data => {
+      console.log("shopList:" + JSON.stringify(data.data.result))
+      resolve(data.data.result)      
+    })
+  })
+  
+}

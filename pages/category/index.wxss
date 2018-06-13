@@ -72,8 +72,20 @@
   line-height: 80rpx;
   border-bottom: 1px solid #dedede;
 }
-.nav-left .active{
+.nav-left .nav-child{
+  background:#f9f9f9;
+  border-bottom:1px solid #dedede;
+}
+.nav-child .child-item{
+  line-height: 70rpx;
+}
+.nav-child >.active{
   background: #fff;
+  color:#d22222;
+}
+.nav-list >.active{
+  background: #fff; 
+  font-size:30rpx;
   border-left: 8rpx solid #ab2b2b;
 }
 .category .nav-right{
@@ -136,7 +148,7 @@
 
 
 .search-cart{
-  height: 80rpx;
+  height: 45px;
   position: fixed;
   display: flex;
   justify-content: space-between;
@@ -165,7 +177,7 @@
   width: 120px;
   height: 100%;
   background-color: #009900;
-  line-height:80rpx;
+  line-height:45px;
   font-size:30rpx;
   color:#fff;
 }

@@ -24,18 +24,25 @@
   </view>
   <view class='category'>
     <!-- 左侧导航 -->
-    <scroll-view class='nav-left' scroll-y="true">
-      <view class="nav-item {{curId == item.id ? 'active' : ''}}" wx:for="{{navList}}" bindtap="switchRightTab" data-id='{{item.id}}'>{{item.name}}</view>
+    <scroll-view class='nav-left' scroll-y="true" style="height:{{srollHeight}}px">
+      <view class="nav-list" wx:for="{{navList}}" bindtap="switchRightTab" data-id='{{item.id}}'>
+          <view class="nav-item {{curId == item.id ? 'active' : ''}}">{{item.name}}</view>
+          <view class="nav-child" wx:if="{{item.children.length > 0}}" style="display:{{curId == item.id ? 'block' : 'none'}}">
+            <block wx:for="{{item.children}}" wx:for-item="child" wx:key="{{child.id}}">
+               <view class="child-item {{childId == child.id ? 'active' : ''}}" bindtap="switchChildTab" data-id="{{child.id}}">{{child.name}}</view>
+            </block>
+          </view>
+      </view>
     </scroll-view>
 
     <!-- 右侧商品 -->
-    <scroll-view class='nav-right' scroll-y="true">
-      <view class="good-item">
-        <image class="good-pic" src="../../images/orange.png"></image>
+    <scroll-view class='nav-right' scroll-y="true" style="height:{{srollHeight}}px">
+      <view class="good-item" wx:for="{{shopList}}" wx:key="{{item.id}}" data-id="{{item.id}}">
+        <image class="good-pic" src="{{item.img}}"></image>
         <view class="good-info">
           <view class="good-title">
-            <view class="title">华润五丰 美仑达三峡秭归伦晚脐橙 2.5kg装 精品果</view>
-            <view class="price">￥20.5</view>
+            <view class="title">{{item.name}} {{item.spec}}{{item.unit}}</view>
+            <view class="price">￥{{item.retailprice}}</view>
           </view>
           <view class="good-opt">
             <span class="iconfont icon-offline"></span>
@@ -43,21 +50,7 @@
             <span class="iconfont icon-addition"></span>
           </view>
         </view>
-      </view>
-      <view class="good-item">
-        <image class="good-pic" src="../../images/orange.png"></image>
-        <view class="good-info">
-          <view class="good-title">
-            <view class="title">华润五丰 美仑达三峡秭归伦晚脐橙 2.5kg装 精品果</view>
-            <view class="price">￥20.5</view>
-          </view>
-          <view class="good-opt">
-            <span class="iconfont icon-offline"></span>
-            <text class='good-num'>1</text>
-            <span class="iconfont icon-addition"></span>
-          </view>
-        </view>
-      </view>
+      </view>      
     </scroll-view>
   </view>
 
