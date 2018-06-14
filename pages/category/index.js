@@ -24,41 +24,55 @@ Page({
     wx.setNavigationBarTitle({
       title: util.pageTitle.goods.list
     });
+    wx.showLoading({
+      title: '加载中...'
+    });
     if (!util.isEmpty(options.itemId)){
       this.showShopInfo(options.itemId)
     }else{
-      this.getNavList()
+      this.getNavList({ url: api.getAllCategory, data:{}})
     }
    
   },
+  // 右侧分类tab点击
   switchRightTab(e){
     let id = e.currentTarget.dataset.id;
     this.setData({
       curId: id
     })
-    getCateShop(this.data.pageIndex, this.data.pageSize, id).then(res =>{
-      console.log("res:" + res) 
-     this.setData({
-        shopList: res
-      })
-    })
+    wx.showLoading({
+      title: '加载中...'
+    });
+    let info = {}
+    if (this.showNbhd) {
+      info = { shopid: this.data.shop.id, cateid: id }
+    }
+    else {
+      info = { id: id }
+    }
+    this.getShopByCate(info)
   },
+  // 二级分类tab点击
   switchChildTab(e){
     let id = e.currentTarget.dataset.id;
     this.setData({
       childId: id
     })
-    getCateShop(this.data.pageIndex, this.data.pageSize, id).then(res => {
-      console.log("res:" + res)
-      this.setData({
-        shopList: res
-      })
-    })
+    let info = {}
+    if (this.showNbhd) {
+      info = { shopid: this.data.shop.id, cateid: id }
+    }
+    else {
+      info = { id: id }
+    }
+    this.getShopByCate(info)
   },
-  getNavList(){
+  // 获取所有或门店的类别
+  getNavList(req){
     let _this = this
+    let { url, data } = req
     return new Promise((resolve,reject) => {
-      util.request(api.getAllCategory).then(res =>{
+      util.request(url, data).then(res =>{
         console.log("category:" + JSON.stringify(res.data.result))
         _this.setData({
           navList: res.data.result,
@@ -67,9 +81,16 @@ Page({
         resolve(res.data.result[0].id)
       })
     }).then(id => {
-      getCateShop(_this.data.pageIndex, _this.data.pageSize,id)
+      let info = {}
+      if (_this.showNbhd) {
+        info = {shopid: _this.data.shop.id, cateid: id }
+      }
+      else {
+        info = { id: id } 
+      }     
+      _this.getShopByCate(info)
     })
-  },
+  },  
   showShopInfo(id){
     let _this = this
     const shop = wx.getStorageSync('shopList')
@@ -80,8 +101,23 @@ Page({
       showNbhd:true
     })
     console.log("shop: " + JSON.stringify(this.data.shop))
-    util.request(api.getShopGoodCate,{id:id}).then(res => {
-      console.log("shopCategory: " + JSON.stringify(res.data.result))
+    let data = { url: api.getShopGoodAll, data: { id: id}} // 门店id
+    _this.getNavList(data)
+  },
+  getShopByCate(data){
+    let _this = this
+    let url = api.getGoodsByCate;
+    if (_this.showNbhd){
+      url = api.getShopGoodsByCate
+    }
+    Object.assign(data, { pageIndex: _this.data.pageIndex, pageSize: _this.data.pageSize})
+    console.log("url:" + url + " data:" + JSON.stringify(data))
+    util.request(url, data).then(res => {
+      console.log("shopList:" + JSON.stringify(res.data.result))
+      _this.setData({
+        shopList: res.data.result || []
+      })
+      wx.hideLoading()
     })
   },
   onShow(){
@@ -96,16 +132,3 @@ Page({
     });
   } 
 })
-const getCateShop = (index, size, id) => {
-  return new Promise((resolve, reject) => {
-    util.request(api.goodsByCate, {
-      pageIndex: index,
-      pageSize: size,
-      id: id
-    }).then(data => {
-      console.log("shopList:" + JSON.stringify(data.data.result))
-      resolve(data.data.result)      
-    })
-  })
-  
-}

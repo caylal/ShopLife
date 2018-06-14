@@ -110,11 +110,12 @@
   padding-left: 20rpx;
   box-sizing: border-box;
   font-size: 30rpx;
-  display: flex;
-  align-items: center;
+  display: flex;  
+  flex-direction: column;
+  justify-content:space-between;
 }
 .good-info .good-title{
-  width: 65%;
+  width: 100%;
   display: flex;
   flex-direction: column;
 }
@@ -125,13 +126,20 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.good-info .good-title .price{
-  font-size: 25rpx;
+
+.good-info .good-bot{
+  display:flex;
+  justify-content:space-between;
+  width:100%;
+
+}
+.good-bot .price{
+  font-size: 28rpx;
   color: #fc4104;
   font-weight: bold;
   margin-top: 10rpx;
 }
-.good-info .good-opt{
+.good-bot .good-opt{
   width: 35%;
   display: flex;
   align-items: center;

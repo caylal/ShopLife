@@ -22,7 +22,7 @@
       <icon class="search-icon" type="search" size="16" color='#fff'></icon>
       <input class="search-box" placeholder="搜索栏" placeholder-style='color: #eee' disabled="true"></input>
     </view>
-    <view class="msg"><navigator url="../../member/msg/index"><span class="iconfont icon-liuyanfill img"></span></navigator></view>
+    <!-- <view class="msg"><navigator url="../../member/msg/index"><span class="iconfont icon-liuyanfill img"></span></navigator></view> -->
   </view>  
   <view class='goods-category'>
     <view class='category-title'>

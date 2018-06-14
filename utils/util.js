@@ -123,7 +123,7 @@ const pageTitle = {
     msg: "我的消息"
   },
   search: "搜索",
-  order: "订单中心",
+  order: "我的订单",
   orderM: {
     detail: '订单详情',
     checkout: '检查订单',

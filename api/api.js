@@ -14,11 +14,10 @@ module.exports = {
   getNeighborShop: BASE_URL + 'shop/query/nbhd',                   // 获取所在社区的门店 参数{pageIndex:1, pageSize:10,id:"N000",lng:"22.6348928889", lat:"114.0321329018"}社区id，经纬度
   getAllShopGoods: BASE_URL + 'shop/goods/all',                    // 获取该门店所有商品信息
   getShopGood: BASE_URL + 'shop/goods/get',                        // 获取该门店单个商品信息 参数 {id: "SG0000"} 门店商品id
-  getShopGoodCate: BASE_URL + 'shop/goods/cate/all',               // 获取该门店的商品所有类别 参数 {id: "S0000"} 门店id
-  getShopGoodsQuery: BASE_URL + 'shop/goods/query/cate',           // 获取门店该类别的商品 参数{pageIndex:1, pageSize:10,shopid:"S0000",cateid:"C0001"}门店id，类别id
+  getShopGoodAll: BASE_URL + 'shop/goods/cate/all',                // 获取该门店的商品所有类别 参数 {id: "S0000"} 门店id
+  getShopGoodsByCate: BASE_URL + 'shop/goods/query/cate',           // 获取门店该类别的商品 参数{pageIndex:1, pageSize:10,shopid:"S0000",cateid:"C0001"}门店id，类别id
   
   getAllCategory: BASE_URL + 'category/All',                       // 获取所有商品类别
-  goodsByCate: BASE_URL + 'goods/query/cate',                      // 根据类别查询商品 参数pageIndex=1&pageSize=20&id=C0025
 
   getAllBanner: BASE_URL + 'banner/all',                           // 获取所有banner
   getBannerQuery: BASE_URL + 'banner/query',                       // 分页获取banner 参数{pageIndex,pageSize}

@@ -43,13 +43,7 @@
         "iconPath": "images/icon_cart.png",
         "selectedIconPath": "images/icon_cart_active.png",
         "text": "购物车"
-      },
-      {
-        "pagePath": "pages/orders/index",
-        "iconPath": "images/icon_order.png",
-        "selectedIconPath": "images/icon_order_active.png",
-        "text": "订单"
-      },
+      },      
       {
         "pagePath": "pages/member/index",
         "iconPath": "images/icon_member.png",

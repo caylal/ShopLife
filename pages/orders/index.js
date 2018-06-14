@@ -4,7 +4,7 @@ let wash = [{type: "洗护订单", status: "未发货", no: "15486126489615265",
 let all = goods.concat(wash)
 Page({
   data: {
-    tab: [{ type: "all", title: "全部" }, { type: "goods", title: "商品订单" },{ type: "wash", title: "洗护订单" }],
+    tab: [{ type: 1, title: "全部" }, { type: 2, title: "待支付" }, { type: 3, title: "待发货" }, { type: 4, title: "待收货" },{ type: 5, title: "已完成" },{ type: 6, title: "已取消" }],
     orderList: [],
     currentid: 0,
   },

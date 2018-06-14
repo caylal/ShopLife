@@ -13,6 +13,34 @@
       </view>
     </view>
   </view>
+   <view class="info">   
+    <view class='info-title'>
+      <text>我的订单</text>
+      <navigator class="info-all" url="../orders/index"><text>全部</text><span class='iconfont icon-shuangjiantouyou'></span></navigator>
+    </view>
+    <view class="info-content">
+      <view class="store">
+        <span class="iconfont icon-icon-test img"></span>
+        <text class="s-title"> 待付款</text>
+      </view>
+      <view class="store">
+        <span class="iconfont icon-daifahuo img"></span>
+        <text class="s-title"> 待发货</text>
+      </view>
+      <view class="store">
+        <span class="iconfont icon-yunshuzhongwuliu img"></span>
+        <text class="s-title"> 运输中</text>
+      </view>
+      <view class="store">
+        <span class="iconfont icon-liuyanfill img"></span>
+        <text class="s-title"> 待评价</text>
+      </view>
+       <view class="store">
+        <span class="iconfont icon-caiwu-xianxing img"></span>
+        <text class="s-title"> 退款/售后</text>
+      </view>
+    </view>      
+  </view>
   <view class="info">   
     <view class='info-title'>
       <text>我的收藏</text>

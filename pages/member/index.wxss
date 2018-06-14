@@ -17,7 +17,7 @@
  margin-left: 20rpx; 
  color: #8d8d8d;
 }
- .set .img{
+ .img{
   font-size:46rpx; 
 } 
 .set .setup{
@@ -79,7 +79,10 @@
 .info .info-content{
   width: 100%;
   display: flex;
-  font-size: 28rpx;
+  /* font-size: 28rpx; */
+  padding:10rpx;
+  box-sizing:border-box;
+
 }
 .info-content .store{
   display: flex;
@@ -88,7 +91,8 @@
   width: 30%;
   margin-left:2.1%;
   padding: 20rpx 10rpx;
-   box-sizing: border-box; 
+  box-sizing: border-box; 
+  text-align: center;
 }
 .store .s-pic{
   width: 100rpx;

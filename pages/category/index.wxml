@@ -29,7 +29,7 @@
           <view class="nav-item {{curId == item.id ? 'active' : ''}}">{{item.name}}</view>
           <view class="nav-child" wx:if="{{item.children.length > 0}}" style="display:{{curId == item.id ? 'block' : 'none'}}">
             <block wx:for="{{item.children}}" wx:for-item="child" wx:key="{{child.id}}">
-               <view class="child-item {{childId == child.id ? 'active' : ''}}" bindtap="switchChildTab" data-id="{{child.id}}">{{child.name}}</view>
+               <view class="child-item {{childId == child.id ? 'active' : ''}}" catchtap="switchChildTab" data-id="{{child.id}}">{{child.name}}</view>
             </block>
           </view>
       </view>
@@ -41,14 +41,17 @@
         <image class="good-pic" src="{{item.img}}"></image>
         <view class="good-info">
           <view class="good-title">
-            <view class="title">{{item.name}} {{item.spec}}{{item.unit}}</view>
+            <view class="title">{{item.name}} {{item.spec}}{{item.unit}}</view>            
+          </view>
+          <view class="good-bot">
             <view class="price">￥{{item.retailprice}}</view>
+              <view class="good-opt">
+              <span class="iconfont icon-offline"></span>
+              <text class='good-num'>1</text>
+              <span class="iconfont icon-addition"></span>
+            </view>
           </view>
-          <view class="good-opt">
-            <span class="iconfont icon-offline"></span>
-            <text class='good-num'>1</text>
-            <span class="iconfont icon-addition"></span>
-          </view>
+         
         </view>
       </view>      
     </scroll-view>
