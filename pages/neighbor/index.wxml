@@ -1,18 +1,20 @@
 <view class="container">
-  <view class="t-map" wx:if="{{showMap}}" bindtap="showMapView"> <span class="iconfont icon-zuobiaofill"></span> <text>切换地图</text></view>
-  <block wx:for="{{nbhdList}}" wx:key="{{item.id}}" >
-    <view class="nbhd-box" >
-      <view class="n-left">
-        <view bindtap="showShopView" data-id="{{item.id}}"> 
-          <view class="n-title"><text class="n-t-name">{{item.name}}</text> </view>
-          <view class="n-time"> 营业时间：{{item.openingtime}}--{{item.closinghour}}</view>
-          <view class="n-time">{{item.address}}</view>
+  <view class="nbhd">
+    <view class="t-map" wx:if="{{showMap}}" bindtap="showMapView"> <span class="iconfont icon-zuobiaofill"></span> <text>切换地图</text></view>
+    <block wx:for="{{nbhdList}}" wx:key="{{item.id}}" >
+      <view class="nbhd-box" >
+        <view class="n-left">
+          <view bindtap="showShopView" data-id="{{item.id}}"> 
+            <view class="n-title"><text class="n-t-name">{{item.name}}</text> </view>
+            <view class="n-time"> 营业时间：{{item.openingtime}}--{{item.closinghour}}</view>
+            <view class="n-time">{{item.address}}</view>
+          </view>
+        </view>
+        <view class="n-right">   
+          <span class="iconfont icon-zuobiaofill"></span>
+          <text>{{item.distance}}</text>
         </view>
       </view>
-      <view class="n-right">   
-        <span class="iconfont icon-zuobiaofill"></span>
-        <text>{{item.distance}}</text>
-      </view>
-    </view>
-  </block>
+    </block>
+  </view>  
 </view>

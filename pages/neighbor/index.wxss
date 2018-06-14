@@ -1,3 +1,6 @@
+ .nbhd{
+   margin: 0 5rpx;
+ }
  .t-map{
   position: absolute;
   width: 150rpx;
@@ -12,13 +15,13 @@
 .nbhd-box{
   display: flex;
   background: #fff;
-  border-bottom: 1rpx solid #8d8d8d;
+  border-bottom: 1rpx solid #dedede;
   padding: 10rpx 5rpx 10rpx 15rpx;
   box-sizing: border-box;
 }
 .nbhd-box .n-left{
   width: 80%;
-  border-right: 1rpx solid #8d8d8d;
+  border-right: 1rpx solid #dedede;
 }
 .n-left .n-title{  
   display: flex;

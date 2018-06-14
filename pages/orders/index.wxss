@@ -41,41 +41,98 @@
   height: 50rpx;
   display: flex;
   justify-content: space-between;
-  color: #fc4104;
+  /* color: #fc4104; */
   align-items: center;
   font-size: 30rpx;
-}
-.order-top .order-type{
-  border: 1px solid #fc4104;
-  border-radius: 10rpx;
-  letter-spacing: 2rpx;
-  padding: 0 10rpx;
+  border-bottom:0.5px solid #dedede;
+  background:#f4f4f4;
 }
 .order-top .order-status{
-  font-size: 25rpx;
+  display: flex;
+  font-weight: bold;
+  color: #fc4104;
+}
+.order-status .go-pay{
+  background:#fc4104;
+  color:#fff;
+  border-radius:10rpx;
+  padding:5rpx 10rpx;  
+}
+.order-status .status-t{
+  margin-left: 10rpx;
 }
 .order-no{
-  padding: 5rpx 10rpx;
-  font-size: 25rpx;
+  padding: 15rpx 10rpx;
+  font-size: 26rpx;
   display: flex;
-  flex-direction: column;
+  align-items: center;
 }
-.order-no .order-time{
-  color: #8d8d8d;
+.order-no .img{
+  font-size: 62rpx;
+  color:#fc4104;
 }
+.order-no .order-notice{
+  position: relative; 
+  background: #f4f4f4;
+  -moz-border-radius: 12px;
+  -webkit-border-radius: 12px;
+  border-radius: 8rpx;
+  line-height:70rpx;
+  padding:0 15rpx;
+  margin-left:30rpx;
+  border:1rpx solid #dedede;
+
+}
+.order-no .order-notice:before{
+  position: absolute;
+  content: '';
+  width: 0;
+  height: 0;
+  right: 100%;
+  top: 15rpx;
+  border-width:18rpx; 
+  border-style:solid; 
+  border-color:transparent #dedede transparent transparent;
+}
+ .order-no .order-notice:after{
+  position: absolute;
+  content: '';
+  width: 0;
+  height: 0;
+  right: 100%;
+  top: 16rpx;
+  border-width:16rpx; 
+  border-style:solid; 
+  border-color:transparent #f4f4f4 transparent transparent;
+} 
 .order-goods{
-  padding: 5rpx 0 5rpx 20rpx ;
+  padding: 15rpx 0 5rpx 20rpx ;
   box-sizing: border-box;
   display: flex;
   justify-content: space-between;
 }
 .order-goods .goods-pic{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   width: 80%;
+}
+.goods-pic .g-p{
+  width: 90%;
+}
 
+.goods-pic .g-more span{
+  width: 10%;
+  font-size: 52rpx;
+  color: #dedede;
 }
 .goods-pic .g-pic{
   width: 100rpx;
   height: 100rpx;
+  margin-left: 15%;
+}
+.g-p :first-child{
+  margin-left: 0;
 }
 .order-goods .goods-count{
   width: 20%;

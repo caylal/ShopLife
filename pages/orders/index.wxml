@@ -6,16 +6,23 @@
   <view class="order-section">
     <view class='order' wx:if="{{orderList.length > 0}}" wx:for="{{orderList}}" wx:key="{{index}}">
       <view class='order-top'>
-        <view class='order-type'>{{item.type}}</view>
-        <view class='order-status'>{{item.status}}</view>
+        <view class='order-type'>2018-06-14 15:56</view>
+        <view class='order-status'>
+          <view class="status-t">待支付</view><view class="status-t go-pay">去支付</view>
+        </view>
       </view>
-      <view class='order-no'>
-        <text>订单号：{{item.no}}</text>
-        <text class='order-time'>{{item.time}}</text>
-      </view>
+       <view class='order-no'>
+         <span class="iconfont icon-caiwu-xianxing img"></span>
+         <view class="order-notice">亲,请在今天23:00前完成支付,超时订单将自动取消</view>
+      </view> 
       <view class='order-goods'>
         <view class='goods-pic'>
+        <view class="g-p">
           <image class='g-pic' src='../../images/orange.png'></image>
+          <image class='g-pic' src='../../images/orange.png'></image>
+          <image class='g-pic' src='../../images/orange.png'></image>
+        </view>
+         <view class="g-more"><span class='iconfont icon-shuangjiantouyou'></span></view>
         </view>
         <view class='goods-count'>
           <text class='g-p'>￥26</text>
