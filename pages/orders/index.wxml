@@ -6,7 +6,7 @@
   <view class="order-section">
     <view class='order' wx:if="{{orderList.length > 0}}" wx:for="{{orderList}}" wx:key="{{index}}">
       <view class='order-top'>
-        <view class='order-type'>2018-06-14 15:56</view>
+        <view class='order-type'>今天 15:56</view>
         <view class='order-status'>
           <view class="status-t">待支付</view><view class="status-t go-pay">去支付</view>
         </view>
@@ -22,7 +22,7 @@
           <image class='g-pic' src='../../images/orange.png'></image>
           <image class='g-pic' src='../../images/orange.png'></image>
         </view>
-         <view class="g-more"><span class='iconfont icon-shuangjiantouyou'></span></view>
+         <view class="g-more"><navigator url="../../../detail/index"><span class='iconfont icon-shuangjiantouyou'></span></navigator></view>
         </view>
         <view class='goods-count'>
           <text class='g-p'>￥26</text>

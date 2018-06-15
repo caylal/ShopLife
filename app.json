@@ -11,7 +11,8 @@
     "pages/category/index" ,
     "pages/goods/detail/detail",
     "pages/member/msg/index",
-    "pages/neighbor/map/index"
+    "pages/neighbor/map/index",
+    "pages/orders/detail/index"
   ],
   "window":{
     "backgroundTextStyle":"light",
