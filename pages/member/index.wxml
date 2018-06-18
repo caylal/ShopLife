@@ -2,8 +2,8 @@
 <view class="container">
   <view class="title">
     <view class="setting">
-      <view class="set"><navigator url="msg/index"><span class="iconfont icon-liuyanfill img"></span></navigator></view>
-      <view class="set"><span class="iconfont icon-setup setup"></span></view>
+      
+      <view class="set"><navigator url="mine/index"><span class="iconfont icon-setup setup"></span></navigator></view>
     </view>
     <view class="user">
       <image class="user-pic" src='../../images/pic.jpg'></image>
@@ -20,7 +20,7 @@
     </view>
     <view class="info-content">
       <view class="store">
-        <span class="iconfont icon-icon-test img"></span>
+        <span class="iconfont icon-daifukuan img"></span>
         <text class="s-title"> 待付款</text>
       </view>
       <view class="store">
@@ -28,7 +28,7 @@
         <text class="s-title"> 待发货</text>
       </view>
       <view class="store">
-        <span class="iconfont icon-yunshuzhongwuliu img"></span>
+        <span class="iconfont icon-wuliu1 img"></span>
         <text class="s-title"> 运输中</text>
       </view>
       <view class="store">
@@ -36,7 +36,7 @@
         <text class="s-title"> 待评价</text>
       </view>
        <view class="store">
-        <span class="iconfont icon-caiwu-xianxing img"></span>
+        <span class="iconfont icon-tuikuan img"></span>
         <text class="s-title"> 退款/售后</text>
       </view>
     </view>      

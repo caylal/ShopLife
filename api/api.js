@@ -36,6 +36,7 @@ module.exports = {
   getAllCart: BASE_URL + 'shoppingcart/all',                       // 获取所有购物车
   getCartQuery: BASE_URL + 'shoppingcart/query',                   // 分页获取购物车 参数{pageIndex,pageSize}
   getCartOfMy: BASE_URL + 'shoppingcart/query/my',                 // 获取我的购物车 参数{pageIndex: 1, pageSize: 3, uid: "U00000000"} 用户id
+  createCart: BASE_URL + 'shoppingcart/create',                    // 添加购物车 参数{"userid": "U000000001","goodsid": "G0001"/"shopgoodsid": "SG0009",,"quantity": 2}
 
   getAllGoods: BASE_URL + 'goods/all',                             // 获取所有商品列表
   getGood: BASE_URL + 'goods/get',                                 // 获取单个商品信息 参数{id:"G0000"}

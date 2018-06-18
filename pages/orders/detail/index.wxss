@@ -115,12 +115,21 @@
   flex-direction: column;
 }
 .order-opt{
-  display: flex;
-  text-align: center;
+  display: flex; 
   font-weight: bold;
   background: #f4f4f4;
-  height: 70rpx;
+  height: 90rpx;
   width: 100%;
   position: fixed;
   bottom: 0;
+  text-align:center;
+}
+.order-opt .opt{
+  flex: 1;
+  line-height:80rpx;
+}
+.order-opt .opt-commit{
+  background: #fc4104;
+  color: #fff;
+
 }

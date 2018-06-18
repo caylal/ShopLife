@@ -1,11 +1,6 @@
 //index.js
-//获取应用实例
 import util from '../../../utils/util.js'
 import api from '../../../api/api.js'
-const rec = [{ id: "12da", goodsid: "12345", name: "Apple iPad 平板电脑9.7英寸", retailprice: "2899", img: "../../../images/orange.png", url: "http://2530013758.nat123.net/api/recommendGoods/get" }, { id: "56fdf", goodsid: "fd355", name: "Apple iPad 平板电脑9.7英寸", retailprice: "2899", img: "../../../images/orange.png", url: "http://2530013758.nat123.net/api/recommendGoods/get" }, { id: "78fgdh", goodsid: "g6743e", name: "Apple iPad 平板电脑9.7英寸", retailprice: "2899", img: "../../../images/orange.png", url: "http://2530013758.nat123.net/api/recommendGoods/get" }]
-const hot = [{ id: "12da", goodsid: "12345", name: "Apple iPad 平板电脑9.7英寸", retailprice: "2899", img: "../../../images/goods.png", url: "http://2530013758.nat123.net/api/hotGoods/get" }, { id: "56fdf", goodsid: "fd355", name: "Apple iPad 平板电脑9.7英寸", retailprice: "2899", img: "../../../images/goods.png", url: "http://2530013758.nat123.net/api/hotGoods/get" }, { id: "78fgdh", goodsid: "g6743e", name: "Apple iPad 平板电脑9.7英寸", retailprice: "2899", img: "../../../images/goods.png", url: "http://2530013758.nat123.net/api/hotGoods/get" }]
-
-
 Page({
   data: {
     indicatorDots: true,
@@ -18,7 +13,7 @@ Page({
     locationName: '',
     imagesUrl:[],
     recGoods: [],
-    hotGoods:[]
+    hotGoods:[],
   },
   // 搜索入口  
   Search () {

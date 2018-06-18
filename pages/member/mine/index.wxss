@@ -1,0 +1,49 @@
+.user-box{
+  width: 100%;
+}
+.user-box .user-info{
+  background: #fff;
+  padding: 15rpx;
+}
+.user-info .u-img{
+  margin:0 auto;
+  width:140rpx;
+}
+.user-info .u-img image{
+  width: 140rpx;
+  height: 140rpx;
+  border-radius: 50%;
+}
+.user-info .u-tel{
+  display: flex;
+  justify-content: space-between;
+  padding-top: 15rpx;
+}
+.u-mrg{
+  margin-left: 20rpx;
+}
+.user-addr{
+  margin-top: 10rpx;
+}
+
+.user-addr .addr-box{
+}
+.addr-box .addr-title{
+  padding-left: 5rpx;
+  line-height:60rpx;
+  font-weight:bold;
+  border:1rpx solid #dedede;
+  background:#dedede;
+}
+.addr-box .addr-info{
+  padding: 15rpx;
+  background: #fff;
+  margin-bottom: 5rpx;
+}
+.addr-info .addr-detail{
+  line-height: 50rpx;
+}
+.addr-info .a-edit{
+  display: flex;
+  justify-content: space-between;
+}

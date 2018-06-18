@@ -120,7 +120,7 @@ const pageTitle = {
   },
   member: {
     index: "个人中心",
-    msg: "我的消息"
+    setting: "设置"
   },
   search: "搜索",
   order: "我的订单",

@@ -48,7 +48,7 @@
     </view>
   </view>
   <view class="order-opt">
-    <view class="opt-cancel">取消订单</view>
-    <view class="opt-commit">去支付</view>
+    <view class="opt opt-cancel"> <text>取消订单</text></view>
+    <view class="opt opt-commit"> <text>去支付</text></view>
   </view>
 </view>

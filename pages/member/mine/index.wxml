@@ -1,0 +1,19 @@
+<view class="container">
+  <view class="user-box">
+    <view class="user-info">
+      <view class="u-img"><image src="../../../images/pic.jpg"></image></view>
+      <view class="u-tel"><view class="tel"><text>电话:</text><text class="u-mrg">15676210481</text></view><view class="edit"><span class="iconfont icon-bianji"></span></view></view>
+      <view class="u-tel"> <view class="tel"><text>昵称:</text><text class="u-mrg">广东雨神</text></view> <view class="edit"><span class="iconfont icon-bianji"></span></view></view>
+    </view>
+    <view class="user-addr">
+      <view class="addr-box">
+        <view class="addr-title">我的收货地址</view>
+        <view class="addr-info">
+          <view class="addr-detail"><text>曾佳 </text> <text> 135****0755</text></view>
+          <view class="addr-detail a-edit"><text>深圳市罗湖区文锦花园13栋5A</text><view class="addr-eidt"><span class="iconfont icon-bianji"></span></view></view>
+          <view class="addr-detail"><text>23.03</text>,<text> 113.75</text></view>
+        </view>
+      </view>
+    </view> 
+  </view>
+</view>

@@ -1,33 +1,33 @@
 
 <view class="container">
   <view class='cart-box'>
-    <view class='cart' wx:for="{{cart}}" wx:key="{{index}}">    
+    <view class='cart'>    
       <view class='cart-title'>     
-        <view class="title-text {{item.titleColor}}">{{item.title}}</view>
+        <view class="title-text title-red">商品上门</view>
       </view>
       <view class='cart-goods'>      
-        <view class='cart-store' wx:for="{{item.store}}" wx:key="{{index}}" wx:for-item="store">
+        <view class='cart-store' wx:for="{{cart}}" wx:key="{{index}}">
           <view class='store-title'>
             <span class="iconfont icon-yuanxingweixuanzhong"></span>
-            <image class='store-avatar' src='{{store.avatar}}'></image>
-            <text class='store-name'>{{store.name}}</text>
+            <image class='store-avatar' src='{{item.shopimg}}'></image>
+            <text class='store-name'>{{item.shopname}}</text>
             <span class="iconfont icon-gengduo1"></span>
           </view>
           <view class='store-box'>
-            <view class='store-items' wx:for="{{store.goods}}" wx:key="{{index}}" wx:for-item="good">
+            <view class='store-items' wx:for="{{item.items}}" wx:key="{{index}}" wx:for-item="good">
               <view class='store-check'>
                 <span class="iconfont icon-yuanxingweixuanzhong"></span>
               </view>
               <view class='store-goods'>
-                <image class='goods-pic' src='{{good.pic}}'></image>            
+                <image class='goods-pic' src='{{good.goodsimg}}'></image>            
                 <view class='goods-info'>
                   <view class='goods-title'>
-                    <view class='title'>{{good.title}}</view>
-                    <view class='price'>￥{{good.price}}</view>
+                    <view class='title'>{{good.name}}{{good.goodsspec}}{{good.goodsunit}}</view>
+                    <view class='price'>￥{{good.goodsretailprice}}</view>
                   </view>
                   <view class='goods-opt'>
                     <span class='iconfont icon-offline'></span>
-                    <text class='goods-num'>{{good.num}}</text>       
+                    <text class='goods-num'>{{good.quantity}}</text>       
                     <span class='iconfont icon-addition'></span>
                   </view>              
                 </view>

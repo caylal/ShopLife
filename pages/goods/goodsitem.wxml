@@ -44,7 +44,7 @@
               <text class='goods-price'>￥{{item.retailprice}}</text>     
               <view class='goods-opt'>
                 <span class='iconfont icon-offline goods-btn'></span>
-                <text class='goods-num'>12</text>       
+                <text class='goods-num'>{{item.num}}</text>       
                 <span class='iconfont icon-addition goods-btn'></span>
               </view>
             </view>
