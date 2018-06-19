@@ -76,7 +76,7 @@ Page({
       util.request(api.getRecommendGoodOfMy, { pageIndex: 1, pageSize: 3, uid: "U00000000", nid: "N000" }).then(res => {
         console.log("recomment:" + JSON.stringify(res.data.result));
         const cate = res.data.result.map(item => {
-          item.url = api.getRecommendGood
+          item.url = `/pages/goods/detail/detail?url=${api.getRecommendGood}&&id=${item.id }`
           let num = parseFloat(item.retailprice);
           num = num.toFixed(2);
           item.retailprice = num
@@ -95,7 +95,7 @@ Page({
       util.request(api.getHotGoodsOfNbhd, { pageIndex: 1, pageSize: 3, neighborhood: "N000"}).then(res => {
         console.log("hot:" + JSON.stringify(res.data.result));
         const list = res.data.result.map(item => {
-          item.url = api.getHotGood
+          item.url = `/pages/goods/detail/detail?url=${api.getHotGood}&&id=${item.id}`
           return item
         })
         console.log("resultmap:" + JSON.stringify(list))
