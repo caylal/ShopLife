@@ -10,7 +10,7 @@
           <view class='store-title'>
             <view data-shopname="{{item.shopname}}" data-checked="{{item.checked}}" data-index="{{index}}" bindtap="checkboxChange">
               <span wx:if="{{item.checked}}" class="iconfont icon-yuanxingxuanzhongfill"></span>
-              <span wx:else class="iconfont icon-yuanxingweixuanzhong" bintap="checkboxChange"></span>
+              <span wx:else class="iconfont icon-yuanxingweixuanzhong"></span>
             </view>
             
             <image class='store-avatar' src='{{item.shopimg}}'></image>
@@ -20,8 +20,8 @@
           <view class='store-box'>
             <view class='store-items' wx:for="{{item.items}}" wx:key="{{cindex}}" wx:for-item="good" wx:for-index="cindex">
               <view class='store-check' bindtap="childChange" data-pname="{{item.shopname}}" data-pindex="{{index}}" data-index="{{cindex}}">
-                <span wx:if="{{good.checked}}" class="iconfont icon-yuanxingxuanzhongfill" bindtap="checkboxChange"></span>
-                <span wx:else class="iconfont icon-yuanxingweixuanzhong" bintap="checkboxChange"></span>
+                <span wx:if="{{good.checked}}" class="iconfont icon-yuanxingxuanzhongfill"></span>
+                <span wx:else class="iconfont icon-yuanxingweixuanzhong"></span>
               </view>
               
               <navigator class="store-goods" url="{{good.url}}">
@@ -32,10 +32,10 @@
                     <view class='price'>￥{{good.goodsretailprice}}</view>
                   </view>
                   <view class='goods-opt'>
-                    <span class='iconfont icon-offline'></span>
+                    <view catchtap='editNum' data-btn="cut" data-pindex="{{index}}" data-cindex="{{cindex}}"><span class='iconfont icon-offline'></span></view>
                     <input class='goods-num' value="{{good.quantity}}" disabled="true" type="number"></input>
                     <!-- <text class='goods-num'>{{good.quantity}}</text>        -->
-                    <span class='iconfont icon-addition'></span>
+                    <view catchtap='editNum' data-btn="add"  data-pindex="{{index}}" data-cindex="{{cindex}}"><span class='iconfont icon-addition'></span></view>
                   </view>              
                 </view>
               </navigator>                
@@ -59,7 +59,7 @@
     </view>
     
     <view class='cart-text'>
-      <text>不含运费合计：</text><text class='cart-money'>￥44.5</text>
+      <text>不含运费合计：</text><text class='cart-money'>￥{{checkedGoodsAmount}}</text>
       <view class='cart-btn'>去结算</view>
     </view>
     

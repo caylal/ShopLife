@@ -32,6 +32,7 @@ const isEmpty = n => {
 
 /**封装微信的request */
 const request = (url,data={},method = "Get") => {
+  console.log(method)
   return new Promise((resolve,reject) =>{
     wx.request({
       url: url,
