@@ -26,6 +26,16 @@ Page({
       const info = res.data.result;
       let num = parseFloat(info.retailprice);
       num = num.toFixed(2);
+      if (!info.hasOwnProperty("goodsid")){
+        info.goodsid = info.id
+      }
+      if (info.shopid && !info.hasOwnProperty("shopgoodsid")){
+        info.shopgoodsid = info.id
+      }      
+      let quantity = util.filterGood(info)
+      if (quantity) {
+        info.quantity = quantity
+      }  
       info.retailprice = num
       info.days = util.numDate(info.effectivedt, info.expireddt) 
       console.log("Info: " + JSON.stringify(info))    
@@ -34,7 +44,22 @@ Page({
       })
     })
   },
-
+  changeCart(e){
+    let _this = this
+    util.editCart(e.currentTarget.dataset).then(res => { 
+      console.log("detail:===" + JSON.stringify(res))
+      const info = _this.data.goodsInfo
+      info.quantity = res.quantity
+      _this.setData({
+        goodsInfo: info
+      })
+     })
+  },  
+  myCart(){
+    wx.switchTab({
+      url: '../../cart/index',
+    })
+  },
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */

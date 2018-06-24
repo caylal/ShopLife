@@ -41,11 +41,11 @@
               <text class='goods-name'>{{item.name}} {{item.spec}}{{item.unit}}</text>
             </navigator>  
             <view class='goods-buy'>    
-              <text class='goods-price'>￥{{item.retailprice}}</text>     
+              <view class='goods-price'>￥{{item.retailprice}}</view>     
               <view class='goods-opt'>
-                <span class='iconfont icon-offline goods-btn'></span>
-                <text class='goods-num'>{{item.num}}</text>       
-                <span class='iconfont icon-addition goods-btn'></span>
+                <view wx:if="{{item.quantity}}" catchtap="changeCart" data-cate="{{item.cate}}" data-index="{{index}}" data-btn="cut"><span class='iconfont icon-offline goods-btn'></span></view>
+                <view class='goods-num'>{{item.quantity}}</view>     
+                <view catchtap="changeCart" data-cate="{{item.cate}}" data-btn="add" data-index="{{index}}"><span class='iconfont icon-addition goods-btn'></span></view>
               </view>
             </view>
           </view>         

@@ -1,3 +1,5 @@
+import api from '../api/api.js'
+
 const formatTime = date => {
   date = new Date(date)
   const year = date.getFullYear()
@@ -106,7 +108,86 @@ const getUserInfo = () => {
     })
   })
 }
-
+/**获取用户购物车信息 */
+const getMyCart = (pindex, psize) =>{ 
+  return new Promise((resolve, reject) => {
+    request(api.getCartOfMy, {
+      pageIndex: pindex,
+      pageSize: psize,
+      userid: "U000000000"
+    }).then(res => {
+      const result = res.data.result
+      const list = []
+      result.forEach(item => {
+        item.items.forEach(val => {
+          list.push(val)
+        })
+      })
+      console.log("myCartList===:" + JSON.stringify(list))
+      wx.setStorage({
+        key: 'myCart',
+        data: list,
+      })
+      resolve(result)
+    }).catch(err => reject(err))
+  })   
+}
+const filterGood = (good) => {
+  const list = wx.getStorageSync('myCart')
+  let data;
+  list.forEach(val => {
+    if (!val.hasOwnProperty("shopid") && !good.hasOwnProperty("shopid")) {
+      if (val.goodsid === good.goodsid){
+        data = val
+        return
+      }
+    } else {
+      if (val.shopid === good.shopid && val.shopgoodsid === good.shopgoodsid ){
+        data = val
+        return
+      }      
+    }
+  })
+  if (!isEmpty(data)) {
+    return data.quantity
+  }
+  else {
+    return false
+  }
+}
+const editCart = (data) => {
+  let { goodsid, shopgid, shopgoodsid, btn } = data
+  return new Promise((resolve, reject) => {    
+    let quantity = 1
+    if (!isEmpty(shopgid) && isEmpty(shopgoodsid)) {
+      shopgoodsid = shopgid
+    }
+    if (btn == "cut") {
+      quantity = -1
+    }
+    let data = {}
+    if (isEmpty(shopgoodsid)) {
+      data = {
+        userid: "U000000000",
+        goodsid: goodsid,
+        quantity: quantity
+      }
+    } else {
+      data = {
+        userid: "U000000000",
+        shopgoodsid: shopgoodsid,
+        quantity: quantity
+      }
+    }
+    request(api.createCart, data, "POST").then(res => {
+      console.log("addorcut:===" + JSON.stringify(res.data.result))
+      if (res.data.result){
+        resolve(res.data.result)
+      }
+    }).catch(err => reject(err))
+  })
+  
+}
 const pageTitle = {
   home: "近邻生活",
   nbhd: {
@@ -151,6 +232,9 @@ module.exports = {
   checkSession,
   login,
   getUserInfo,
+  getMyCart,
+  filterGood,
+  editCart,
   isEmpty,
   numDate
 }

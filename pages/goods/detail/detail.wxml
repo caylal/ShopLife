@@ -38,13 +38,13 @@
     </view>
     <view class="c-collect">
       <span class="iconfont icon-gouwuche"></span>
-      <text class="c-t">购物车</text>
+      <view class="c-t" bindtap="myCart">购物车</view>
     </view>
     <view class="c-option">
       <text>添加商品</text>
-      <span class='iconfont icon-offline goods-btn'></span>
-      <text class='goods-num'>12</text>       
-      <span class='iconfont icon-addition goods-btn'></span>
+      <view wx:if="{{goodsInfo.quantity}}" bindtap="changeCart" data-goodsid="{{goodsInfo.goodsid}}" data-shopgid="{{goodsInfo.shopgoodsid}}" data-shopgoodsid="{{goodsInfo.shopgoodsid}}" data-btn="cut"><span class='iconfont icon-offline goods-btn'></span></view>
+      <view class='goods-num'>{{goodsInfo.quantity}}</view>
+      <view bindtap="changeCart" data-goodsid="{{goodsInfo.goodsid}}" data-shopgid="{{goodsInfo.shopgoodsid}}" data-shopgoodsid="{{goodsInfo.shopgoodsid}}" data-btn="add"><span class='iconfont icon-addition goods-btn'></span></view>     
     </view>
   </view>
 </view>

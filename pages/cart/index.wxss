@@ -53,7 +53,9 @@
   justify-content: space-between;
   bottom: 0;
   background-color: #f4f4f4;
-  border-top:1rpx solid #dedede; 
+  border-top:1rpx solid #dedede;
+  z-index:2;
+ 
 }
 .cart-count .cart-checked {
   display: flex;

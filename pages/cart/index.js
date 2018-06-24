@@ -17,35 +17,32 @@ Page({
     wx.showLoading({
       title: '加载中',
     })
-    this.getMyCart();
+    this.getMyCarts();
   },
-  getMyCart(){
+  getMyCarts(){
     let _this = this
-    util.request(api.getCartOfMy,{
-      pageIndex: _this.data.pageIndex,
-      pageSize: _this.data.pageSize,
-      userid:"U000000000"
-    }).then( res => {
-      console.log("myCart:" + JSON.stringify(res.data.result));
-      const goods = res.data.result
+    util.getMyCart(_this.data.pageIndex, _this.data.pageSize).then( res => {
+      console.log("myCart:" + JSON.stringify(res));
+      const goods = res   
       goods.map(value => {
         value.checked = false
         value.items.map(item => {
           item.url = `/pages/goods/detail/detail?url=${api.getGood}&&id=${item.goodsid}`
-          item.checked = false;
+          item.checked = false;         
           return item
-        })
+        })       
       })  
-      console.log("mapCart:" + JSON.stringify(goods))   
+      console.log("mapCart:" + JSON.stringify(goods))
       _this.setData({
-        cart: goods
-      })
-      wx.setStorage({
-        key: 'myCart',
-        data: goods,
-      })
+        cart: goods,
+        allSelected: false,
+        checkedGoodsAmount: 0
+      })     
       wx.hideLoading()
     })
+  },
+  onShow(){
+    this.onLoad()
   },
   // 选择检查
   isCheckedAll(data) {
@@ -121,13 +118,11 @@ Page({
   },
   // 修改数量
   editNum(e){
-    const cartList = this.data.cart 
-    let btn = e.currentTarget.dataset.btn
-    let pindex = e.currentTarget.dataset.pindex,
-        index = e.currentTarget.dataset.cindex  
-    const item = cartList[pindex].items[index]
-    let goodsid = item.goodsid,
-        shopid = item.shopid,
+    let _this = this
+    const cartList = _this.data.cart 
+    const { btn, pindex, cindex}  = e.currentTarget.dataset
+    const item = cartList[pindex].items[cindex]
+    let goodsid = item.goodsid,        
         shopgoodsid = item.shopgoodsid,
         quantity = 1
     if(btn == "cut"){
@@ -147,18 +142,40 @@ Page({
         quantity: quantity
       }
     }
-    this.addOrupdateCart(data)
-    
-  },
-
-  addOrupdateCart(data){
-    let _this = this
-    util.request(api.createCart,data,"POST").then(res => {
+    util.request(api.createCart, data, "POST").then(res => {
       console.log(JSON.stringify(res.data.result))
-      if(res.data.result != null){
-        _this.getMyCart()
+      const result = res.data.result
+      let account = _this.data.checkedGoodsAmount;
+      if (result != null) {
+        if(item.checked){
+          if(btn == "cut"){
+            account -= item.goodsretailprice
+          }
+          else{
+            account += item.goodsretailprice
+          }
+        }
+        if (result.quantity == 0) {
+          util.request(api.deleteCart, { id: result.id },"POST").then(res => {
+            if(res.data.result){
+              const list = cartList[pindex].items.filter(i => {
+                return i.shoppingcartid != res.data.result.id
+              })
+              _this.setData({
+                cart: cartList,
+                checkedGoodsAmount: account
+              })
+            }           
+          })
+        } else {
+          item.quantity = result.quantity
+          _this.setData({
+            cart: cartList,
+            checkedGoodsAmount: account
+          })
+        }
       }
     })
-  }
- 
+    
+  }, 
 })

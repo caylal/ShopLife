@@ -135,4 +135,5 @@
 }
 .c-option .goods-num{
   flex-grow: 1;
+  text-align:center;
 }
