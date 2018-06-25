@@ -49,12 +49,11 @@
   
   
   <view class='cart-count'>
-    <view class='cart-checked'>
-      <view bindtap="selectAll">
+    <view class='cart-checked' bindtap="selectAll">
+      <view>
          <span wx:if="{{allSelected}}"  class='iconfont icon-yuanxingxuanzhongfill checkbox'> </span>
-         <span wx:else class="iconfont icon-yuanxingweixuanzhong checkbox" bintap="checkboxChange"></span>
-      </view>
-     
+         <span wx:else class="iconfont icon-yuanxingweixuanzhong checkbox"></span>
+      </view>     
       <text class='allchecked'>全选</text>
     </view>
     

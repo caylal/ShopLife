@@ -109,7 +109,7 @@ const getUserInfo = () => {
   })
 }
 /**获取用户购物车信息 */
-const getMyCart = (pindex, psize) =>{ 
+const getMyCart = (pindex = 1, psize = 10) =>{ 
   return new Promise((resolve, reject) => {
     request(api.getCartOfMy, {
       pageIndex: pindex,
