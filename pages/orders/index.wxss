@@ -9,7 +9,7 @@
   height: 80rpx;
   width: 100%;
   display: flex;
-  font-size: 30rpx; 
+  font-size: 32rpx; 
   align-items: center;
   text-align: center;
   background-color: #eee;
@@ -43,7 +43,7 @@
   justify-content: space-between;
   /* color: #fc4104; */
   align-items: center;
-  font-size: 30rpx;
+  font-size: 32rpx;
   border-bottom:0.5px solid #dedede;
   background:#f4f4f4;
 }
@@ -51,6 +51,9 @@
   display: flex;
   font-weight: bold;
   color: #fc4104;
+}
+.order-status .wait-pay{
+  line-height:50rpx;
 }
 .order-status .go-pay{
   background:#fc4104;
@@ -63,7 +66,7 @@
 }
 .order-no{
   padding: 15rpx 10rpx;
-  font-size: 26rpx;
+  font-size: 30rpx;
   display: flex;
   align-items: center;
 }
@@ -136,7 +139,7 @@
 }
 .order-goods .goods-count{
   width: 20%;
-  font-size: 30rpx;
+  font-size: 34rpx;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -147,6 +150,6 @@
   font-weight: 600;
 }
 .goods-count .g-n{
-  font-size: 28rpx;
+  font-size: 30rpx;
   letter-spacing: 5rpx; 
 }

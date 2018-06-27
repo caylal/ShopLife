@@ -31,7 +31,7 @@
   margin-left: 8rpx;
 }
 .nbhd-info{
-  font-size: 25rpx;
+  font-size: 30rpx;
   color: #8d8d8d;
 }
 .search{
@@ -60,7 +60,6 @@
   width: 100%;
   border-top: 1px solid #dedede;
   display: flex;
-  font-size: 28rpx;
 }
 .category .nav-left{
   width: 30%;
@@ -68,24 +67,27 @@
   text-align: center;
 }
 .nav-left .nav-item{
-  height: 80rpx;
-  line-height: 80rpx;
+  height: 90rpx;
+  line-height: 90rpx;
   border-bottom: 1px solid #dedede;
+  font-size:34rpx;
 }
 .nav-left .nav-child{
   background:#f9f9f9;
   border-bottom:1px solid #dedede;
+  font-size:32rpx;
 }
 .nav-child .child-item{
-  line-height: 70rpx;
+  line-height: 80rpx;
 }
 .nav-child >.active{
   background: #fff;
   color:#d22222;
+  font-size:34rpx;
 }
 .nav-list >.active{
   background: #fff; 
-  font-size:30rpx;
+  font-size:36rpx;
   border-left: 8rpx solid #ab2b2b;
 }
 .category .nav-right{
@@ -102,14 +104,13 @@
   border-bottom: 1px solid #dedede;
 }
 .good-item .good-pic{
-  width: 100rpx;
-  height: 100rpx;
+  width: 120rpx;
+  height: 120rpx;
 }
 .good-item .good-info{
-  width: calc(100% - 100rpx);
+  width: calc(100% - 120rpx);
   padding-left: 20rpx;
   box-sizing: border-box;
-  font-size: 30rpx;
   display: flex;  
   flex-direction: column;
   justify-content:space-between;
@@ -121,7 +122,7 @@
 }
 .good-info .good-title .title{
   width: 100%;
-  font-size: 28rpx;
+  font-size: 34rpx;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -134,27 +135,24 @@
 
 }
 .good-bot .price{
-  font-size: 28rpx;
+  font-size: 34rpx;
   color: #fc4104;
   font-weight: bold;
   margin-top: 10rpx;
 }
 .good-bot .good-opt{
-  width: 35%;
+  width: 45%;
   display: flex;
   align-items: center;
 }
 .good-info .good-opt span{
-  font-size: 45rpx;
+  font-size: 54rpx;
   color: #fc4104;
 }
 .good-info .good-opt .good-num{
   flex-grow: 1;
   text-align: center;
 }
-
-
-
 .search-cart{
   height: 45px;
   position: fixed;
@@ -173,7 +171,7 @@
 .search-cart-info{
   display:flex;
   align-items:center;
-  font-size: 30rpx;
+  font-size: 36rpx;
   color: #fc4104;
   margin-left: 10rpx;
 }
@@ -186,6 +184,6 @@
   height: 100%;
   background-color: #009900;
   line-height:45px;
-  font-size:30rpx;
+  font-size:36rpx;
   color:#fff;
 }

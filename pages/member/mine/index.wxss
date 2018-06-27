@@ -25,8 +25,8 @@
 .user-addr{
   margin-top: 10rpx;
 }
-
-.user-addr .addr-box{
+.icon-edit{
+  font-size: 50rpx;
 }
 .addr-box .addr-title{
   padding-left: 5rpx;

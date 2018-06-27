@@ -1,7 +1,6 @@
 .goods{
-  width: 32%;
-  height: 320rpx;
-   background-color: #fff; 
+  width: 32%; 
+  background-color: #fff; 
   float: left;
   display: flex;
   flex-direction: column;
@@ -21,18 +20,18 @@
 
 }
 .goods-title{
-  height:50rpx; 
-  padding: 5rpx;
-  overflow:hidden;
-  font-size:30rpx;
-  line-height:45rpx;
-  white-space:nowrap;
-  text-overflow:ellipsis;
+  height:100rpx; 
+  width: 100%;
+  padding: 10rpx;
+  font-size:32rpx;
+  white-space:pre-wrap;
+  text-align: left;
+  box-sizing: border-box;
 }
 .goods-buy{
   display:flex;  
   justify-content:space-between;
-  font-size:25rpx;
+  font-size:32rpx;
   padding:0 5rpx;
   align-items:center;
 
@@ -44,7 +43,7 @@
   color: #fc4104;
 }
 .goods-btn{
-  font-size:46rpx;
+  font-size:54rpx;
   color:#fc4104;
 }
 .goods-mgr{
@@ -54,7 +53,7 @@
   margin-left: 10rpx;
 }
 .goods-num{
-  font-size: 30rpx;  
+  font-size: 32rpx;  
   width:35%;
 }
 .goods-opt{

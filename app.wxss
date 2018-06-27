@@ -5,7 +5,7 @@
   background: #f4f4f4; 
   flex-direction: column;  
   box-sizing: border-box;
-  font-size: 32rpx;
+  font-size: 34rpx;
 } 
 
 
@@ -175,9 +175,9 @@
 
 
 
-.icon-gengduo1:before { content: "\e601";  font-size: 25rpx; color: #8d8d8d}
-.icon-yuanxingweixuanzhong:before { content: "\e776"; font-size: 40rpx; color: #8d8d8d;  }
-.icon-yuanxingxuanzhongfill:before { content: "\e730";  font-size: 40rpx; color: #fc4104;}
+.icon-gengduo1:before { content: "\e601";  font-size: 30rpx; color: #8d8d8d}
+.icon-yuanxingweixuanzhong:before { content: "\e776"; color: #8d8d8d;  }
+.icon-yuanxingxuanzhongfill:before { content: "\e730"; color: #fc4104;}
 .icon-rexiaochanpin:before { content: "\e60a"; font-size: 40rpx; color: #fc4104}
 .icon-tuijianshangjia:before { content: "\e61c"; font-size: 40rpx; color: #fc4104 }
 

@@ -3,13 +3,13 @@
  }
  .t-map{
   position: absolute;
-  width: 150rpx;
-  font-size: 25rpx;
+  width: 180rpx;
+  font-size: 30rpx;
   border: 1rpx solid #009900;
   border-radius: 20rpx;
   color: #009900;
-  line-height:45rpx;
-  right:220rpx;
+  line-height:50rpx;
+  right:200rpx;
   top:10rpx;
 }
 .nbhd-box{
@@ -42,7 +42,7 @@
   margin-top: 10rpx;
 }
 .n-left .n-time{  
-  font-size: 25rpx;
+  font-size: 30rpx;
   color: #8d8d8d;
 }
 .nbhd-box .n-right{
@@ -51,10 +51,10 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-size: 25rpx;
+  font-size: 30rpx;
   
 }
 .n-right span{
-  font-size: 46rpx;
+  font-size: 55rpx;
   color: #8d8d8d;
 }

@@ -20,7 +20,7 @@
 .cart-title .title-text{
   display: table;
   width: 100%;  
-  font-size: 35rpx;
+  font-size: 36rpx;
   padding-top: 20rpx;
   white-space: nowrap;
   border-spacing: 10px 0; 
@@ -47,7 +47,7 @@
 }
 .cart-count{
   width: 100%;
-  height: 80rpx;
+  height: 90rpx;
   display: flex;
   position: fixed;
   justify-content: space-between;
@@ -63,22 +63,22 @@
   padding-left:15rpx;
 }
 .cart-count .cart-checked .allchecked{
-  font-size: 30rpx;
+  font-size: 34rpx;
 }
 .cart-count .cart-btn{
   text-align: center;  
-  width: 120px;
+  width: 100px;
   height: 100%;
   background-color: #009900;
-  line-height:80rpx;
-  font-size:30rpx;
+  line-height:90rpx;
+  font-size:34rpx;
   color:#fff;
 }
 .cart-count .cart-text{
-  font-size: 30rpx;
+  font-size: 34rpx;
   display: flex;
   text-align: center;
-  line-height: 80rpx;
+  line-height: 90rpx;
 }
 .cart-count .cart-money{
   margin-right: 10rpx;
@@ -94,21 +94,25 @@
   border: 1px solid #ddd; 
 }
 .cart-store .store-title .store-avatar{
-  width: 60rpx;
-  height: 60rpx;
+  width: 80rpx;
+  height: 80rpx;
   border-radius: 50%;
   margin-left: 10rpx;
 }
 .cart-store .store-title{
-  height: 70rpx; 
-  font-size: 30rpx; 
+  height: 80rpx; 
+  font-size: 34rpx; 
   display: flex;
   align-items: center;
   padding: 5rpx;
-  box-sizing: border-box;
+  box-sizing: border-box;  
 }
- .store-title .store-name{
+.store-title .store-name{
   margin-left: 10rpx;
+  font-weight: bold;
+}
+.checkbox{
+  font-size: 50rpx;
 }
 .cart-store .store-box {
   margin:0 5rpx; 
@@ -140,46 +144,64 @@
 
 }
 .store-items .store-goods .goods-pic{
-  width: 100rpx;
-  height: 100rpx;
+  width: 120rpx;
+  height: 120rpx;
 }
 .store-items .store-goods .goods-info{
-  width: calc(100% - 100rpx);
-  padding: 0 20rpx;
+  width: calc(100% - 120rpx);
+  padding: 0 10rpx;
   box-sizing: border-box;
-  font-size: 30rpx;
   display: flex;
   align-items: center;
 }
 .goods-info .goods-title{
-  width: 70%;
+  width: 100%;
   display: flex;
   flex-direction: column;
 }
 .goods-info .goods-title .title{
   width: 100%;
-  font-size: 28rpx;
+  font-size: 34rpx;
   overflow:hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.goods-info .goods-title .price{
-  font-size: 25rpx;
+.goods-title .goods-bot{
+  display: flex;
+  justify-content: space-between;
+  margin-top: 25rpx;  
+}
+.goods-bot .price{
+  font-size: 34rpx;
   color: #fc4104;
   font-weight: bold;
   margin-top:10rpx;
 }
 .goods-info .goods-opt{
-  width: 30%;  
+  width: 235rpx; 
+  height: 52rpx; 
+  border: 1rpx solid #ccc;
   display: flex;
-  align-items: center;
+  /* align-items: center; */
   
 }
+.goods-opt .opt-btn{
+  width: 80rpx;
+  height: 100%;
+  text-align: center;
+  line-height: 50rpx;
+}
 .goods-info .goods-opt span{
-  font-size: 45rpx;
+  font-size: 60rpx;
   color: #fc4104;
 }
 .goods-info .goods-opt .goods-num{
-  flex-grow:1;
-  text-align:center;
+  /* flex-grow:1;
+  text-align:center; */
+  flex: 1;
+  height: 100%;
+  text-align: center;
+  line-height: 68rpx;
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
 }

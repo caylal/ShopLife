@@ -8,7 +8,7 @@
       <view class='order-top'>
         <view class='order-type'>今天 15:56</view>
         <view class='order-status'>
-          <view class="status-t">待支付</view><view class="status-t go-pay">去支付</view>
+          <view class="status-t wait-pay">待支付</view><view class="status-t go-pay">去支付</view>
         </view>
       </view>
        <view class='order-no'>
