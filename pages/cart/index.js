@@ -143,8 +143,8 @@ Page({
       }
     }
     util.request(api.createCart, data, "POST").then(res => {
-      console.log(JSON.stringify(res.data.result))
-      const result = res.data.result
+      console.log(JSON.stringify(res))
+      const result = res
       let account = _this.data.checkedGoodsAmount;
       if (result != null) {
         if(item.checked){
@@ -156,10 +156,10 @@ Page({
           }
         }
         if (result.quantity == 0) {
-          util.request(api.deleteCart, { id: result.id },"POST").then(res => {
-            if(res.data.result){
+          util.delRequest(api.deleteCart, { id: result.id }).then(res => {
+            if(res){
               const list = cartList[pindex].items.filter(i => {
-                return i.shoppingcartid != res.data.result.id
+                return i.shoppingcartid != res.id
               })
               _this.setData({
                 cart: cartList,

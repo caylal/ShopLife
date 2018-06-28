@@ -49,7 +49,7 @@ Page({
       })
     }else{
       util.request(api.getAllCity).then(res => {
-        const data = res.data.result
+        const data = res
         console.log("city:" + JSON.stringify(data))
         _this.setData({
           cityList: data
@@ -104,7 +104,7 @@ Page({
         pageSize: _this.data.pageSize,
         id: areaId
       }).then(res => {
-        const data = res.data.result
+        const data = res
         console.log("nbhd:" + JSON.stringify(data))
         _this.setData({
           nbhdList: data || [],

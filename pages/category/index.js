@@ -76,12 +76,12 @@ Page({
     let { url, data } = req
     return new Promise((resolve,reject) => {
       util.request(url, data).then(res =>{
-        console.log("category:" + JSON.stringify(res.data.result))
+        console.log("category:" + JSON.stringify(res))
         _this.setData({
-          navList: res.data.result,
-          curId: res.data.result[0].id
+          navList: res,
+          curId: res[0].id
         })
-        resolve(res.data.result[0].id)
+        resolve(res[0].id)
       })
     }).then(id => {
       let info = {}
@@ -119,8 +119,8 @@ Page({
     console.log("url:" + url + " data:" + JSON.stringify(data))  
    
     util.request(url, data).then(res => {
-      console.log("goodsList:" + JSON.stringify(res.data.result))
-      const result = res.data.result
+      console.log("goodsList:" + JSON.stringify(res))
+      const result = res
       result.map(item => {
         let quantity;
         if(_this.data.showNbhd){        
@@ -182,8 +182,8 @@ Page({
       }
     }
     util.request(api.createCart, data, "POST").then(res => {
-      console.log(JSON.stringify(res.data.result))
-      const list = res.data.result
+      console.log(JSON.stringify(res))
+      const list = res
       if (list != null) {         
         const goodslist = _this.data.goodsList
         goodslist[index].quantity = list.quantity

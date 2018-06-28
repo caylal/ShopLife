@@ -70,9 +70,9 @@ Page({
       pageSize: _this.data.pageSize, 
       id: "N000"
     }).then(res => {
-       console.log("result:" + JSON.stringify(res.data.result))      
+       console.log("result:" + JSON.stringify(res))      
         _this.setData({
-          imagesUrl: res.data.result
+          imagesUrl: res
         })       
       
     })
@@ -87,8 +87,8 @@ Page({
         uid: "U00000000", 
         nid: "N000" 
       }).then(res => {
-        console.log("recomment:" + JSON.stringify(res.data.result));
-        const cate = res.data.result.map(item => {
+        console.log("recomment:" + JSON.stringify(res));
+        const cate = res.map(item => {
           let quantity = util.filterGood(item)
           if (quantity) {
             item.quantity = quantity
@@ -115,8 +115,8 @@ Page({
         pageSize: _this.data.pageSize, 
         neighborhood: "N000"
       }).then(res => {
-        console.log("hot:" + JSON.stringify(res.data.result));
-        const list = res.data.result.map(item => {          
+        console.log("hot:" + JSON.stringify(res));
+        const list = res.map(item => {          
           let quantity = util.filterGood(item)
           if (quantity) {
             item.quantity = quantity

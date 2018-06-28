@@ -34,7 +34,6 @@ const isEmpty = n => {
 
 /**封装微信的request */
 const request = (url,data={},method = "Get") => {
-  console.log(method)
   return new Promise((resolve,reject) =>{
     wx.request({
       url: url,
@@ -45,16 +44,38 @@ const request = (url,data={},method = "Get") => {
       },
       success: res =>{
         console.log("success");
-        if (res.statusCode == 200){         
-          resolve(res)
+        if (res.statusCode == 200 && res.data._wrapperCode == 200){         
+          resolve(res.data.result)
         }
         else{
-          reject(res.errMsg)
+          reject(res.data.error)
         }
       },
       fail: res => {
         console.log("failed");
-        reject(res);
+        reject(res.errMsg);
+      }
+    })
+  })
+}
+const delRequest = (url, data = {}, method = "DELETE") => {
+  return new Promise((resolve, reject) => {
+    wx.request({
+      url: url,
+      data: data,
+      method: method,
+      header: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      success: res => {
+        if(res.statusCode == 200 && res.data._wrapperCode == 200){
+          resolve(res.data.result)
+        }else{
+          reject(res.data.error)
+        }
+      },
+      fail: res => {
+        reject(res.errMsg)
       }
     })
   })
@@ -116,7 +137,7 @@ const getMyCart = (pindex = 1, psize = 10) =>{
       pageSize: psize,
       userid: "U000000000"
     }).then(res => {
-      const result = res.data.result
+      const result = res
       const list = []
       result.forEach(item => {
         item.items.forEach(val => {
@@ -180,9 +201,9 @@ const editCart = (data) => {
       }
     }
     request(api.createCart, data, "POST").then(res => {
-      console.log("addorcut:===" + JSON.stringify(res.data.result))
-      if (res.data.result){
-        resolve(res.data.result)
+      console.log("addorcut:===" + JSON.stringify(res))
+      if (res){
+        resolve(res)
       }
     }).catch(err => reject(err))
   })
@@ -229,6 +250,7 @@ module.exports = {
   formatTime: formatTime,
   pageTitle: pageTitle,
   request,
+  delRequest,
   checkSession,
   login,
   getUserInfo,

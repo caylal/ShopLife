@@ -45,8 +45,8 @@ Page({
       lat: "114.0321329018"
     }  
     util.request(api.getNeighborShop, data).then( res => {
-      console.log("getNbhdShop:" + JSON.stringify(res.data.result))
-      const data = res.data.result
+      console.log("getNbhdShop:" + JSON.stringify(res))
+      const data = res
       data.map(item => {
         if(item.distance < 1000){
           item.distance = item.distance.toFixed(2) +'m'

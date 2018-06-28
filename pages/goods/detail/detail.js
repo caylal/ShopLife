@@ -22,8 +22,8 @@ Page({
     let _this = this
     const { id, url} = res
     util.request(url,{id: id}).then(res => {
-      console.log("goodsInfo: " + JSON.stringify(res.data.result))
-      const info = res.data.result;
+      console.log("goodsInfo: " + JSON.stringify(res))
+      const info = res;
       let num = parseFloat(info.retailprice);
       num = num.toFixed(2);
       if (!info.hasOwnProperty("goodsid")){
