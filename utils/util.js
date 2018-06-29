@@ -31,6 +31,15 @@ const isEmpty = n => {
   }
   return true;
 }
+const json2From = json => {
+  let str = []
+  for(let p in json){
+    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(json[p]));
+  }
+ 
+  return str.join("&");
+  console.log(str)
+}
 
 /**封装微信的request */
 const request = (url,data={},method = "Get") => {
@@ -58,11 +67,11 @@ const request = (url,data={},method = "Get") => {
     })
   })
 }
-const delRequest = (url, data = {}, method = "DELETE") => {
+const delRequest = (url, data = {}, method = "POST") => {  
   return new Promise((resolve, reject) => {
     wx.request({
       url: url,
-      data: data,
+      data: json2From(data),
       method: method,
       header: {
         'Content-Type': 'application/x-www-form-urlencoded'

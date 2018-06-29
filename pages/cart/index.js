@@ -178,4 +178,28 @@ Page({
     })
     
   }, 
+  checkoutOrder(){
+    const cartList = this.data.cart
+    console.log("下单list：" + JSON.stringify(cartList))
+    let list = []
+    if(this.data.allSelected){
+      cartList.forEach(res => {
+        list.push.apply(list, res.items)       
+      }) 
+    }else{
+      cartList.forEach(res => {
+        if(res.checked){
+          list.push.apply(list, res.items)
+        }else{
+          const checkedList = res.items.filter(item => {return item.checked === true})
+          list.push.apply(list, checkedList)
+        }
+      })
+    }
+    console.log("已选择: "+JSON.stringify(list))
+    wx.setStorage({
+      key: 'checkOrder',
+      data: list,
+    })
+  }
 })

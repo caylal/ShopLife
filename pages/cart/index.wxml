@@ -62,7 +62,7 @@
     
     <view class='cart-text'>
       <text>不含运费合计：</text><text class='cart-money'>￥{{checkedGoodsAmount}}</text>
-      <view class='cart-btn'>去结算</view>
+      <view class='cart-btn' bindtap="checkoutOrder">去结算</view>
     </view>
     
   </view>

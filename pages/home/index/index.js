@@ -88,11 +88,7 @@ Page({
         nid: "N000" 
       }).then(res => {
         console.log("recomment:" + JSON.stringify(res));
-        const cate = res.map(item => {
-          let quantity = util.filterGood(item)
-          if (quantity) {
-            item.quantity = quantity
-          } 
+        const cate = res.map(item => {         
           item.cate = "rec"  
           item.url = `/pages/goods/detail/detail?url=${api.getRecommendGood}&&id=${item.id }`
           let num = parseFloat(item.retailprice);

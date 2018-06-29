@@ -32,12 +32,12 @@
   display:flex;  
   justify-content:space-between;
   font-size:32rpx;
-  padding:0 5rpx;
+  padding:0 5rpx 8rpx 5rpx;
   align-items:center;
 
 }
 .goods-price{
-  font-size: 30rpx;
+  font-size: 32rpx;
   flex: 1;
   font-weight: bold;
   color: #fc4104;
@@ -57,7 +57,8 @@
   width:35%;
 }
 .goods-opt{
-  display: flex;
-  align-items: center;
+  /* display: flex;
+  align-items: center; */
+  margin-right:10rpx;
 }
 
