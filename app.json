@@ -13,7 +13,8 @@
     "pages/member/msg/index",
     "pages/neighbor/map/index",
     "pages/orders/detail/index",
-    "pages/member/mine/index"
+    "pages/member/mine/index",
+    "pages/cart/confirmOrder/index"
   ],
   "window":{
     "backgroundTextStyle":"light",

@@ -1,0 +1,24 @@
+<view class="container">
+  <view class="address">
+   <view><span class="iconfont icon-zhuiocn addr-icon"></span></view>
+   <view class="add-info">
+    <view class="info-name">{{address.username}} <text class="add-phone"> {{address.userphone}}</text></view>
+    <view class="info-addr"> {{address.address}}</view>
+   </view>
+   <view class="add-edit"><text>修改 </text><span class="iconfont icon-gengduo1"></span></view>
+  </view>  
+  <view class="cartlist">
+    <view class="item-box" wx:for="{{cartList}}" wx:key="{{index}}">
+      <view class="item">
+        <image class='goods-img' src="{{item.goodsimg}}"></image>
+        <text class='goods-name'>{{item.goodsname}}</text>
+        <view class="goods-num">￥{{item.retailprice}} x {{item.quantity}}</view>
+      </view>      
+    </view>    
+  </view>
+  <view class="shoplist"></view>
+  <view class="order-count">
+    <view class="order-num"> <text class="num-t">合计：</text> <text class="num-n">￥ 25</text></view>
+    <view class="order-btn">提交订单</view>
+  </view>
+</view>

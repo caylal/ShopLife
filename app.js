@@ -1,10 +1,13 @@
 //app.js
+import util from 'utils/util.js'
+import api from 'api/api.js'
 App({
   onLaunch: function () {
     // 展示本地存储能力
     var logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
     wx.setStorageSync('logs', logs)
+
 
     // 登录
     wx.login({
@@ -32,8 +35,14 @@ App({
         }
       }
     })
+
+    //获取所有门店信息
+    util.request(api.getAllShop).then(res => {
+      this.globalData.shopAll = res
+    })
   },
   globalData: {
-    userInfo: null
+    userInfo: null,
+    shopAll: null
   }
 })

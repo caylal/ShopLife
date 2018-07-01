@@ -1,0 +1,86 @@
+.address{
+  display: flex;
+  padding: 10rpx 5rpx;
+  font-size: 32rpx;
+  align-items: center;
+}
+.addr-icon{
+  font-size: 55rpx;
+}
+.address .add-info{
+  margin-left: 10rpx;
+  width:77%;
+}
+.add-info .add-phone{
+  margin-left: 15rpx;
+}
+.address .add-edit{
+  font-size:30rpx;
+}
+.cartlist{
+  width: 100%;
+  overflow-x: auto;
+  white-space: nowrap;
+  font-size:30rpx;
+  margin-top: 10rpx;
+  background: #fff;
+}
+.cartlist .item-box{
+  width:30%;
+  display: inline-block;
+  border:1rpx solid #ddd;
+  margin-left:1%;
+  margin-top:10rpx;
+  text-align:center;
+
+}
+.item-box .item{
+  display: flex;
+  flex-direction: column;
+  width:100%;
+  padding: 10rpx;
+  box-sizing: border-box;
+}
+.item .goods-img{
+  width: 120rpx;
+  height: 120rpx;
+  margin:0 auto;
+}
+.item .goods-name{
+  white-space:nowrap;
+  width:100%;
+  margin-top:10rpx;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.order-count{
+  width: 100%;
+  height: 90rpx;
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  background: #f4f4f4;
+  border-top: 1rpx solid #dedede;
+  z-index: 2;
+}
+.order-count .order-num{
+  width: 69%;
+  text-align: right;
+  line-height: 90rpx;
+  padding-right:20rpx;
+  box-sizing: border-box;
+}
+.order-num .num-t{
+  font-weight: bold;
+}
+.order-num .num-n{
+  color: #fc4104;
+}
+.order-count .order-btn{
+  width: 30%;
+  background-color:#009900;
+  text-align: center;
+  line-height: 90rpx;
+  color: #fff;
+}

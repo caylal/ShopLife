@@ -44,5 +44,7 @@ module.exports = {
   getGoodQuery: BASE_URL + 'goods/query',                          // 分页获取商品 参数{pageIndex: 1, pageSize: 3 }
   getGoodsByCate: BASE_URL + 'goods/query/cate',                   // 根据类别获取商品信息 参数{pageIndex: 1, pageSize: 20, id:"C0025"}
 
-  getOrderOfMy: BASE_URL + 'order/query/my',                       // 获取我的订单信息参数{pageIndex: 1, pageSize: 20,userid:}                            
+  getOrderOfMy: BASE_URL + 'order/query/my',                       // 获取我的订单信息参数{pageIndex: 1, pageSize: 20,userid:} 
+
+  getAddressOfMy: BASE_URL + 'address/query/my'                    // 获取地址信息 参数 {userid: 'U000000001'}                         
 }

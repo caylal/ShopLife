@@ -122,6 +122,13 @@ Page({
     const cartList = _this.data.cart 
     const { btn, pindex, cindex}  = e.currentTarget.dataset
     const item = cartList[pindex].items[cindex]
+    if(item.quantity === 1){
+      wx.showToast({
+        title: '商品不能在减少了哦',
+        icon: 'none',
+      })
+      return false;
+    }
     let goodsid = item.goodsid,        
         shopgoodsid = item.shopgoodsid,
         quantity = 1
@@ -154,26 +161,13 @@ Page({
           else{
             account += item.goodsretailprice
           }
-        }
-        if (result.quantity == 0) {
-          util.delRequest(api.deleteCart, { id: result.id }).then(res => {
-            if(res){
-              const list = cartList[pindex].items.filter(i => {
-                return i.shoppingcartid != res.id
-              })
-              _this.setData({
-                cart: cartList,
-                checkedGoodsAmount: account
-              })
-            }           
-          })
-        } else {
-          item.quantity = result.quantity
-          _this.setData({
-            cart: cartList,
-            checkedGoodsAmount: account
-          })
-        }
+        }     
+        item.quantity = result.quantity
+        _this.setData({
+          cart: cartList,
+          checkedGoodsAmount: account
+        })
+       
       }
     })
     
@@ -196,10 +190,22 @@ Page({
         }
       })
     }
-    console.log("已选择: "+JSON.stringify(list))
-    wx.setStorage({
-      key: 'checkOrder',
-      data: list,
-    })
+    if(list.length == 0){
+      wx.showModal({
+        title: '购物车',
+        content: '请选择需要下单的商品',
+      })
+    }else{
+      console.log("已选择: " + JSON.stringify(list))
+      wx.setStorage({
+        key: 'checkOrder',
+        data: list,
+      })
+
+      wx.navigateTo({
+        url: 'confirmOrder/index',
+      })
+    }
+   
   }
 })
