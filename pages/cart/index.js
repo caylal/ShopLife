@@ -18,6 +18,7 @@ Page({
       title: '加载中',
     })
     this.getMyCarts();
+   // util.delRequest(api.createOrdeleteCart + '/' +'SC20180624000013').then(res => console.log("delete"))
   },
   getMyCarts(){
     let _this = this
@@ -122,7 +123,7 @@ Page({
     const cartList = _this.data.cart 
     const { btn, pindex, cindex}  = e.currentTarget.dataset
     const item = cartList[pindex].items[cindex]
-    if(item.quantity === 1){
+    if(item.quantity === 1 && btn == "cut"){
       wx.showToast({
         title: '商品不能在减少了哦',
         icon: 'none',
@@ -130,46 +131,30 @@ Page({
       return false;
     }
     let goodsid = item.goodsid,        
-        shopgoodsid = item.shopgoodsid,
-        quantity = 1
-    if(btn == "cut"){
-      quantity = -1
-    }
-    let data = {}
-    if(util.isEmpty(shopgoodsid)){
-      data = {
-        userid: "U000000000",
-        goodsid: goodsid,        
-        quantity: quantity
-      }
-    }else{
-      data = {
-        userid: "U000000000",       
-        shopgoodsid: shopgoodsid,
-        quantity: quantity
-      }
-    }
-    util.request(api.createCart, data, "POST").then(res => {
-      console.log(JSON.stringify(res))
-      const result = res
-      let account = _this.data.checkedGoodsAmount;
-      if (result != null) {
-        if(item.checked){
-          if(btn == "cut"){
-            account -= item.goodsretailprice
+        shopgoodsid = item.shopgoodsid      
+    
+    util.editCart({ goodsid: goodsid, shopgoodsid: shopgoodsid, btn: btn }).then(res => {
+      if (res != null) {
+        console.log("添加或减少：" + JSON.stringify(res))
+        let account = _this.data.checkedGoodsAmount;
+        if (res != null) {
+          if (item.checked) {
+            if (btn == "cut") {
+              account -= item.goodsretailprice
+            }
+            else {
+              account += item.goodsretailprice
+            }
           }
-          else{
-            account += item.goodsretailprice
-          }
-        }     
-        item.quantity = result.quantity
-        _this.setData({
-          cart: cartList,
-          checkedGoodsAmount: account
-        })
-       
+          item.quantity = res.quantity
+          _this.setData({
+            cart: cartList,
+            checkedGoodsAmount: account
+          })
+
+        }
       }
-    })
+    })  
     
   }, 
   checkoutOrder(){

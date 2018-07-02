@@ -38,9 +38,9 @@ Page({
   getNbhdShop(){
     let _this = this  
     const data = {
-      pageIndex: 1,
-      pageSize: 10,
-      id: "N000",                //所在社区id
+      pi: 1,
+      ps: 10,
+      nbhd: "N000",                //所在社区id
       lng: "22.6348928889",     //所在经纬度位置
       lat: "114.0321329018"
     }  

@@ -67,15 +67,11 @@ const request = (url,data={},method = "Get") => {
     })
   })
 }
-const delRequest = (url, data = {}, method = "POST") => {  
+const delRequest = (url) => { 
   return new Promise((resolve, reject) => {
     wx.request({
       url: url,
-      data: json2From(data),
-      method: method,
-      header: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
+      method: 'DELETE',
       success: res => {
         if(res.statusCode == 200 && res.data._wrapperCode == 200){
           resolve(res.data.result)
@@ -142,9 +138,9 @@ const getUserInfo = () => {
 const getMyCart = (pindex = 1, psize = 10) =>{ 
   return new Promise((resolve, reject) => {
     request(api.getCartOfMy, {
-      pageIndex: pindex,
-      pageSize: psize,
-      userid: "U000000000"
+      pi: pindex,
+      ps: psize,
+      uid: "U000000000"
     }).then(res => {
       const result = res
       const list = []
@@ -209,7 +205,7 @@ const editCart = (data) => {
         quantity: quantity
       }
     }
-    request(api.createCart, data, "POST").then(res => {
+    request(api.createOrdeleteCart, data, "POST").then(res => {
       console.log("addorcut:===" + JSON.stringify(res))
       if (res){
         resolve(res)

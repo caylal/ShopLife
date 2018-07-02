@@ -37,7 +37,6 @@ Page({
     wx.showLoading({
       title: '加载中...'
     });
-    util.getMyCart(this.data.pageIndex,this.data.pageSize)
     const areaNbhd = wx.getStorageSync('areaNbhd')
     if (areaNbhd.length > 0){
       this.setData({
@@ -66,9 +65,9 @@ Page({
   getIndexBanner(){
     let _this = this
     util.request(api.getBannerOfnbhd,{
-      pageIndex: _this.data.pageIndex,
-      pageSize: _this.data.pageSize, 
-      id: "N000"
+      pi: _this.data.pageIndex,
+      ps: _this.data.pageSize, 
+      nbhd: "N000"
     }).then(res => {
        console.log("result:" + JSON.stringify(res))      
         _this.setData({
@@ -82,8 +81,8 @@ Page({
     let _this = this
     return new Promise((resolve, rejecet) => {
       util.request(api.getRecommendGoodOfMy, { 
-        pageIndex: _this.data.pageIndex, 
-        pageSize: _this.data.pageSize, 
+        pi: _this.data.pageIndex, 
+        ps: _this.data.pageSize, 
         uid: "U00000000", 
         nid: "N000" 
       }).then(res => {
@@ -107,16 +106,12 @@ Page({
     let _this = this
     return new Promise((resolve,reject) => {
       util.request(api.getHotGoodsOfNbhd, {
-        pageIndex: _this.data.pageIndex, 
-        pageSize: _this.data.pageSize, 
-        neighborhood: "N000"
+        pi: _this.data.pageIndex, 
+        ps: _this.data.pageSize, 
+        nbhd: "N000"
       }).then(res => {
         console.log("hot:" + JSON.stringify(res));
-        const list = res.map(item => {          
-          let quantity = util.filterGood(item)
-          if (quantity) {
-            item.quantity = quantity
-          }  
+        const list = res.map(item => { 
           item.cate = "hot"  
           item.url = `/pages/goods/detail/detail?url=${api.getHotGood}&&id=${item.id}`
           return item
@@ -144,16 +139,10 @@ Page({
         shopgoodsid = item.shopgoodsid     
     util.editCart({ goodsid: goodsid, shopgoodsid: shopgoodsid,btn: btn}).then(res => {    
       if (res != null) {
-        list[index].quantity = res.quantity
-        if (cate == "rec") {
-          _this.setData({
-            recGoods: list
-          })
-        } else {
-          _this.setData({
-            hotGoods: list
-          })
-        }
+        wx.showToast({
+          title: '添加成功！',
+          icon: 'none'
+        })
       }
     })    
    

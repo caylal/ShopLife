@@ -33,7 +33,7 @@ Page({
     if (!util.isEmpty(options.itemId)){
       this.showShopInfo(options.itemId)
     }else{
-      this.getNavList({ url: api.getAllCategory, data:{}})
+      this.getNavList({ url: api.getAllCategory, data:{pi: this.data.pageIndex,ps: this.data.pageSize, ob:'sort', rs:1}})
     }
    
   },
@@ -48,7 +48,7 @@ Page({
     });
     let info = {}
     if (this.data.showNbhd) {
-      info = { shopid: this.data.shop.id, cateid: id }
+      info = { shop: this.data.shop.id, cate: id }
     }
     else {
       info = { id: id }
@@ -63,7 +63,7 @@ Page({
     })
     let info = {}
     if (this.data.showNbhd) {
-      info = { shopid: this.data.shop.id, cateid: id }
+      info = { shop: this.data.shop.id, cate: id }
     }
     else {
       info = { id: id }
@@ -86,10 +86,10 @@ Page({
     }).then(id => {
       let info = {}
       if (_this.data.showNbhd) {
-        info = {shopid: _this.data.shop.id, cateid: id }
+        info = {shop: _this.data.shop.id, cate: id }
       }
       else {
-        info = { id: id } 
+        info = { cate: id } 
       }     
       _this.getShopByCate(info)
     })
@@ -105,7 +105,7 @@ Page({
       showNbhd:true
     })
     console.log("shop: " + JSON.stringify(this.data.shop))
-    let data = { url: api.getShopGoodAll, data: { id: id}} // 门店id
+    let data = { url: api.getShopGoodAll, data: { shop: id}} // 门店id
     _this.getNavList(data)
   },
   // 获取分类的商品
@@ -115,7 +115,7 @@ Page({
     if (_this.data.showNbhd){
       url = api.getShopGoodsByCate
     }
-    Object.assign(data, { pageIndex: _this.data.pageIndex, pageSize: _this.data.pageSize})
+    Object.assign(data, { pi: _this.data.pageIndex, ps: _this.data.pageSize})
     console.log("url:" + url + " data:" + JSON.stringify(data))  
    
     util.request(url, data).then(res => {
@@ -163,36 +163,29 @@ Page({
   changeCart(e){
     const { id, btn, index } = e.currentTarget.dataset
     let _this = this
-    let data = {},
-        quantity = 1
-    if (btn == "cut") {
-      quantity = -1
-    }
+    let goodsid,
+        shopgoodsid; 
+      
     if (!_this.data.showNbhd){
-        data = {
-          userid: "U000000000",
-          goodsid: id,
-          quantity: quantity
-        }
+        goodsid = id       
     }else{
-      data = {
-        userid: "U000000000",
-        shopgoodsid: id,
-        quantity: quantity
-      }
+      shopgoodsid = id     
     }
-    util.request(api.createCart, data, "POST").then(res => {
-      console.log(JSON.stringify(res))
-      const list = res
-      if (list != null) {         
-        const goodslist = _this.data.goodsList
-        goodslist[index].quantity = list.quantity
-        _this.setData({
-          goodsList: goodslist
-        })
-        _this.countMoney()
+    util.editCart({ goodsid: goodsid, shopgoodsid: shopgoodsid, btn: btn }).then(res => {
+      if (res != null) {
+        console.log(JSON.stringify(res))
+        const list = res
+        if (list != null) {
+          const goodslist = _this.data.goodsList
+          goodslist[index].quantity = list.quantity
+          _this.setData({
+            goodsList: goodslist
+          })
+          _this.countMoney()
+        }
       }
-    })
+    })  
+    
   },
   countMoney(){
     util.getMyCart(this.data.pageIndex, this.data.pageSize).then(res => {

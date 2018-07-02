@@ -4,7 +4,7 @@
 .wxSearch{ 
   width: 100%;
   height: 100%;
-  padding-top: 80rpx;
+  padding-top: 90rpx;
   box-sizing: border-box;
 
 }

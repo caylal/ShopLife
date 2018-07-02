@@ -100,9 +100,9 @@ Page({
     const choose_area = { id: areaId, name: areaName }
     cityAreaNbhd.push(choose_area) 
     util.request(api.getAreaNeighbor,{
-        pageIndex:_this.data.pageIndex, 
-        pageSize: _this.data.pageSize,
-        id: areaId
+        pi:_this.data.pageIndex, 
+        ps: _this.data.pageSize,
+        area: areaId
       }).then(res => {
         const data = res
         console.log("nbhd:" + JSON.stringify(data))

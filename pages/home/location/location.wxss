@@ -7,7 +7,7 @@
   height: 50rpx;
   width: 100%;
   background: #eee;
-  font-size: 28rpx;
+  font-size: 32rpx;
   padding-left:15rpx;
   line-height: 50rpx;
   letter-spacing: 2rpx;
@@ -15,7 +15,7 @@
 .l-current{
   padding: 15rpx 30rpx 15rpx 15rpx;
   display: flex;
-  font-size: 28rpx;
+  font-size: 32rpx;
   justify-content: space-between;
   border: 1px solid #eee;
 }
@@ -27,7 +27,7 @@
   margin-left: 0;
 }
 .l-area{
-  font-size: 30rpx;
+  font-size: 34rpx;
   padding: 10rpx;
 }
 .l-sort{

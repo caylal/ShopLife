@@ -63,6 +63,7 @@ Page({
       console.log("currentShopInfo:" + JSON.stringify(shopInfo))
       let cur_time = util.formatTime(new Date());
       console.log("cur_time: " + cur_time)
+      this.isTimeOut()
     }
    
   },
@@ -71,6 +72,7 @@ Page({
     const data = new Date()
     const hour = date.getHours()
     const minute = date.getMinutes()
+    console.log("hour:" + hour +" min: " + minute)
     if(closinghour){}
 
   },

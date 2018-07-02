@@ -12,7 +12,7 @@
       <view class="item">
         <image class='goods-img' src="{{item.goodsimg}}"></image>
         <text class='goods-name'>{{item.goodsname}}</text>
-        <view class="goods-num">￥{{item.retailprice}} x {{item.quantity}}</view>
+        <view class="goods-num">￥{{item.goodsretailprice}} x {{item.quantity}}</view>
       </view>      
     </view>    
   </view>

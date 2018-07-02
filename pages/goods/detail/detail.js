@@ -23,7 +23,7 @@ Page({
     const { id, url} = res
     util.request(url,{id: id}).then(res => {
       console.log("goodsInfo: " + JSON.stringify(res))
-      const info = res;
+      const info = res[0];
       let num = parseFloat(info.retailprice);
       num = num.toFixed(2);
       if (!info.hasOwnProperty("goodsid")){
