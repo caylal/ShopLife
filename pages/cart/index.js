@@ -7,6 +7,7 @@ Page({
     allSelected: false,
     checkedGoodsCount: 0,
     checkedGoodsAmount: 0,
+    showDelete: false,
     pageIndex: 1,
     pageSize: 10,   
   }, 
@@ -22,7 +23,11 @@ Page({
   },
   getMyCarts(){
     let _this = this
-    util.getMyCart(_this.data.pageIndex, _this.data.pageSize).then( res => {
+    util.request(api.getCartOfMy,{
+      pi: _this.data.pageIndex,
+      ps: _this.data.pageSize,
+      uid: "U000000000"
+    }).then( res => {
       console.log("myCart:" + JSON.stringify(res));
       const goods = res   
       goods.map(value => {
@@ -156,25 +161,61 @@ Page({
       }
     })  
     
-  }, 
-  checkoutOrder(){
+  },
+  // 显示删除操作 
+  showDel(){
+    let show = this.data.showDelete
+    this.setData({
+      showDelete: !show
+    })
+  },
+  // 删除购物车
+  deleteCart(){
+    let _this = this
+    const list = this.getCheckedList()
+    if (list.length == 0) {
+      wx.showModal({
+        title: '购物车',
+        content: '请选择需要删除的商品',
+      })
+    } else {
+      list.forEach( res => {
+        util.delRequest(api.createOrdeleteCart, res.shoppingcartid).then(result => {
+          console.log(result)
+          if(result){
+            wx.showToast({
+              title: '删除成功！',
+              icon: 'none'
+            })
+          }
+          _this.getMyCarts();         
+        })
+      })
+    }
+  },
+  // 获取选中商品
+  getCheckedList(){
     const cartList = this.data.cart
-    console.log("下单list：" + JSON.stringify(cartList))
+    console.log("所有cartlist：" + JSON.stringify(cartList))
     let list = []
-    if(this.data.allSelected){
+    if (this.data.allSelected) {
       cartList.forEach(res => {
-        list.push.apply(list, res.items)       
-      }) 
-    }else{
+        list.push.apply(list, res.items)
+      })
+    } else {
       cartList.forEach(res => {
-        if(res.checked){
+        if (res.checked) {
           list.push.apply(list, res.items)
-        }else{
-          const checkedList = res.items.filter(item => {return item.checked === true})
+        } else {
+          const checkedList = res.items.filter(item => { return item.checked === true })
           list.push.apply(list, checkedList)
         }
       })
     }
+    return  list
+  },  
+  checkoutOrder(){
+    const list = this.getCheckedList()
     if(list.length == 0){
       wx.showModal({
         title: '购物车',

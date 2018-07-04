@@ -99,7 +99,7 @@
 .nav-right .good-item{
   display: flex;
   width: 100%;
-  padding: 15rpx 5rpx;
+  padding: 10rpx 5rpx 5rpx 5rpx;
   box-sizing: border-box;
   border-bottom: 1px solid #dedede;
 }
@@ -132,7 +132,7 @@
   display:flex;
   justify-content:space-between;
   width:100%;
-
+  margin-top: 15rpx;
 }
 .good-bot .price{
   font-size: 34rpx;
@@ -146,7 +146,7 @@
   align-items: center;
 }
 .good-info .good-opt span{
-  font-size: 54rpx;
+  font-size: 64rpx;
   color: #fc4104;
 }
 .good-info .good-opt .good-num{

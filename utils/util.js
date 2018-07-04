@@ -31,15 +31,6 @@ const isEmpty = n => {
   }
   return true;
 }
-const json2From = json => {
-  let str = []
-  for(let p in json){
-    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(json[p]));
-  }
- 
-  return str.join("&");
-  console.log(str)
-}
 
 /**封装微信的request */
 const request = (url,data={},method = "Get") => {
@@ -67,10 +58,10 @@ const request = (url,data={},method = "Get") => {
     })
   })
 }
-const delRequest = (url) => { 
+const delRequest = (url, data) => { 
   return new Promise((resolve, reject) => {
     wx.request({
-      url: url,
+      url: url + '/' + data,
       method: 'DELETE',
       success: res => {
         if(res.statusCode == 200 && res.data._wrapperCode == 200){
@@ -135,8 +126,9 @@ const getUserInfo = () => {
   })
 }
 /**获取用户购物车信息 */
-const getMyCart = (pindex = 1, psize = 10) =>{ 
+const getMyCart = (pindex = 1, psize = 10) =>{   
   return new Promise((resolve, reject) => {
+    wx.removeStorageSync('myCart')
     request(api.getCartOfMy, {
       pi: pindex,
       ps: psize,
@@ -150,16 +142,26 @@ const getMyCart = (pindex = 1, psize = 10) =>{
         })
       })
       console.log("myCartList===:" + JSON.stringify(list))
+      const storeCart = wx.getStorageSync('myCart') || []  
+      const lalist = storeCart.concat(list)
       wx.setStorage({
         key: 'myCart',
-        data: list,
+        data: lalist,
       })
-      resolve(result)
-    }).catch(err => reject(err))
-  })   
+      console.log("购物车数量：" + list.length)
+      if (list.length == 10) {
+        getMyCart(pindex + 1)
+      }else{
+        resolve(lalist)
+      }
+    }).catch(err => reject(err)) 
+  })
+  
+ 
 }
 const filterGood = (good) => {
   const list = wx.getStorageSync('myCart')
+  console.log("myCart:" + JSON.stringify(list))
   let data;
   list.forEach(val => {
     if (!val.hasOwnProperty("shopid") && !good.hasOwnProperty("shopid")) {

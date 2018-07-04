@@ -205,3 +205,25 @@
   border-left: 1px solid #ccc;
   border-right: 1px solid #ccc;
 }
+.manage{
+  position: absolute;
+  right: 30rpx;
+  top: 25rpx;
+}
+.cart-del{
+  height: 80rpx;
+  width: 100%;
+  background: #fff;
+  padding: 15rpx;
+  box-sizing: border-box;
+
+}
+.del-btn{
+  width: 120rpx;
+  line-height: 50rpx;
+  border: 1rpx solid #fc4104;
+  border-radius: 50rpx;
+  text-align: center;
+  color: #fc4104;
+  float: right;
+}

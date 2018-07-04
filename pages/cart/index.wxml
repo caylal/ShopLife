@@ -3,8 +3,11 @@
   <view class='cart-box'>
     <view class='cart'>    
       <view class='cart-title'>     
-        <view class="title-text title-red">商品上门</view>
+        <view class="title-text title-red">商品上门</view> 
       </view>
+      <view class="manage" wx:if="{{!showDelete}}" bindtap="showDel">管理</view>
+      <view class="manage" wx:else bindtap="showDel">完成</view>
+      <view class="cart-del" wx:if="{{showDelete}}"><view class="del-btn" bindtap='deleteCart'>删除</view></view>
       <view class='cart-goods'>      
         <view class='cart-store' wx:for="{{cart}}" wx:key="{{index}}">
           <view class='store-title'>
@@ -62,7 +65,8 @@
     
     <view class='cart-text'>
       <text>不含运费合计：</text><text class='cart-money'>￥{{checkedGoodsAmount}}</text>
-      <view class='cart-btn' bindtap="checkoutOrder">去结算</view>
+      <view class='cart-btn' wx:if="{{!showDelete}}" bindtap="checkoutOrder">去结算</view>
+      <view wx:else class='cart-btn'>去结算</view>
     </view>
     
   </view>

@@ -29,13 +29,12 @@ Page({
     wx.showLoading({
       title: '加载中...'
     });
-    this.countMoney()
     if (!util.isEmpty(options.itemId)){
       this.showShopInfo(options.itemId)
     }else{
       this.getNavList({ url: api.getAllCategory, data:{pi: this.data.pageIndex,ps: this.data.pageSize, ob:'sort', rs:1}})
     }
-   
+    
   },
   // 右侧分类tab点击
   switchRightTab(e){
@@ -188,18 +187,18 @@ Page({
     
   },
   countMoney(){
-    util.getMyCart(this.data.pageIndex, this.data.pageSize).then(res => {
-      const list = wx.getStorageSync('myCart')
-      console.log("resss======:" + JSON.stringify(list))
-      let total = list.reduce((pre, cur) => {
+    let _this = this 
+    util.getMyCart().then(res => {
+      console.log("lastList======:" + JSON.stringify(res))
+      let total = res.reduce((pre, cur) => {
         return pre + (cur.goodsretailprice * cur.quantity)
       }, 0)
       console.log(total)
-      this.setData({
-        cartList: list,
+      _this.setData({
+        cartList: res,
         checkedGoodsAmount: total
       })
-    })   
+    })  
   },
   onShow(){
     let _this = this
@@ -210,7 +209,8 @@ Page({
           srollHeight: height
         });
       }
-    });
+    })
     _this.countMoney()
-  } 
+  }
+ 
 })

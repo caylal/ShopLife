@@ -125,8 +125,8 @@
 }
 
 .c-option .goods-btn{
-  font-size:55rpx;
-  color:#fc4104; 
+  font-size: 65rpx;
+  color: #fc4104; 
   flex-grow: 1;
 }
 .c-option :first-child{
