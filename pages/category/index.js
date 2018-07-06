@@ -188,17 +188,16 @@ Page({
   },
   countMoney(){
     let _this = this 
-    util.getMyCart().then(res => {
-      console.log("lastList======:" + JSON.stringify(res))
-      let total = res.reduce((pre, cur) => {
-        return pre + (cur.goodsretailprice * cur.quantity)
-      }, 0)
-      console.log(total)
-      _this.setData({
-        cartList: res,
-        checkedGoodsAmount: total
-      })
-    })  
+    const list = wx.getStorageSync('myCart')
+    console.log("lastList======:" + JSON.stringify(list))
+    let total = list.reduce((pre, cur) => {
+      return pre + (cur.goodsretailprice * cur.quantity)
+    }, 0)
+    console.log(total)
+    _this.setData({
+      cartList: list,
+      checkedGoodsAmount: total
+    })
   },
   onShow(){
     let _this = this

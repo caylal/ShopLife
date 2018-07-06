@@ -16,7 +16,24 @@
       </view>      
     </view>    
   </view>
-  <view class="shoplist"></view>
+  <view class="shoplist" >
+    <view class="tag-title">选择下单门店</view>
+    <view class="shop-box" wx:for="{{}}">
+      <view class="shop-title">
+        <view bindtap="checkShop">
+           <span wx:if="{{item.checked}}" class="iconfont icon-fangxingxuanzhongfill checkbox"></span>
+           <span wx:else class="iconfont icon-fangxingweixuanzhong checkbox"></span>
+        </view>       
+        <text class="t-name">美宜佳便利店</text>
+        <view class="t-time-position">
+           <text class="t-time">07:00 -- 04:00</text>
+           <view class="t-position"><span class="iconfont icon-zuobiao"></span>340m</view>
+        </view>
+      </view>
+      <view class="shop-show">
+      </view>
+    </view>
+  </view>
   <view class="order-count">
     <view class="order-num"> <text class="num-t">合计：</text> <text class="num-n">￥ 25</text></view>
     <view class="order-btn">提交订单</view>

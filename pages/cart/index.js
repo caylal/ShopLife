@@ -33,7 +33,11 @@ Page({
       goods.map(value => {
         value.checked = false
         value.items.map(item => {
-          item.url = `/pages/goods/detail/detail?url=${api.getGood}&&id=${item.goodsid}`
+          if (item.hasOwnProperty('shopid')){
+            item.url = `/pages/goods/detail/detail?url=${api.getShopGood}&&id=${item.shopgoodsid}`
+          }else{
+            item.url = `/pages/goods/detail/detail?url=${api.getGood}&&id=${item.goodsid}`
+          }
           item.checked = false;         
           return item
         })       

@@ -36,13 +36,14 @@ App({
       }
     })
 
-    //获取所有门店信息
-    util.request(api.getAllShop).then(res => {
-      this.globalData.shopAll = res
-    })
+    // 获取所有购物车信息
+    util.getMyCart().then(res => console.log("获取购物车成功：" + JSON.stringify(res)))
+    // 获取所在社区门店信息
+    util.getAllShop().then(res => console.log("获取所在社区门店信息成功" + JSON.stringify(res)))
   },
   globalData: {
     userInfo: null,
-    shopAll: null
+    shopAll: null,
+    showALLCart: null
   }
 })

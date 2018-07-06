@@ -30,7 +30,8 @@
   display: inline-block;
   border:1rpx solid #ddd;
   margin-left:1%;
-  margin-top:10rpx;
+  margin-top: 10rpx;
+  margin-bottom: 10rpx;
   text-align:center;
 
 }
@@ -83,4 +84,43 @@
   text-align: center;
   line-height: 90rpx;
   color: #fff;
+}
+.shoplist{
+  margin-top: 10rpx;
+  width: 100%;
+}
+.shoplist .tag-title{
+  line-height:70rpx;
+  background:#fff;
+  font-weight:600;
+  color:#fc4104;
+  padding:0 10rpx;
+  border-top:1px solid #ddd;
+  border-bottom:1px solid #ddd;
+}
+.shoplist .shop-box{
+  width: 100%;
+}
+.shop-box .shop-title{
+  display: flex;
+  align-items: center;
+  line-height: 70rpx;
+  padding-left: 10rpx;
+}
+.shop-title .t-name{
+  width: 48%;
+  margin-left: 5rpx;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.shop-title .t-time-position{
+  display: flex;
+  font-size: 30rpx;
+  align-items: center;
+}
+.t-time-position .t-time{
+  margin-right: 15rpx;
+}
+.checkbox{
+  font-size:46rpx;
 }

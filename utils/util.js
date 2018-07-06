@@ -126,9 +126,9 @@ const getUserInfo = () => {
   })
 }
 /**获取用户购物车信息 */
-const getMyCart = (pindex = 1, psize = 10) =>{   
-  return new Promise((resolve, reject) => {
-    wx.removeStorageSync('myCart')
+const getMyCart = (pindex = 1, psize = 10) =>{ 
+  wx.removeStorageSync('myCart')  
+  return new Promise((resolve, reject) => {    
     request(api.getCartOfMy, {
       pi: pindex,
       ps: psize,
@@ -155,9 +155,35 @@ const getMyCart = (pindex = 1, psize = 10) =>{
         resolve(lalist)
       }
     }).catch(err => reject(err)) 
-  })
-  
+  }) 
  
+}
+// 获取所在社区所有门店
+const getAllShop = (data = {
+  pi: 1,
+  ps: 10,
+  nbhd: "N000",                //所在社区id
+  lng:"22.6348928889",     //所在经纬度位置
+  lat: "114.0321329018"}) => {
+    wx.removeStorageSync('allShop')
+    return new Promise((resolve, reject) => {
+      request(api.getNeighborShop, data).then(res => {
+        console.log("门店数量：" + res.length)
+        const storelist = wx.getStorageSync('allShop') || []
+        const list = storelist.concat(res)
+        wx.setStorage({
+          key: 'allShop',
+          data: list,
+        })
+        if(res.length >= 10) {
+          data.pi += 1
+          getAllShop(data)
+        }else{
+          resolve(list)
+        }
+
+      }).catch(err => reject(err))
+    })
 }
 const filterGood = (good) => {
   const list = wx.getStorageSync('myCart')
@@ -209,6 +235,23 @@ const editCart = (data) => {
     }
     request(api.createOrdeleteCart, data, "POST").then(res => {
       console.log("addorcut:===" + JSON.stringify(res))
+      const listall = wx.getStorageSync('myCart')
+      const list = listall.fitler(item => {
+        return item.shoppingcartid == item.id
+      })
+      if (list.length <= 0){
+        getMyCart()
+      }else{
+        listall.map(item => {
+          if (item.shoppingcartid == res.id){
+            item.quantity = res.quantity
+          }
+        })
+        wx.setStorage({
+          key: 'myCart',
+          data: listall,
+        })
+      }
       if (res){
         resolve(res)
       }
@@ -262,6 +305,7 @@ module.exports = {
   login,
   getUserInfo,
   getMyCart,
+  getAllShop,
   filterGood,
   editCart,
   isEmpty,

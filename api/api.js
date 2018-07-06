@@ -16,6 +16,7 @@ module.exports = {
   getShopGood: BASE_URL + 'shop/goods/',                        // 获取该门店单个商品信息 参数 {id: "SG0000"} 门店商品id
   getShopGoodAll: BASE_URL + 'shop/goods/cate/byShop',                // 获取该门店的商品所有类别 参数 {shop: "S0000"} 门店id
   getShopGoodsByCate: BASE_URL + 'shop/goods/byShopAndCate',           // 获取门店该类别的商品 参数{pi:1, ps:10,shop:"S0000",cate:"C0001"}门店id，类别id
+  getShopByAddrWithGoods: BASE_URL + 'shop/byAddressWithGoods',
   
   getAllCategory: BASE_URL + 'category/tree',                       // 获取所有商品类别
 
@@ -39,7 +40,7 @@ module.exports = {
   createOrdeleteCart: BASE_URL + 'shoppingcart',                    // 添加购物车 参数{"userid": "U000000001","goodsid": "G0001"/"shopgoodsid": "SG0009",,"quantity": 2}
 
   getAllGoods: BASE_URL + 'goods/all',                             // 获取所有商品列表
-  getGood: BASE_URL + 'goods/get',                                 // 获取单个商品信息 参数{id:"G0000"}
+  getGood: BASE_URL + 'goods',                                 // 获取单个商品信息 参数{id:"G0000"}
   getGoodQuery: BASE_URL + 'goods/query',                          // 分页获取商品 参数{pageIndex: 1, pageSize: 3 }
   getGoodsByCate: BASE_URL + 'goods/byCate',                   // 根据类别获取商品信息 参数{pageIndex: 1, pageSize: 20, cate:"C0025"}
 

@@ -56,11 +56,11 @@ Page({
       this.getHot()
     ]).then(res => {    
         wx.hideLoading()
-    })
+    })    
    
   },
-  onShow(){
-    this.onLoad()
+  onShow(){   
+    this.onLoad()    
   },
   getIndexBanner(){
     let _this = this
