@@ -63,7 +63,7 @@
         <icon class='iconfont icon-gouwuchefill cart-icon' />
         <text class='cart-num'>￥{{checkedGoodsAmount}}</text>
       </view>
-      <view class='search-cart-btn'>
+      <view class='search-cart-btn' bindtap="goCart">
         <text> 去结算</text>
       </view>
     </view>

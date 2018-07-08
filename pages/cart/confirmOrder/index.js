@@ -24,10 +24,14 @@ Page({
   onLoad: function (options) {
     this.getAddress().then(res => {
       this.getCartList() 
+
     })   
   },
   getAddress(){
     let _this = this
+    wx.showLoading({
+      title:'加载中',
+    })
     return new Promise((resolve, reject) => {
       util.request(api.getAddressOfMy, { userid:'U000000001'}).then(res => {
         console.log("addr:=====" + JSON.stringify(res))
@@ -51,6 +55,7 @@ Page({
     _this.setData({
       cartList: list
     })
+    wx.hideLoading()
     const shop = list.filter(res => {
       if (res.hasOwnProperty('shopid')){
         return res

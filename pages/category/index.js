@@ -210,6 +210,11 @@ Page({
       }
     })
     _this.countMoney()
+  },
+  goCart(){
+    wx.switchTab({
+      url: '../cart/index',
+    })
   }
  
 })

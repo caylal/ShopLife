@@ -177,6 +177,7 @@ Page({
   deleteCart(){
     let _this = this
     const list = this.getCheckedList()
+    const allCart = wx.getStorageSync('myCart')
     if (list.length == 0) {
       wx.showModal({
         title: '购物车',
@@ -187,6 +188,13 @@ Page({
         util.delRequest(api.createOrdeleteCart, res.shoppingcartid).then(result => {
           console.log(result)
           if(result){
+            const cart = allCart.filter(item => {
+              return item.shoppingcartid != res.shoppingcartid
+            })
+            wx.setStorage({
+              key: 'myCart',
+              data: cart,
+            })
             wx.showToast({
               title: '删除成功！',
               icon: 'none'

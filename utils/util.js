@@ -236,8 +236,8 @@ const editCart = (data) => {
     request(api.createOrdeleteCart, data, "POST").then(res => {
       console.log("addorcut:===" + JSON.stringify(res))
       const listall = wx.getStorageSync('myCart')
-      const list = listall.fitler(item => {
-        return item.shoppingcartid == item.id
+      const list = listall.filter(item => {
+        return item.shoppingcartid == res.id
       })
       if (list.length <= 0){
         getMyCart()
