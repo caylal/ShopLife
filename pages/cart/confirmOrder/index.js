@@ -1,20 +1,89 @@
 import util from '../../../utils/util.js';
 import api from '../../../api/api.js';
+
+const shops = [
+{
+  "id": "S0001",
+  "isactive": true,
+  "areaid": "A0016",
+  "name": "易栈便利店",
+  "phone": "0755-61953627",
+  "lat": 22.6329915193,
+  "lng": 114.0316179176,
+  "openingtime": "00:00",
+  "closinghour": "24:00",
+  "address": "深圳龙华区人民路39号",
+  "distance": 294.09999999999997,
+  "goods": [{
+    "id": "SG0000",
+    "isactive": true,
+    "shopid": "S0001",
+    "goodsid": "G0000",
+    "name": "易栈便利店",
+    "retailprice": 6
+  },
+    {
+      "id": "SG0001",
+      "isactive": true,
+      "shopid": "S0001",
+      "goodsid": "G0001",
+      "name": "易栈便利店",
+      "retailprice": 4
+    },
+    {
+      "id": "SG0002",
+      "isactive": true,
+      "shopid": "S0001",
+      "goodsid": "G0002",
+      "name": "易栈便利店",
+      "retailprice": 14
+    },
+    {
+      "id": "SG0003",
+      "isactive": true,
+      "shopid": "S0001",
+      "goodsid": "G0003",
+      "name": "易栈便利店",
+      "retailprice": 2.5
+    }
+  ]
+  }, {
+    "id": "S0000",
+    "isactive": true,
+    "areaid": "A0016",
+    "name": "彩虹便利店",
+    "phone": "0755-61953627",
+    "lat": 22.6336163316,
+    "lng": 114.0288362474,
+    "openingtime": "07:00",
+    "closinghour": "24:00",
+    "address": "深圳龙华区人民路39号",
+    "distance": 0,
+    "goods": [
+      {
+        "id": "SG0001",
+        "isactive": true,
+        "shopid": "S0000",
+        "goodsid": "G0001",
+        "name": "彩虹便利店",
+        "retailprice": 4
+      }
+    ]
+  }]
 var app = getApp();
 Page({
 
   /**
    * 页面的初始数据
    */
-  data: {
+  data: {      
       cartList:[], // 购物车列表
       addressList:[], //地址列表
-      address:{}, //当前地址
-      shopList:[], // 门店列表
-      shopsInfo:[], //已休息的门店
-      allShopList:[],
-      goodsList: [], //需要重新选择门店的商品
+      address:{}, //当前地址     
+      allShopList:[], // 门店列表
+      closeGoods: [], //需要重新选择门店的商品
       isTimeOut: false,
+      totalMoney:0
 
   },
 
@@ -33,7 +102,7 @@ Page({
       title:'加载中',
     })
     return new Promise((resolve, reject) => {
-      util.request(api.getAddressOfMy, { userid:'U000000001'}).then(res => {
+      util.request(api.getAddressOfMy, { userid:'U000000000'}).then(res => {
         console.log("addr:=====" + JSON.stringify(res))
         _this.setData({
           addressList: res,
@@ -52,8 +121,13 @@ Page({
   getCartList(){
     const list = wx.getStorageSync('checkOrder')
     let _this = this
+    let total = list.reduce((pre,cur) => {
+      return pre + (cur.goodsretailprice * cur.quantity)
+    }, 0)
+    
     _this.setData({
-      cartList: list
+      cartList: list,
+      totalMoney: total      
     })
     wx.hideLoading()
     const shop = list.filter(res => {
@@ -64,32 +138,22 @@ Page({
     console.log("shop:" + JSON.stringify(shop))  
     if(shop.length > 0){
       // 获取所有门店信息
-      let shoplist = wx.getStorageSync('allShop')
-      let shopInfo = [] //已休息的门店  
-      let goods = [] //需要重新选择门店的商品   
+      let shoplist = wx.getStorageSync('allShop') 
+      let goods = [] //需要重新选择门店的商品 
+      let goodList = []  
       shop.forEach(item => {
         console.log("currentShop:" + JSON.stringify(item))
         shoplist.forEach(val => {
           if (val.id == item.shopid) {
             let isOut = _this.isTimeOut({ closinghour: val.closinghour, openingtime: val.openingtime })
             if(isOut){
-              goods.push(item.goodsid)
-              shopInfo.push(val)
+              goodList.push(item)
+              goods.push(item.goodsid)                     
             }            
           }
         })
-      })
-      if (shopInfo.length > 0){
-        console.log("shopInfo: " + JSON.stringify(shopInfo))
-        _this.setData({
-          isTimeOut: true,
-          shopsInfo: shopInfo
-        })
-      }
-      if (goods.length > 0){
-        _this.setData({
-          goodsList: goods
-        })
+      })     
+      if (goods.length > 0){        
         const goodsid = goods.join('|')
         console.log("商品集合：" +goodsid)
         console.log("addressid:" + _this.data.address.id)
@@ -97,11 +161,30 @@ Page({
           address: _this.data.address.id,
           goods: goodsid
         }).then(res => {
-          console.log("门店：" + JSON.stringify(res))
+         shops.map(ress => {
+           let timeout = _this.isTimeOut({ closinghour: ress.closinghour, openingtime: ress.openingtime })
+           if (timeout) {
+             ress.timeout = true
+           } else {
+             ress.timeout = false
+           }
+           if (ress.distance < 1000) {
+             ress.distance = ress.distance.toFixed(1) + 'm'
+           } else {
+             ress.distance = (Math.round(ress.distance / 100) / 10).toFixed(1) + 'km'
+           }
+           ress.checked = false
+           ress.checkshop = []
+           ress.closeshop = []
+         })
+         console.log("allShop:" + JSON.stringify(shops))
+         _this.setData({
+            allShopList:shops,
+            isTimeOut: true,
+            closeGoods: goodList           
+         })
         })
-      }          
-          
-     
+      }
     }
    
   },
@@ -121,10 +204,7 @@ Page({
     const c_time = date.setHours("00","20")
     const op_time = date.setHours(open[0], open[1])
     const cl_time = date.setHours(close[0],close[1])
-    
-    console.log(op_time < c_time)
-    console.log(cl_time > c_time)
-
+ 
     if ((op_time < c_time) && (cl_time > c_time)){
       return false
     }else{
@@ -132,52 +212,96 @@ Page({
     }   
 
   },
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-  
-  },
+  checkShop(e){
+    let _this = this
+    const { id, index } = e.currentTarget.dataset
+    const shopsList = _this.data.allShopList // 所有门店
+    const closegoods = _this.data.closeGoods // 需要重新选择门店的商品
+    let allCart = _this.data.cartList //所有购物车列表
+    let checked = shopsList[index].checked
+    shopsList[index].checked = !checked    
+    let list = [] //已替换id 等属性商品   
+    let closelist = [] // 原始商品属性
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-  
+    let filtergoods = closegoods.filter(item => {
+      let str = JSON.stringify(item)   
+      let flag = true  
+      shopsList[index].goods.forEach(val => {
+        if(val.goodsid == item.goodsid){
+          let gooditem = JSON.parse(str)          
+          gooditem.shopid = val.shopid
+          gooditem.shopgoodsid = val.id
+          gooditem.goodsretailprice = val.retailprice 
+          list.push(gooditem) 
+          closelist.push(item)  
+          flag = false           
+        }
+      })
+      return flag
+    })
+    if(shopsList[index].checked){      
+      if(list.length > 0){       
+        shopsList[index].checkshop = list 
+        shopsList[index].closeshop = closelist
+        closelist.forEach(item => {
+          allCart = allCart.filter(val => {
+            if(val.goodsid != item.goodsid){
+              return val
+            }else{
+              if(!val.hasOwnProperty('shopid') && val.shopid != item.shopid){
+                return val
+              }
+            }
+          }) 
+        })
+        console.log("所有购物车列表：" + JSON.stringify(allCart))    
+        console.log("门店列表：" + JSON.stringify(shopsList)) 
+        _this.setData({
+          cartList: allCart,
+          allShopList: shopsList,
+          closeGoods: filtergoods
+        })
+      }
+    }else{
+      let prevlist = shopsList[index].closeshop
+      if(prevlist.length > 0){       
+        let closeglist = _this.data.closeGoods
+        closeglist =  closeglist.concat(prevlist)
+        let list = allCart.concat(prevlist)
+        shopsList[index].checkshop = []
+        shopsList[index].closeshop = []
+        _this.setData({
+          cartList: list,
+          allShopList: shopsList,
+          closeGoods: closeglist
+        })
+      }
+    } 
   },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-  
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-  
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-  
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-  
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-  
+  summitOrder(){
+    let _this = this
+    let list = _this.data.cartList
+    const shoplist = _this.data.allShopList
+    let isTimeOut = _this.data.isTimeOut
+    const closegoods = _this.data.closeGoods
+    if(closegoods.length > 0){
+      wx.showModal({
+        title: '提示消息',
+        content: '商品所属门店已休息，请重新选择门店',
+      })
+    }else{
+      let slist = shoplist.filter(res => res.checked)
+      console.log("选中的门店：" + JSON.stringify(slist))
+      if(slist.length > 0) {
+        slist.forEach(item => {
+          if(item.checkshop.length > 0 ){
+            list = list.concat(item.checkshop)
+          }
+        })
+      }
+      console.log("下单商品：" + JSON.stringify(list))
+    }
+    
+    
   }
 })

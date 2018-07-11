@@ -25,7 +25,7 @@
   margin-top: 10rpx;
   background: #fff;
 }
-.cartlist .item-box{
+.item-box{
   width:30%;
   display: inline-block;
   border:1rpx solid #ddd;
@@ -88,6 +88,7 @@
 .shoplist{
   margin-top: 10rpx;
   width: 100%;
+  background: #fff;
 }
 .shoplist .tag-title{
   line-height:70rpx;
@@ -100,11 +101,16 @@
 }
 .shoplist .shop-box{
   width: 100%;
+  background:#f4f4f4;
+  margin-top: 5rpx;
+  border-width:1px 0;
+  border-color:#ccc;
+  border-style:solid; 
 }
 .shop-box .shop-title{
   display: flex;
   align-items: center;
-  line-height: 70rpx;
+  line-height: 60rpx;
   padding-left: 10rpx;
 }
 .shop-title .t-name{
@@ -123,4 +129,18 @@
 }
 .checkbox{
   font-size:46rpx;
+}
+.istimeout{
+  color: #fc4104;
+  text-decoration: line-through;
+}
+.shop-show{
+  width: 100%;
+  overflow-x: auto;
+  white-space: nowrap;
+  margin-top: 10rpx;
+  background: #fff;
+}
+.checked{
+  color: #fc4104;
 }

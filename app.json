@@ -19,7 +19,7 @@
   "window":{
     "backgroundTextStyle":"light",
     "navigationBarBackgroundColor": "#d22222",
-    "enablePullDownRefresh": true,
+  
     "navigationBarTitleText": "",
     "navigationBarTextStyle":"white"
   },

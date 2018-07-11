@@ -18,24 +18,31 @@
   </view>
   <view class="shoplist" >
     <view class="tag-title">选择下单门店</view>
-    <view class="shop-box" wx:for="{{}}">
+    <view class="shop-box" wx:for="{{allShopList}}" wx:key="{{index}}">
       <view class="shop-title">
-        <view bindtap="checkShop">
-           <span wx:if="{{item.checked}}" class="iconfont icon-fangxingxuanzhongfill checkbox"></span>
+        <view bindtap="{{item.timeout ? '' : 'checkShop'}}" data-id="{{item.id}}" data-index="{{index}}">
+           <span wx:if="{{item.checked}}" class="iconfont icon-fangxingxuanzhongfill checkbox checked"></span>
            <span wx:else class="iconfont icon-fangxingweixuanzhong checkbox"></span>
         </view>       
-        <text class="t-name">美宜佳便利店</text>
+        <text class="t-name">{{item.name}}</text>
         <view class="t-time-position">
-           <text class="t-time">07:00 -- 04:00</text>
-           <view class="t-position"><span class="iconfont icon-zuobiao"></span>340m</view>
+           <text class="t-time {{item.timeout ? 'istimeout' : ''}}">{{item.openingtime}}--{{item.closinghour}}</text>
+           <view class="t-position"><span class="iconfont icon-zuobiao"></span>{{item.distance}}</view>
         </view>
       </view>
-      <view class="shop-show">
+      <view class="shop-show" wx:if="{{item.checked}}">
+        <view class="item-box" wx:for="{{item.checkshop}}" wx:key="{{index}}" wx:for-item="goods">
+        <view class="item">
+          <image class='goods-img' src="{{goods.goodsimg}}"></image>
+          <text class='goods-name'>{{goods.goodsname}}</text>
+          <view class="goods-num">￥{{goods.goodsretailprice}} x {{goods.quantity}}</view>
+        </view>      
+    </view>    
       </view>
     </view>
   </view>
   <view class="order-count">
-    <view class="order-num"> <text class="num-t">合计：</text> <text class="num-n">￥ 25</text></view>
-    <view class="order-btn">提交订单</view>
+    <view class="order-num"> <text class="num-t">合计：</text> <text class="num-n">￥ {{totalMoney}}</text></view>
+    <view class="order-btn" bindtap="summitOrder">提交订单</view>
   </view>
 </view>
