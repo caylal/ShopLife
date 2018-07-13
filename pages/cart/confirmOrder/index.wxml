@@ -1,43 +1,45 @@
 <view class="container">
-  <view class="address">
-   <view><span class="iconfont icon-zhuiocn addr-icon"></span></view>
-   <view class="add-info">
-    <view class="info-name">{{address.username}} <text class="add-phone"> {{address.userphone}}</text></view>
-    <view class="info-addr"> {{address.address}}</view>
-   </view>
-   <view class="add-edit"><text>修改 </text><span class="iconfont icon-gengduo1"></span></view>
-  </view>  
-  <view class="cartlist">
-    <view class="item-box" wx:for="{{cartList}}" wx:key="{{index}}">
-      <view class="item">
-        <image class='goods-img' src="{{item.goodsimg}}"></image>
-        <text class='goods-name'>{{item.goodsname}}</text>
-        <view class="goods-num">￥{{item.goodsretailprice}} x {{item.quantity}}</view>
-      </view>      
-    </view>    
-  </view>
-  <view class="shoplist" >
-    <view class="tag-title">选择下单门店</view>
-    <view class="shop-box" wx:for="{{allShopList}}" wx:key="{{index}}">
-      <view class="shop-title">
-        <view bindtap="{{item.timeout ? '' : 'checkShop'}}" data-id="{{item.id}}" data-index="{{index}}">
-           <span wx:if="{{item.checked}}" class="iconfont icon-fangxingxuanzhongfill checkbox checked"></span>
-           <span wx:else class="iconfont icon-fangxingweixuanzhong checkbox"></span>
-        </view>       
-        <text class="t-name">{{item.name}}</text>
-        <view class="t-time-position">
-           <text class="t-time {{item.timeout ? 'istimeout' : ''}}">{{item.openingtime}}--{{item.closinghour}}</text>
-           <view class="t-position"><span class="iconfont icon-zuobiao"></span>{{item.distance}}</view>
-        </view>
-      </view>
-      <view class="shop-show" wx:if="{{item.checked}}">
-        <view class="item-box" wx:for="{{item.checkshop}}" wx:key="{{index}}" wx:for-item="goods">
+  <view class="order-box">
+    <view class="address">
+    <view><span class="iconfont icon-zhuiocn addr-icon"></span></view>
+    <view class="add-info">
+      <view class="info-name">{{address.username}} <text class="add-phone"> {{address.userphone}}</text></view>
+      <view class="info-addr"> {{address.address}}</view>
+    </view>
+    <view class="add-edit"><text>修改 </text><span class="iconfont icon-gengduo1"></span></view>
+    </view>  
+    <view class="cartlist">
+      <view class="item-box" wx:for="{{cartList}}" wx:key="{{index}}">
         <view class="item">
-          <image class='goods-img' src="{{goods.goodsimg}}"></image>
-          <text class='goods-name'>{{goods.goodsname}}</text>
-          <view class="goods-num">￥{{goods.goodsretailprice}} x {{goods.quantity}}</view>
+          <image class='goods-img' src="{{item.goodsimg}}"></image>
+          <text class='goods-name'>{{item.goodsname}}</text>
+          <view class="goods-num">￥{{item.goodsretailprice}} x {{item.quantity}}</view>
         </view>      
-    </view>    
+      </view>    
+    </view>
+    <view class="shoplist" >
+      <view class="tag-title">选择下单门店</view>
+      <view class="shop-box" wx:for="{{allShopList}}" wx:key="{{index}}">
+        <view class="shop-title">
+          <view bindtap="{{item.timeout ? '' : 'checkShop'}}" data-id="{{item.id}}" data-index="{{index}}">
+            <span wx:if="{{item.checked}}" class="iconfont icon-fangxingxuanzhongfill checkbox checked"></span>
+            <span wx:else class="iconfont icon-fangxingweixuanzhong checkbox"></span>
+          </view>       
+          <text class="t-name">{{item.name}}</text>
+          <view class="t-time-position">
+            <text class="t-time {{item.timeout ? 'istimeout' : ''}}">{{item.openingtime}}--{{item.closinghour}}</text>
+            <view class="t-position"><span class="iconfont icon-zuobiao"></span>{{item.distance}}</view>
+          </view>
+        </view>
+        <view class="shop-show" wx:if="{{item.expanded}}">
+          <view class="item-box" wx:for="{{item.checkshop}}" wx:key="{{index}}" wx:for-item="goods">
+          <view class="item">
+            <image class='goods-img' src="{{goods.goodsimg}}"></image>
+            <text class='goods-name'>{{goods.goodsname}}</text>
+            <view class="goods-num">￥{{goods.goodsretailprice}} x {{goods.quantity}}</view>
+          </view>      
+      </view>    
+        </view>
       </view>
     </view>
   </view>

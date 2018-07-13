@@ -144,3 +144,6 @@
 .checked{
   color: #fc4104;
 }
+.order-box{
+  margin-bottom:80rpx;
+}

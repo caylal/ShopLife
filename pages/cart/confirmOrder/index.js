@@ -3,18 +3,6 @@ import api from '../../../api/api.js';
 
 const shops = [
 {
-  "id": "S0001",
-  "isactive": true,
-  "areaid": "A0016",
-  "name": "易栈便利店",
-  "phone": "0755-61953627",
-  "lat": 22.6329915193,
-  "lng": 114.0316179176,
-  "openingtime": "00:00",
-  "closinghour": "24:00",
-  "address": "深圳龙华区人民路39号",
-  "distance": 294.09999999999997,
-  "goods": [{
     "id": "SG0000",
     "isactive": true,
     "shopid": "S0001",
@@ -29,47 +17,8 @@ const shops = [
       "goodsid": "G0001",
       "name": "易栈便利店",
       "retailprice": 4
-    },
-    {
-      "id": "SG0002",
-      "isactive": true,
-      "shopid": "S0001",
-      "goodsid": "G0002",
-      "name": "易栈便利店",
-      "retailprice": 14
-    },
-    {
-      "id": "SG0003",
-      "isactive": true,
-      "shopid": "S0001",
-      "goodsid": "G0003",
-      "name": "易栈便利店",
-      "retailprice": 2.5
     }
   ]
-  }, {
-    "id": "S0000",
-    "isactive": true,
-    "areaid": "A0016",
-    "name": "彩虹便利店",
-    "phone": "0755-61953627",
-    "lat": 22.6336163316,
-    "lng": 114.0288362474,
-    "openingtime": "07:00",
-    "closinghour": "24:00",
-    "address": "深圳龙华区人民路39号",
-    "distance": 0,
-    "goods": [
-      {
-        "id": "SG0001",
-        "isactive": true,
-        "shopid": "S0000",
-        "goodsid": "G0001",
-        "name": "彩虹便利店",
-        "retailprice": 4
-      }
-    ]
-  }]
 var app = getApp();
 Page({
 
@@ -119,73 +68,124 @@ Page({
    
   },
   getCartList(){
-    const list = wx.getStorageSync('checkOrder')
+    let list = wx.getStorageSync('checkOrder')
     let _this = this
+    let goodsid = [] //所有商品id
+    let shop_goods = [] // 已选择门店得商品
     let total = list.reduce((pre,cur) => {
       return pre + (cur.goodsretailprice * cur.quantity)
     }, 0)
-    
-    _this.setData({
-      cartList: list,
-      totalMoney: total      
+
+    list.forEach(res => {
+      goodsid.push(res.goodsid)
     })
-    wx.hideLoading()
-    const shop = list.filter(res => {
-      if (res.hasOwnProperty('shopid')){
-        return res
-      }
-    }) 
-    console.log("shop:" + JSON.stringify(shop))  
-    if(shop.length > 0){
-      // 获取所有门店信息
-      let shoplist = wx.getStorageSync('allShop') 
-      let goods = [] //需要重新选择门店的商品 
-      let goodList = []  
-      shop.forEach(item => {
-        console.log("currentShop:" + JSON.stringify(item))
-        shoplist.forEach(val => {
-          if (val.id == item.shopid) {
-            let isOut = _this.isTimeOut({ closinghour: val.closinghour, openingtime: val.openingtime })
-            if(isOut){
-              goodList.push(item)
-              goods.push(item.goodsid)                     
-            }            
+    if(goodsid.length > 0){
+      let goodsStr = goodsid.join('|')
+      util.request(api.getShopByAddrWithGoods,{
+        address: _this.data.address.id,
+        goods: goodsStr
+      }).then(res => {
+        console.log("所有商品门店： " + JSON.stringify(res))
+        res.map(ress => {
+          let timeout = _this.isTimeOut({ closinghour: ress.closinghour, openingtime: ress.openingtime })
+          if (timeout) {
+            ress.timeout = true
+          } else {
+            ress.timeout = false
           }
+          if (ress.distance < 1000) {
+            ress.distance = ress.distance.toFixed(1) + 'm'
+          } else {
+            ress.distance = (Math.round(ress.distance / 100) / 10).toFixed(1) + 'km'
+          }
+          ress.checked = false
+          ress.expanded = false
+          ress.checkshop = []
+          ress.originalshop = []
         })
-      })     
-      if (goods.length > 0){        
-        const goodsid = goods.join('|')
-        console.log("商品集合：" +goodsid)
-        console.log("addressid:" + _this.data.address.id)
-        util.request(api.getShopByAddrWithGoods,{
-          address: _this.data.address.id,
-          goods: goodsid
-        }).then(res => {
-         shops.map(ress => {
-           let timeout = _this.isTimeOut({ closinghour: ress.closinghour, openingtime: ress.openingtime })
-           if (timeout) {
-             ress.timeout = true
-           } else {
-             ress.timeout = false
-           }
-           if (ress.distance < 1000) {
-             ress.distance = ress.distance.toFixed(1) + 'm'
-           } else {
-             ress.distance = (Math.round(ress.distance / 100) / 10).toFixed(1) + 'km'
-           }
-           ress.checked = false
-           ress.checkshop = []
-           ress.closeshop = []
-         })
-         console.log("allShop:" + JSON.stringify(shops))
-         _this.setData({
-            allShopList:shops,
-            isTimeOut: true,
-            closeGoods: goodList           
-         })
+        list = list.filter(item => {  
+          let flag = true       
+          res.forEach(val => {
+            if(item.hasOwnProperty('shopid') && item.shopid == val.id){             
+              val.checkshop.push(item)               
+              if(val.timeout){               
+                flag =  true
+              }else{                               
+                val.expanded = true
+                flag = false
+              }               
+            }
+          })
+          return flag
         })
-      }
+        _this.setData({
+          cartList: list,
+          totalMoney: total,
+          allShopList:res            
+        })
+        wx.hideLoading()
+      })
     }
+
+    
+   
+    // wx.hideLoading()
+    // const shop = list.filter(res => {
+    //   if (res.hasOwnProperty('shopid')){
+    //     return res
+    //   }
+    // }) 
+    // console.log("shop:" + JSON.stringify(shop))  
+    // if(shop.length > 0){
+    //   // 获取所有门店信息
+    //   let shoplist = wx.getStorageSync('allShop') 
+    //   let goods = [] //需要重新选择门店的商品 
+    //   let goodList = []  
+    //   shop.forEach(item => {
+    //     console.log("currentShop:" + JSON.stringify(item))
+    //     shoplist.forEach(val => {
+    //       if (val.id == item.shopid) {
+    //         let isOut = _this.isTimeOut({ closinghour: val.closinghour, openingtime: val.openingtime })
+    //         if(isOut){
+    //           goodList.push(item)
+    //           goods.push(item.goodsid)                     
+    //         }            
+    //       }
+    //     })
+    //   })     
+    //   if (goods.length > 0){        
+    //     const goodsid = goods.join('|')
+    //     console.log("商品集合：" +goodsid)
+    //     console.log("addressid:" + _this.data.address.id)
+    //     util.request(api.getShopByAddrWithGoods,{
+    //       address: _this.data.address.id,
+    //       goods: goodsid
+    //     }).then(res => {
+    //      shops.map(ress => {
+    //        let timeout = _this.isTimeOut({ closinghour: ress.closinghour, openingtime: ress.openingtime })
+    //        if (timeout) {
+    //          ress.timeout = true
+    //        } else {
+    //          ress.timeout = false
+    //        }
+    //        if (ress.distance < 1000) {
+    //          ress.distance = ress.distance.toFixed(1) + 'm'
+    //        } else {
+    //          ress.distance = (Math.round(ress.distance / 100) / 10).toFixed(1) + 'km'
+    //        }
+    //        ress.checked = false
+    //        ress.checkshop = []
+    //        ress.closeshop = []
+    //      })
+    //      console.log("allShop:" + JSON.stringify(shops))
+    //      _this.setData({
+    //         allShopList:shops,
+    //         isTimeOut: true,
+    //         closeGoods: goodList           
+    //      })
+    //     })
+    //   }
+    // }
    
   },
   isTimeOut(time){
@@ -216,67 +216,128 @@ Page({
     let _this = this
     const { id, index } = e.currentTarget.dataset
     const shopsList = _this.data.allShopList // 所有门店
-    const closegoods = _this.data.closeGoods // 需要重新选择门店的商品
     let allCart = _this.data.cartList //所有购物车列表
     let checked = shopsList[index].checked
-    shopsList[index].checked = !checked    
-    let list = [] //已替换id 等属性商品   
-    let closelist = [] // 原始商品属性
+    shopsList[index].checked = !checked
+    let checkgoods = shopsList[index].checkshop // 已选择商品
+    let originalshop = shopsList[index].originalshop // 已替换商品
+    let list = [] //替换后商品   
+    let closelist = [] // 替换前的商品
 
-    let filtergoods = closegoods.filter(item => {
-      let str = JSON.stringify(item)   
-      let flag = true  
-      shopsList[index].goods.forEach(val => {
-        if(val.goodsid == item.goodsid){
-          let gooditem = JSON.parse(str)          
-          gooditem.shopid = val.shopid
-          gooditem.shopgoodsid = val.id
-          gooditem.goodsretailprice = val.retailprice 
-          list.push(gooditem) 
-          closelist.push(item)  
-          flag = false           
-        }
-      })
-      return flag
-    })
-    if(shopsList[index].checked){      
-      if(list.length > 0){       
-        shopsList[index].checkshop = list 
-        shopsList[index].closeshop = closelist
-        closelist.forEach(item => {
-          allCart = allCart.filter(val => {
-            if(val.goodsid != item.goodsid){
-              return val
-            }else{
-              if(!val.hasOwnProperty('shopid') && val.shopid != item.shopid){
-                return val
-              }
+    if(shopsList[index].checked ){
+      if(allCart.length > 0){
+        allCart = allCart.filter(item => {
+          let str = JSON.stringify(item)
+          let flag = true  
+          shopsList[index].goods.forEach(val => {
+            if(val.goodsid == item.goodsid){
+              let gooditem = JSON.parse(str)
+              gooditem.shopid =  val.shopid
+              gooditem.shopgoodsid = val.id
+              gooditem.goodsretailprice = val.retailprice 
+              list.push(gooditem)
+              closelist.push(item)
+              flag = false
             }
-          }) 
+          })
+          return flag
         })
-        console.log("所有购物车列表：" + JSON.stringify(allCart))    
-        console.log("门店列表：" + JSON.stringify(shopsList)) 
-        _this.setData({
-          cartList: allCart,
-          allShopList: shopsList,
-          closeGoods: filtergoods
-        })
+
+        if(list.length > 0){
+          if(shopsList[index].checkshop.length > 0){
+            shopsList[index].checkshop = shopsList[index].checkshop.concat(list)
+            shopsList[index].originalshop = closelist.concat(checkgoods)
+          }else{
+            shopsList[index].checkshop = list
+            shopsList[index].originalshop = closelist
+          }
+
+          console.log("勾选的门店商品： " + JSON.stringify(shopsList[index].checkshop ))
+        }
       }
-    }else{
-      let prevlist = shopsList[index].closeshop
-      if(prevlist.length > 0){       
-        let closeglist = _this.data.closeGoods
-        closeglist =  closeglist.concat(prevlist)
-        let list = allCart.concat(prevlist)
-        shopsList[index].checkshop = []
-        shopsList[index].closeshop = []
-        _this.setData({
-          cartList: list,
-          allShopList: shopsList,
-          closeGoods: closeglist
-        })
+      _this.setData({
+        cartList: allCart,
+        allShopList: shopsList           
+      })
+    }else{     
+     
+      if(originalshop.length > 0){
+        if(allCart.length > 0){
+          allCart = allCart.concat(originalshop)          
+        }else{
+          allCart = originalshop
+        }        
+       
+      }else{
+        if(allCart.length > 0){
+          allCart = allCart.concat(checkgoods) 
+        }else{
+          allCart = checkgoods
+        }         
+
       }
-    } 
+      shopsList[index].checkshop = []
+      shopsList[index].originalshop = []
+      _this.setData({
+        cartList: allCart,
+        allShopList: shopsList           
+      })
+    }
+
+    // let filtergoods = closegoods.filter(item => {
+    //   let str = JSON.stringify(item)   
+    //   let flag = true  
+    //   shopsList[index].goods.forEach(val => {
+    //     if(val.goodsid == item.goodsid){
+    //       let gooditem = JSON.parse(str)          
+    //       gooditem.shopid = val.shopid
+    //       gooditem.shopgoodsid = val.id
+    //       gooditem.goodsretailprice = val.retailprice 
+    //       list.push(gooditem) 
+    //       closelist.push(item)  
+    //       flag = false           
+    //     }
+    //   })
+    //   return flag
+    // })
+    // if(shopsList[index].checked){      
+    //   if(list.length > 0){       
+    //     shopsList[index].checkshop = list 
+    //     shopsList[index].closeshop = closelist
+    //     closelist.forEach(item => {
+    //       allCart = allCart.filter(val => {
+    //         if(val.goodsid != item.goodsid){
+    //           return val
+    //         }else{
+    //           if(!val.hasOwnProperty('shopid') && val.shopid != item.shopid){
+    //             return val
+    //           }
+    //         }
+    //       }) 
+    //     })
+    //     console.log("所有购物车列表：" + JSON.stringify(allCart))    
+    //     console.log("门店列表：" + JSON.stringify(shopsList)) 
+    //     _this.setData({
+    //       cartList: allCart,
+    //       allShopList: shopsList,
+    //       closeGoods: filtergoods
+    //     })
+    //   }
+    // }else{
+    //   let prevlist = shopsList[index].closeshop
+    //   if(prevlist.length > 0){       
+    //     let closeglist = _this.data.closeGoods
+    //     closeglist =  closeglist.concat(prevlist)
+    //     let list = allCart.concat(prevlist)
+    //     shopsList[index].checkshop = []
+    //     shopsList[index].closeshop = []
+    //     _this.setData({
+    //       cartList: list,
+    //       allShopList: shopsList,
+    //       closeGoods: closeglist
+    //     })
+    //   }
+    // } 
   },
   summitOrder(){
     let _this = this
@@ -284,10 +345,10 @@ Page({
     const shoplist = _this.data.allShopList
     let isTimeOut = _this.data.isTimeOut
     const closegoods = _this.data.closeGoods
-    if(closegoods.length > 0){
+    if(list.length > 0){
       wx.showModal({
         title: '提示消息',
-        content: '商品所属门店已休息，请重新选择门店',
+        content: '请选择门店',
       })
     }else{
       let slist = shoplist.filter(res => res.checked)
