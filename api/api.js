@@ -46,5 +46,6 @@ module.exports = {
 
   getOrderOfMy: BASE_URL + 'order/query/my',                       // 获取我的订单信息参数{pageIndex: 1, pageSize: 20,userid:} 
 
-  getAddressOfMy: BASE_URL + 'address/my'                    // 获取地址信息 参数 {userid: 'U000000001'}                         
+  getAddressOfMy: BASE_URL + 'address/my' ,                   // 获取地址信息 参数 {userid: 'U000000001'}  
+  createOrder: BASE_URL + 'order'                             // 提交订单
 }
