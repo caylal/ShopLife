@@ -1,48 +1,46 @@
 import util from '../../../utils/util.js';
-Page({
-
-  /**
-   * 页面的初始数据
-   */
+import api from '../../../api/api.js';
+Page({ 
   data: {
-  
+    userInfo: {},
+    addressList: []
   },
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
+  
   onLoad: function (options) {
     wx.setNavigationBarTitle({
       title: util.pageTitle.member.setting
     });
+    this.getAddress()
   },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-  
+  getAddress(){
+    let _this = this
+    let list = wx.getStorageSync('myAddress');
+    if(list.length > 0){
+      _this.setData({
+        addressList: list
+      })
+    }else{
+      util.request(api.getAddressOfMy, { userid:'U000000000'}).then(res => {
+        res.map(item => {
+          item.lng = item.lng.toFixed(2)
+          item.lat = item.lat.toFixed(2)
+        })
+        _this.setData({
+          addressList: res
+        })
+        wx.setStorage({
+          key: 'myAddress',
+          data: res,
+        })
+      })
+    }
+    
   },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-  
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-  
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-  
+  addAddress(){
+    let _this = this    
+    wx.navigateTo({
+      url: '../../member/address/index',
+    })
   },
 
   /**
@@ -59,10 +57,4 @@ Page({
   
   },
 
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-  
-  }
 })

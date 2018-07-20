@@ -1,9 +1,12 @@
+.order-detail{
+  padding-bottom:90rpx;
+}
 .d-notice{
   padding: 10rpx 20rpx;
   box-sizing: border-box;
-  font-size: 28rpx;
+  font-size: 32rpx;
   background:#fff;
-
+  border-bottom: 1px solid #ddd;
 }
 .d-notice .n-top{
   display: flex;
@@ -23,12 +26,11 @@
   color:#fc4104;
 }
 .d-notice .n-bot{
-  font-size: 28rpx;
-  margin-left:50rpx;
+  font-size: 32rpx;
+  margin-left:30rpx;
   padding:10rpx 0;
 }
 .d-goods{
-  margin-top: 10rpx;
   background: #fff;
 }
 .d-goods .goods-title{
@@ -40,13 +42,16 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 28rpx;
+  font-size: 32rpx;
   padding:10rpx;
   background:#f4f4f4;
   border:1rpx solid #dedede;
 }
 .info-title .t-c{
   color: #009900;
+}
+.info-title .t-t{
+  font-size: 30rpx;
 }
 .t-t .i-l{
   margin-right: 30rpx;
@@ -63,7 +68,10 @@
 }
 .info-content .info-img{
   width: 80%;
-  padding-top:15rpx;
+  padding-top: 15rpx;
+  display:inline-block;
+  white-space:nowrap;
+  overflow-x:auto;
 }
 .info-content .info-img image{
   width: 120rpx;
@@ -71,7 +79,7 @@
   margin-left: 5%;
 }
 .info-content .info-total{
-  font-size: 28rpx;
+  font-size: 32rpx;
 }
 .info-total .i-p{
   color: #fc4104;
@@ -81,7 +89,7 @@
   margin-top:5rpx;
   background:#fff;
   padding:20rpx;
-  font-size: 28rpx;
+  font-size: 32rpx;
 }
 .d-detail .d-price{
   display: flex;
@@ -92,10 +100,10 @@
   margin-top:5px;
   background:#fff;
   padding:10rpx;
-  font-size: 28rpx;
+  font-size: 32rpx;
 }
 .d-dispatch .dis-title{
-  font-size:30rpx;
+  font-size:32rpx;
   font-weight:bold;
   text-align:center;
   line-height:50rpx;

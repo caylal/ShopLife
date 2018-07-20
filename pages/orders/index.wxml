@@ -6,9 +6,9 @@
   <view class="order-section">
     <view class='order' wx:if="{{orderList.length > 0}}" wx:for="{{orderList}}" wx:key="{{index}}">
       <view class='order-top'>
-        <view class='order-type'>今天 15:56</view>
+        <view class='order-type'>{{item.date}}</view>
         <view class='order-status'>
-          <view class="status-t wait-pay">待支付</view><view class="status-t go-pay">去支付</view>
+          <view class="status-t wait-pay">{{item.state.desc}}</view><view class="status-t go-pay" wx:if="{{item.state.value == 1}}">去支付</view>
         </view>
       </view>
        <view class='order-no'>
@@ -18,19 +18,20 @@
       <view class='order-goods'>
         <view class='goods-pic'>
         <view class="g-p">
-          <image class='g-pic' src='../../images/orange.png'></image>
-          <image class='g-pic' src='../../images/orange.png'></image>
-          <image class='g-pic' src='../../images/orange.png'></image>
+          <block wx:for="{{item.items}}" wx:key="{{index}}" wx:for-item="pic">
+             <image class='g-pic' src="{{pic.img}}"></image>
+          </block>
         </view>
-         <view class="g-more"><navigator url="../../../detail/index"><span class='iconfont icon-shuangjiantouyou'></span></navigator></view>
+         <view class="g-more"><navigator url="../../../detail/index?id={{item.id}}"><span class='iconfont icon-shuangjiantouyou'></span></navigator></view>
         </view>
         <view class='goods-count'>
-          <text class='g-p'>￥26</text>
-          <text class='g-n'>共3件</text>
+          <text class='g-p'>￥{{item.price}}</text>
+          <text class='g-n'>共{{item.quantity}}件</text>
         </view>
       </view>
     </view>
-    <view wx:if="{{orderList.length <= 0}}">
+    <view class="order-null" wx:if="{{orderList.length <= 0}}">
+      <image class="icon-img" src="/images/order.png"></image>
       <text>没有订单信息</text>
     </view>
   </view>

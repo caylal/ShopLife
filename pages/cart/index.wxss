@@ -227,3 +227,15 @@
   color: #fc4104;
   float: right;
 }
+.cart-container .cart-null {
+  text-align:center;
+  padding-top: 400rpx;
+  background: #fff;
+
+}
+.cart-null .icon-img{
+  height: 160rpx;
+  width: 160rpx;  
+  display:block;
+  margin: 0 auto;
+}

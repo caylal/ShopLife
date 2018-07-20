@@ -1,0 +1,17 @@
+<view class="container">
+  <view class="add-form">
+    <view class="form-item">
+      <input class="input" bindinput="bindName" placeholder="姓名" value="{{address.username}}" auto-focus/>
+    </view>
+    <view class="form-item">
+      <input class="input" bindinput="bindPhone" placeholder="手机号码" value="{{address.userphone}}" auto-focus/>
+    </view>     
+    <view class="form-item">
+      <input class="input" bindinput="bindAddress" placeholder="详细地址, 如街道、楼盘号等" value="{{address.address}}"/>
+    </view>
+  </view>
+  <view class="btns">
+    <button class="cancel" bindtap="cancelBtn">取消</button>
+    <button class="save" bindtap="saveBtn">保存</button>
+  </view>
+</view>

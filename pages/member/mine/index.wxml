@@ -8,12 +8,16 @@
     <view class="user-addr">
       <view class="addr-box">
         <view class="addr-title">我的收货地址</view>
-        <view class="addr-info">
-          <view class="addr-detail"><text>曾佳 </text> <text> 135****0755</text></view>
-          <view class="addr-detail a-edit"><text>深圳市罗湖区文锦花园13栋5A</text><view class="addr-eidt"><span class="iconfont icon-bianji icon-edit"></span></view></view>
-          <view class="addr-detail"><text>23.03</text>,<text> 113.75</text></view>
+        <view class="addr-info" wx:for="{{addressList}}" wx:key="{{index}}">
+          <view class="addr-detail"><text>{{item.username}} </text> <text> {{item.userphone}}</text></view>
+          <view class="addr-detail a-edit"><text>{{item.address}}</text><view class="addr-eidt"><span class="iconfont icon-bianji icon-edit"></span></view></view>
+          <view class="addr-detail"><text>{{item.lat}}</text>,<text> {{item.lng}}</text></view>
         </view>
+
       </view>
     </view> 
+    <view class="add-addr" bindtap="addAddress">
+      <view class="btn-title">新建收货地址</view>
+    </view>
   </view>
 </view>

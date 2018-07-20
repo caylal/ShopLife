@@ -1,0 +1,29 @@
+.shop-box{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    background: #fff;
+}
+.shop-box .shop-good{
+    display: flex;
+    width: 100%;
+    padding: 20rpx;
+    border-bottom: 1px solid #ddd;
+    align-items: center;
+}
+.shop-good .good-img{
+    width: 120rpx;
+    height: 120rpx;
+}
+.shop-good .good-info{
+    width: 65%;
+    margin-left: 15rpx;
+}
+.good-info .info-p-n{
+    margin-top: 20rpx;
+}
+.good-info .info-title{
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow-x: hidden;
+}

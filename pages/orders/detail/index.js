@@ -1,68 +1,59 @@
 import util from '../../../utils/util.js';
-Page({
-
-  /**
-   * 页面的初始数据
-   */
+import api from '../../../api/api.js';
+Page({  
   data: {
-  
+    orderDetail: {}
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
   onLoad: function (options) {
     wx.setNavigationBarTitle({
       title: util.pageTitle.orderM.detail
     });
+    this.getOrderDetail(options.id)
   },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
+  getOrderDetail(id){
+    let orderlist =  wx.getStorageSync('myOrderList')
+    let list = orderlist.filter(item => item.id == id)
+    if(list.length <= 0){
+      util.request(api.getOrderOfMy, {
+        pi: 1,
+        ps: 10,
+        uid: "U000000000"
+      }).then(res => {
+        if(!util.isEmpty(res)){
+          list = res.filter(item => item.id == id)
+          list[0].shopes.map(val => {
+            if (val.distance < 1000) {
+              val.distance = val.distance.toFixed(1) + 'm'
+            } else {
+              val.distance = (Math.round(val.distance / 100) / 10).toFixed(1) + 'km'
+            }
+          })
+          this.setData({
+            orderDetail: list[0]
+          })
+        }
+      })
+    }else{
+      list[0].shopes.map(item => {
+        if (item.distance < 1000) {
+          item.distance = item.distance.toFixed(1) + 'm'
+        } else {
+          item.distance = (Math.round(item.distance / 100) / 10).toFixed(1) + 'km'
+        }
+      })
+      this.setData({
+        orderDetail: list[0]
+      })
+    }   
   
   },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-  
+  goodsDetail(e){
+    let index = e.currentTarget.dataset.index
+    const list = this.data.orderDetail
+    const items = list.shopes[index].items
+    wx.navigateTo({
+      url: '../shopdetail/index?item=' + JSON.stringify(items)
+    })
   },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-  
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-  
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-  
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-  
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-  
-  }
 })

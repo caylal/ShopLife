@@ -1,24 +1,6 @@
 import util from '../../../utils/util.js';
 import api from '../../../api/api.js';
 
-const shops = [
-{
-    "id": "SG0000",
-    "isactive": true,
-    "shopid": "S0001",
-    "goodsid": "G0000",
-    "name": "易栈便利店",
-    "retailprice": 6
-  },
-    {
-      "id": "SG0001",
-      "isactive": true,
-      "shopid": "S0001",
-      "goodsid": "G0001",
-      "name": "易栈便利店",
-      "retailprice": 4
-    }
-  ]
 var app = getApp();
 Page({
 
@@ -30,10 +12,8 @@ Page({
       addressList:[], //地址列表
       address:{}, //当前地址     
       allShopList:[], // 门店列表
-      closeGoods: [], //需要重新选择门店的商品
       isTimeOut: false,
       totalMoney:0
-
   },
 
   /**
@@ -53,6 +33,10 @@ Page({
     return new Promise((resolve, reject) => {
       util.request(api.getAddressOfMy, { userid:'U000000000'}).then(res => {
         console.log("addr:=====" + JSON.stringify(res))
+        res.map(item => {
+          item.lng = item.lng.toFixed(2)
+          item.lat = item.lat.toFixed(2)
+        })
         _this.setData({
           addressList: res,
           address: res[0]
@@ -85,8 +69,9 @@ Page({
         address: _this.data.address.id,
         goods: goodsStr
       }).then(res => {
-        console.log("所有商品门店： " + JSON.stringify(res))
-        res.map(ress => {
+        console.log("所有商品门店： " + JSON.stringify(res))      
+       
+        res.map(ress => {         
           let timeout = _this.isTimeOut({ closinghour: ress.closinghour, openingtime: ress.openingtime })
           if (timeout) {
             ress.timeout = true
@@ -112,6 +97,7 @@ Page({
                 flag =  true
               }else{                               
                 val.expanded = true
+                val.checked = true
                 flag = false
               }               
             }
@@ -285,6 +271,11 @@ Page({
       }
       util.request(api.createOrder, data,"POST").then(res => {
         console.log("订单回调：" + JSON.stringify(res) )
+        if(!util.isEmpty(res)){
+          wx.navigateTo({
+            url: '../../orders/detail/index?id=' + res.id,
+          })
+        }
       })
      
     }

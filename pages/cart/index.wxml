@@ -1,73 +1,80 @@
-
 <view class="container">
-  <view class='cart-box'>
-    <view class='cart'>    
-      <view class='cart-title'>     
-        <view class="title-text title-red">商品上门</view> 
-      </view>
-      <view class="manage" wx:if="{{!showDelete}}" bindtap="showDel">管理</view>
-      <view class="manage" wx:else bindtap="showDel">完成</view>
-      <view class="cart-del" wx:if="{{showDelete}}"><view class="del-btn" bindtap='deleteCart'>删除</view></view>
-      <view class='cart-goods'>      
-        <view class='cart-store' wx:for="{{cart}}" wx:key="{{index}}">
-          <view class='store-title'>
-            <view data-shopname="{{item.shopname}}" data-checked="{{item.checked}}" data-index="{{index}}" bindtap="checkboxChange">
-              <span wx:if="{{item.checked}}" class="iconfont icon-yuanxingxuanzhongfill checkbox"></span>
-              <span wx:else class="iconfont icon-yuanxingweixuanzhong checkbox"></span>
-            </view>
-            
-            <image class='store-avatar' src='{{item.shopimg}}'></image>
-            <text class='store-name'>{{item.shopname}}</text>
-            <span class="iconfont icon-gengduo1"></span>
-          </view>
-          <view class='store-box'>
-            <view class='store-items' wx:for="{{item.items}}" wx:key="{{cindex}}" wx:for-item="good" wx:for-index="cindex">
-              <view class='store-check' catchtap="childChange" data-pname="{{item.shopname}}" data-pindex="{{index}}" data-index="{{cindex}}">
-                <span wx:if="{{good.checked}}" class="iconfont icon-yuanxingxuanzhongfill checkbox"></span>
+  <view class="cart-container" wx:if="{{cart.length > 0}}">
+    <view class='cart-box'>
+      <view class='cart'>    
+        <view class='cart-title'>     
+          <view class="title-text title-red">商品上门</view> 
+        </view>
+        <view class="manage" wx:if="{{!showDelete}}" bindtap="showDel">管理</view>
+        <view class="manage" wx:else bindtap="showDel">完成</view>
+        <view class="cart-del" wx:if="{{showDelete}}"><view class="del-btn" bindtap='deleteCart'>删除</view></view>
+        <view class='cart-goods'>      
+          <view class='cart-store' wx:for="{{cart}}" wx:key="{{index}}">
+            <view class='store-title'>
+              <view data-shopname="{{item.shopname}}" data-checked="{{item.checked}}" data-index="{{index}}" bindtap="checkboxChange">
+                <span wx:if="{{item.checked}}" class="iconfont icon-yuanxingxuanzhongfill checkbox"></span>
                 <span wx:else class="iconfont icon-yuanxingweixuanzhong checkbox"></span>
               </view>
               
-              <navigator class="store-goods" url="{{good.url}}">
-                <image class='goods-pic' src='{{good.goodsimg}}'></image>            
-                <view class='goods-info'>
-                  <view class='goods-title'>
-                    <view class='title'>{{good.goodsname}}{{good.goodsspec}}{{good.goodsunit}}</view>
-                    <view class="goods-bot">
-                      <view class='price'>￥{{good.goodsretailprice}}</view>
-                      <view class='goods-opt'>
-                        <view class="opt-btn" catchtap="editNum" data-btn="cut" data-pindex="{{index}}" data-cindex="{{cindex}}">-</view>
-                        <input class='goods-num' value="{{good.quantity}}" disabled="true" type="number"></input>                       
-                        <view class="opt-btn" catchtap='editNum' data-btn="add"  data-pindex="{{index}}" data-cindex="{{cindex}}">+</view>
-                      </view>   
-                    </view>
-                   
-                  </view>
-                            
+              <image class='store-avatar' src='{{item.shopimg}}'></image>
+              <text class='store-name'>{{item.shopname}}</text>
+              <span class="iconfont icon-gengduo1"></span>
+            </view>
+            <view class='store-box'>
+              <view class='store-items' wx:for="{{item.items}}" wx:key="{{cindex}}" wx:for-item="good" wx:for-index="cindex">
+                <view class='store-check' catchtap="childChange" data-pname="{{item.shopname}}" data-pindex="{{index}}" data-index="{{cindex}}">
+                  <span wx:if="{{good.checked}}" class="iconfont icon-yuanxingxuanzhongfill checkbox"></span>
+                  <span wx:else class="iconfont icon-yuanxingweixuanzhong checkbox"></span>
                 </view>
-              </navigator>                
-                       
-            </view>           
-          </view>
-        </view>            
+                
+                <navigator class="store-goods" url="{{good.url}}">
+                  <image class='goods-pic' src='{{good.goodsimg}}'></image>            
+                  <view class='goods-info'>
+                    <view class='goods-title'>
+                      <view class='title'>{{good.goodsname}}{{good.goodsspec}}{{good.goodsunit}}</view>
+                      <view class="goods-bot">
+                        <view class='price'>￥{{good.goodsretailprice}}</view>
+                        <view class='goods-opt'>
+                          <view class="opt-btn" catchtap="editNum" data-btn="cut" data-pindex="{{index}}" data-cindex="{{cindex}}">-</view>
+                          <input class='goods-num' value="{{good.quantity}}" disabled="true" type="number"></input>                       
+                          <view class="opt-btn" catchtap='editNum' data-btn="add"  data-pindex="{{index}}" data-cindex="{{cindex}}">+</view>
+                        </view>   
+                      </view>
+                      
+                    </view>
+                              
+                  </view>
+                </navigator>                
+                          
+              </view>           
+            </view>
+          </view>            
+        </view>
+      </view>    
+    </view>
+
+
+    <view class='cart-count'>
+      <view class='cart-checked' bindtap="selectAll">
+        <view>
+            <span wx:if="{{allSelected}}"  class='iconfont icon-yuanxingxuanzhongfill checkbox'> </span>
+            <span wx:else class="iconfont icon-yuanxingweixuanzhong checkbox"></span>
+        </view>     
+        <text class='allchecked'>全选</text>
       </view>
-    </view>    
-  </view>
-  
-  
-  <view class='cart-count'>
-    <view class='cart-checked' bindtap="selectAll">
-      <view>
-         <span wx:if="{{allSelected}}"  class='iconfont icon-yuanxingxuanzhongfill checkbox'> </span>
-         <span wx:else class="iconfont icon-yuanxingweixuanzhong checkbox"></span>
-      </view>     
-      <text class='allchecked'>全选</text>
+      
+      <view class='cart-text'>
+        <text>不含运费合计：</text><text class='cart-money'>￥{{checkedGoodsAmount}}</text>
+        <view class='cart-btn' wx:if="{{!showDelete}}" bindtap="checkoutOrder">去结算</view>
+        <view wx:else class='cart-btn'>去结算</view>
+      </view>
+      
     </view>
-    
-    <view class='cart-text'>
-      <text>不含运费合计：</text><text class='cart-money'>￥{{checkedGoodsAmount}}</text>
-      <view class='cart-btn' wx:if="{{!showDelete}}" bindtap="checkoutOrder">去结算</view>
-      <view wx:else class='cart-btn'>去结算</view>
-    </view>
-    
   </view>
+  <view class="cart-container" wx:if="{{cart.length <= 0}}">
+    <view class="cart-null">
+      <image class="icon-img" src="/images/cart.png"></image>
+      <text class="msg">您的购物车没有商品</text>
+    </view>       
+  </view>  
 </view>

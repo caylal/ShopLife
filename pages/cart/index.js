@@ -18,8 +18,7 @@ Page({
     wx.showLoading({
       title: '加载中',
     })
-    this.getMyCarts();
-   // util.delRequest(api.createOrdeleteCart + '/' +'SC20180624000013').then(res => console.log("delete"))
+    this.getMyCarts();   
   },
   getMyCarts(){
     let _this = this
@@ -28,26 +27,36 @@ Page({
       ps: _this.data.pageSize,
       uid: "U000000000"
     }).then( res => {
-      console.log("myCart:" + JSON.stringify(res));
-      const goods = res   
-      goods.map(value => {
-        value.checked = false
-        value.items.map(item => {
-          if (item.hasOwnProperty('shopid')){
-            item.url = `/pages/goods/detail/detail?url=${api.getShopGood}&&id=${item.shopgoodsid}`
-          }else{
-            item.url = `/pages/goods/detail/detail?url=${api.getGood}&&id=${item.goodsid}`
-          }
-          item.checked = false;         
-          return item
+      if(!util.isEmpty(res)){
+        console.log("myCart:" + JSON.stringify(res));
+        const goods = res
+        goods.map(value => {
+          value.checked = false
+          value.items.map(item => {
+            if (item.hasOwnProperty('shopid')) {
+              item.url = `/pages/goods/detail/detail?url=${api.getShopGood}&&id=${item.shopgoodsid}`
+            } else {
+              item.url = `/pages/goods/detail/detail?url=${api.getGood}&&id=${item.goodsid}`
+            }
+            item.checked = false;
+            return item
+          })
         })       
-      })  
-      console.log("mapCart:" + JSON.stringify(goods))
-      _this.setData({
-        cart: goods,
-        allSelected: false,
-        checkedGoodsAmount: 0
-      })     
+        console.log("mapCart:" + JSON.stringify(goods))
+        _this.setData({
+          cart: _this.data.pageIndex != 1 ? _this.data.cart.concat(goods) : goods,
+          allSelected: false,
+          checkedGoodsAmount: 0
+        })    
+      }
+      else{
+        console.log("没有购物车信息")
+        _this.setData({         
+          cart: [],
+          allSelected: false,
+          checkedGoodsAmount: 0            
+        })
+      }       
       wx.hideLoading()
     })
   },
@@ -245,5 +254,17 @@ Page({
       })
     }
    
+  },
+  /**
+  * 页面相关事件处理函数--监听用户下拉动作
+  */
+  onPullDownRefresh: function () {
+    this.onLoad()
+  },
+  onReachBottom: function () {
+    // this.setData({
+    //   pageIndex: this.data.pageIndex + 1
+    // })
+    // this.getMyCarts()
   }
 })

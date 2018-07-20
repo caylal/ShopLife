@@ -13,6 +13,7 @@
   align-items: center;
   text-align: center;
   background-color: #eee;
+  z-index: 2;
 }
  .swiper-tab .tab-item{
   flex: 1;
@@ -122,6 +123,9 @@
 }
 .goods-pic .g-p{
   width: 90%;
+  display: inline-block;
+  white-space: nowrap;
+  overflow-x: auto;
 }
 
 .goods-pic .g-more span{
@@ -130,8 +134,8 @@
   color: #dedede;
 }
 .goods-pic .g-pic{
-  width: 100rpx;
-  height: 100rpx;
+  width: 120rpx;
+  height: 120rpx;
   margin-left: 15%;
 }
 .g-p :first-child{
@@ -153,3 +157,13 @@
   font-size: 30rpx;
   letter-spacing: 5rpx; 
 }
+.order-null{
+  text-align: center;
+  padding-top:300rpx;
+}
+.order-null .icon-img{
+  width: 120rpx;
+  height: 120rpx;
+  display: block;
+  margin: 0 auto;
+}  

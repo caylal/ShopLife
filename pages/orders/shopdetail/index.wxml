@@ -1,0 +1,15 @@
+<view class="container">
+    <view class="shop-box">
+        <block wx:for="{{shopDetailList}}" wx:key="{{index}}">
+            <navigator class="shop-good" url="{{item.url}}">
+                <image class="good-img" src="{{item.img}}"></image>
+                <view class="good-info">
+                    <view class="info-title">{{item.name}} {{item.spec}}{{item.unit}}</view>
+                    <view class="info-p-n">￥{{item.retailprice}} x {{item.quantity}}</view>
+                </view>
+                <view class="good-price">￥{{item.retailprice}}</view>
+            </navigator>
+       </block>
+    </view>
+    
+</view>

@@ -1,20 +1,23 @@
 {
   "pages":[
     "pages/home/index/index",
+    "pages/home/location/location",
     "pages/logs/logs",
     "pages/cart/index",
-    "pages/orders/index",
-    "pages/member/index",
-    "pages/neighbor/index",
+    "pages/cart/confirmOrder/index",
     "pages/search/search",
-    "pages/home/location/location",
     "pages/category/index" ,
-    "pages/goods/detail/detail",
-    "pages/member/msg/index",
+    "pages/goods/detail/detail", 
+    "pages/neighbor/index",   
     "pages/neighbor/map/index",
+    "pages/orders/index",
     "pages/orders/detail/index",
+    "pages/orders/shopdetail/index",
+    "pages/member/index",
+    "pages/member/msg/index",
     "pages/member/mine/index",
-    "pages/cart/confirmOrder/index"
+    "pages/member/address/index"
+        
   ],
   "window":{
     "backgroundTextStyle":"light",

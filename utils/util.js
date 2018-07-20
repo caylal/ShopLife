@@ -46,6 +46,8 @@ const request = (url,data={},method = "Get") => {
         console.log("success");
         if (res.statusCode == 200 && res.data._wrapperCode == 200){         
           resolve(res.data.result)
+        } else if (res.statusCode == 200 && res.data.result == null){
+          resolve(res.data.result)
         }
         else{
           reject(res.data.error)
@@ -134,26 +136,28 @@ const getMyCart = (pindex = 1, psize = 10) =>{
       ps: psize,
       uid: "U000000000"
     }).then(res => {
-      const result = res
-      const list = []
-      result.forEach(item => {
-        item.items.forEach(val => {
-          list.push(val)
+      if(!isEmpty(res)){        
+        const list = []
+        res.forEach(item => {
+          item.items.forEach(val => {
+            list.push(val)
+          })
         })
-      })
-      console.log("myCartList===:" + JSON.stringify(list))
-      const storeCart = wx.getStorageSync('myCart') || []  
-      const lalist = storeCart.concat(list)
-      wx.setStorage({
-        key: 'myCart',
-        data: lalist,
-      })
-      console.log("购物车数量：" + list.length)
-      if (list.length == 10) {
-        getMyCart(pindex + 1)
-      }else{
-        resolve(lalist)
+        console.log("myCartList===:" + JSON.stringify(list))
+        const storeCart = wx.getStorageSync('myCart') || []
+        const lalist = storeCart.concat(list)
+        wx.setStorage({
+          key: 'myCart',
+          data: lalist,
+        })
+        console.log("购物车数量：" + list.length)
+        if (list.length == 10) {
+          getMyCart(pindex + 1)
+        } else {
+          resolve(lalist)
+        }
       }
+     
     }).catch(err => reject(err)) 
   }) 
  
@@ -189,19 +193,21 @@ const filterGood = (good) => {
   const list = wx.getStorageSync('myCart')
   console.log("myCart:" + JSON.stringify(list))
   let data;
-  list.forEach(val => {
-    if (!val.hasOwnProperty("shopid") && !good.hasOwnProperty("shopid")) {
-      if (val.goodsid === good.goodsid){
-        data = val
-        return
+  if(list.length > 0){
+    list.forEach(val => {
+      if (!val.hasOwnProperty("shopid") && !good.hasOwnProperty("shopid")) {
+        if (val.goodsid === good.goodsid) {
+          data = val
+          return
+        }
+      } else {
+        if (val.shopid === good.shopid && val.shopgoodsid === good.shopgoodsid) {
+          data = val
+          return
+        }
       }
-    } else {
-      if (val.shopid === good.shopid && val.shopgoodsid === good.shopgoodsid ){
-        data = val
-        return
-      }      
-    }
-  })
+    })
+  }  
   if (!isEmpty(data)) {
     return data.quantity
   }
@@ -236,9 +242,12 @@ const editCart = (data) => {
     request(api.createOrdeleteCart, data, "POST").then(res => {
       console.log("addorcut:===" + JSON.stringify(res))
       const listall = wx.getStorageSync('myCart')
-      const list = listall.filter(item => {
-        return item.shoppingcartid == res.id
-      })
+      let list = []
+      if(listall.length > 0){
+        list = listall.filter(item => {
+          return item.shoppingcartid == res.id
+        })
+      }      
       if (list.length <= 0){
         getMyCart()
       }else{
@@ -273,13 +282,14 @@ const pageTitle = {
   },
   member: {
     index: "个人中心",
-    setting: "设置"
+    setting: "设置",
+    address: "地址信息"
   },
   search: "搜索",
   order: "我的订单",
   orderM: {
     detail: '订单详情',
-    checkout: '检查订单',
+    shopdetail: '门店商品清单',
     payment: '订单付款',
     s1: '待付款',
     s2: '待发货',
