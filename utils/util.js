@@ -32,6 +32,43 @@ const isEmpty = n => {
   return true;
 }
 
+//换算距离低于1000返回米，否则返回千米
+const transDistance = len => {
+  if(!len || Math.abs(len) <= 0.000001){
+    return "0m"
+  }
+  if (len < 1000) {
+    return len.toFixed(2) + 'm'
+  } 
+  else {
+    return (Math.round(len/ 100) / 10).toFixed(1) + 'km'
+  } 
+}
+// 时间转换
+const transDate = date => {
+  let tt = new Date(date);
+  let days = parseInt((new Date().getTime() - tt) / 86400000);
+  let today = new Date().getDate();
+  let year = tt.getFullYear();
+  let mouth = tt.getMonth() + 1;
+  let day = tt.getDate();
+  let time = tt.getHours() < 10 ? "0" + tt.getHours() : tt.getHours();
+  let min = tt.getMinutes() < 10 ? "0" + tt.getMinutes() : tt.getMinutes();
+  let result, offset;
+  offset = Math.abs(today - day);
+  if (days < 4 && offset < 4) {
+    if (offset === 0) {
+      result = "今天" + time + ":" + min;
+    } else if (offset === 1) {
+      result = "昨天" + time + ":" + min;
+    } else if (offset === 2) {
+      result = "前天" + time + ":" + min;
+    }
+  } else {
+    result = year + "-" + mouth + "-" + day + " " + time + ":" + min;
+  }
+  return result
+}
 /**封装微信的request */
 const request = (url,data={},method = "Get") => {
   return new Promise((resolve,reject) =>{
@@ -60,11 +97,12 @@ const request = (url,data={},method = "Get") => {
     })
   })
 }
-const delRequest = (url, data) => { 
+const delOrPutRequest = (url, id, data = {}, method = "DELETE") => { 
   return new Promise((resolve, reject) => {
     wx.request({
-      url: url + '/' + data,
-      method: 'DELETE',
+      url: url + '/' + id,
+      method: method,
+      data: data,
       success: res => {
         if(res.statusCode == 200 && res.data._wrapperCode == 200){
           resolve(res.data.result)
@@ -79,54 +117,7 @@ const delRequest = (url, data) => {
   })
 }
 
-/**检查微信会话是否过期 */
-const checkSession = () => {
-  return new Promise((resolve,reject) => {
-    wx.checkSession({
-      success:() => {
-        resolve(true);
-      },
-      fail: () => {
-        reject(false);
-      }
-    })
-  })
-}
 
-/**调用微信登录 */
-const login = () => {
-  return Promise((resolve, reject) => {
-    wx.login({
-      success: res =>{
-        if(res.code){
-          console.log(res);
-          resolve(res);
-        }
-        else{
-          reject(res);
-        }
-      },
-      fail: err => {
-        reject(err);
-       }
-    })
-  })
-}
-
-/**获取用户信息 */
-const getUserInfo = () => {
-  return new Promise((resolve, reject) => {
-    wx.getUserInfo({
-      withCredentials: true,
-      success: res => {
-        resolve(res);
-       },
-       fail: err =>{
-         reject(err);
-       }
-    })
-  })
-}
 /**获取用户购物车信息 */
 const getMyCart = (pindex = 1, psize = 10) =>{ 
   wx.removeStorageSync('myCart')  
@@ -161,33 +152,6 @@ const getMyCart = (pindex = 1, psize = 10) =>{
     }).catch(err => reject(err)) 
   }) 
  
-}
-// 获取所在社区所有门店
-const getAllShop = (data = {
-  pi: 1,
-  ps: 10,
-  nbhd: "N000",                //所在社区id
-  lng:"22.6348928889",     //所在经纬度位置
-  lat: "114.0321329018"}) => {
-    wx.removeStorageSync('allShop')
-    return new Promise((resolve, reject) => {
-      request(api.getNeighborShop, data).then(res => {
-        console.log("门店数量：" + res.length)
-        const storelist = wx.getStorageSync('allShop') || []
-        const list = storelist.concat(res)
-        wx.setStorage({
-          key: 'allShop',
-          data: list,
-        })
-        if(res.length >= 10) {
-          data.pi += 1
-          getAllShop(data)
-        }else{
-          resolve(list)
-        }
-
-      }).catch(err => reject(err))
-    })
 }
 const filterGood = (good) => {
   const list = wx.getStorageSync('myCart')
@@ -310,14 +274,12 @@ module.exports = {
   formatTime: formatTime,
   pageTitle: pageTitle,
   request,
-  delRequest,
-  checkSession,
-  login,
-  getUserInfo,
-  getMyCart,
-  getAllShop,
+  delOrPutRequest, 
+  getMyCart, 
   filterGood,
   editCart,
   isEmpty,
-  numDate
+  numDate,
+  transDistance,
+  transDate
 }

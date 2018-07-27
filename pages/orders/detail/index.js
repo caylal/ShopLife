@@ -23,11 +23,7 @@ Page({
         if(!util.isEmpty(res)){
           list = res.filter(item => item.id == id)
           list[0].shopes.map(val => {
-            if (val.distance < 1000) {
-              val.distance = val.distance.toFixed(1) + 'm'
-            } else {
-              val.distance = (Math.round(val.distance / 100) / 10).toFixed(1) + 'km'
-            }
+            val.distance = util.transDistance(val.distance)           
           })
           this.setData({
             orderDetail: list[0]

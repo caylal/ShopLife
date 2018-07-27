@@ -47,5 +47,6 @@ module.exports = {
   getOrderOfMy: BASE_URL + 'order/my',                       // 获取我的订单信息参数{pi: 1, ps: 20,uid:} 
 
   getAddressOfMy: BASE_URL + 'address/my' ,                   // 获取地址信息 参数 {userid: 'U000000001'}  
+  setAddressOfMy: BASE_URL + 'address',                       // 添加购物车
   createOrder: BASE_URL + 'order'                             // 提交订单
 }

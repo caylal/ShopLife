@@ -194,7 +194,7 @@ Page({
       })
     } else {
       list.forEach( res => {
-        util.delRequest(api.createOrdeleteCart, res.shoppingcartid).then(result => {
+        util.delOrPutRequest(api.createOrdeleteCart, res.shoppingcartid).then(result => {
           console.log(result)
           if(result){
             const cart = allCart.filter(item => {

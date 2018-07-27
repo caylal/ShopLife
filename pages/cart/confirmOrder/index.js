@@ -13,7 +13,8 @@ Page({
       address:{}, //当前地址     
       allShopList:[], // 门店列表
       isTimeOut: false,
-      totalMoney:0
+      totalMoney:0,
+      isFresh: false
   },
 
   /**
@@ -22,34 +23,58 @@ Page({
   onLoad: function (options) {
     this.getAddress().then(res => {
       this.getCartList() 
-
-    })   
+    }).catch(err => {
+      wx.navigateTo({
+        url: '../../member/address/index',
+      })
+    })  
+  },
+  onShow(){
+    let pages = getCurrentPages()
+    let currPage = pages[pages.length - 1]
+    if(util.isEmpty(currPage.data.isFresh) && currPage.data.isFresh){
+      this.setData({
+        isFresh: currPage.data.isFresh
+      })          
+    }  
+    this.onLoad()  
   },
   getAddress(){
-    let _this = this
-    wx.showLoading({
-      title:'加载中',
-    })
+    let _this = this 
+    const store_addr = wx.getStorageSync('myAddress')
     return new Promise((resolve, reject) => {
-      util.request(api.getAddressOfMy, { userid:'U000000000'}).then(res => {
-        console.log("addr:=====" + JSON.stringify(res))
-        res.map(item => {
-          item.lng = item.lng.toFixed(2)
-          item.lat = item.lat.toFixed(2)
-        })
+      if(!_this.data.isFresh && !util.isEmpty(store_addr)){
         _this.setData({
-          addressList: res,
-          address: res[0]
-        })
-        wx.setStorage({
-          key: 'myAddress',
-          data: res,
+          addressList: store_addr,
+          address: store_addr[0]
         })
         resolve(true)
-      })    
-    })
-    
-   
+      }else{
+        wx.showLoading({
+          title:'加载中',
+        })        
+        util.request(api.getAddressOfMy, { userid:'U000000000'}).then(res => {
+          if(!util.isEmpty(res)){
+            console.log("addr:=====" + JSON.stringify(res))
+            res.map(item => {
+              item.lng = item.lng.toFixed(2)
+              item.lat = item.lat.toFixed(2)
+            })
+            _this.setData({
+              addressList: res,
+              address: res[0]
+            })
+            wx.setStorage({
+              key: 'myAddress',
+              data: res,
+            })
+            resolve(true)
+          }else{
+            reject(false)
+          }       
+        })
+      }
+    });
   },
   getCartList(){
     let list = wx.getStorageSync('checkOrder')

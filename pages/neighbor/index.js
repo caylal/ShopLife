@@ -8,7 +8,10 @@ Page({
    */
   data: {
     nbhdList: [],
-    showMap: false
+    showMap: false,
+    isFresh: false,
+    pageIndex: 1,
+    pageSize: 10
   },
 
   /**
@@ -17,42 +20,46 @@ Page({
   onLoad: function (options) {
     wx.setNavigationBarTitle({
       title: util.pageTitle.nbhd.index
-    });
-    wx.showLoading({
-      title: '加载中...'
-    });
+    });   
     this.getNbhdShop();
   },
   getNbhdShop(){
     let _this = this  
     const data = {
-      pi: 1,
-      ps: 10,
+      pi: _this.data.pageIndex,
+      ps: _this.data.pageSize,
       nbhd: "N000",                //所在社区id
       lng: "22.6348928889",     //所在经纬度位置
       lat: "114.0321329018"
     }  
-    util.request(api.getNeighborShop, data).then( res => {
-      console.log("getNbhdShop:" + JSON.stringify(res))
-      const data = res
-      data.map(item => {
-        if(item.distance < 1000){
-          item.distance = item.distance.toFixed(2) +'m'
-        }else{           
-          item.distance = (Math.round(item.distance /100 ) / 10).toFixed(1) + 'km'
-        }
-        return item
-      })
+    const store_list = wx.getStorageSync('shopList')
+    if(store_list.length > 0 && !_this.data.isFresh){
       _this.setData({
-        nbhdList: data,
+        nbhdList: store_list,
         showMap: true
       })
-      wx.setStorage({
-        key: 'shopList',
-        data: data,
+    }else{
+      wx.showLoading({
+        title: '加载中...'
+      });
+      util.request(api.getNeighborShop, data).then( res => {
+        console.log("getNbhdShop:" + JSON.stringify(res))
+        if(!util.isEmpty(res)){
+          res.map(item => {
+            item.distance = util.transDistance(item.distance)            
+          })
+          _this.setData({
+            nbhdList:  _this.data.pageIndex != 1 ? _this.data.cart.concat(res) : res,
+            showMap: true
+          })
+          wx.setStorage({
+            key: 'shopList',
+            data: _this.data.nbhdList,
+          })
+          wx.hideLoading()
+        }
       })
-      wx.hideLoading()
-    })
+    }   
   },
   showMapView(){
     const data = JSON.stringify(this.data.nbhdList)
@@ -66,7 +73,27 @@ Page({
     wx.navigateTo({
       url: '../category/index?itemId=' + itemId
     })
-  }
+  },
+  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh: function () {
+    this.setData({
+      isFresh: false,
+      pageIndex: this.data.pageIndex + 1
+    })
+    this.onLoad()
+  },
 
+  /**
+   * 页面上拉触底事件的处理函数
+   */
+  onReachBottom: function () {
+    this.setData({
+      isFresh: true,
+      pageIndex: 1
+    })
+    this.onLoad()
+  },
  
 })

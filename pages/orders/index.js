@@ -44,7 +44,7 @@ Page({
         if (!util.isEmpty(res)) {
           res.map(item => {
             item.state = OrderState(item.status)
-            item.date = transDate(item.createdt)
+            item.date = util.transDate(item.createdt)
           })
           console.log("所有订单信息：" + JSON.stringify(res))
           const store_order = wx.getStorageSync('myOrderList')
@@ -131,28 +131,4 @@ function OrderState(state){
       break;
   }
   return status
-}
-function transDate(date){
-  let tt = new Date(date);
-  let days = parseInt((new Date().getTime() - tt) / 86400000);
-  let today = new Date().getDate();
-  let year = tt.getFullYear();
-  let mouth = tt.getMonth() + 1;
-  let day = tt.getDate();
-  let time = tt.getHours() < 10 ? "0" + tt.getHours() : tt.getHours();
-  let min = tt.getMinutes() < 10 ? "0" + tt.getMinutes() : tt.getMinutes();
-  let result, offset;
-  offset = Math.abs(today - day);
-  if (days < 4 && offset < 4) {
-    if (offset === 0) {
-      result = "今天" + time + ":" + min;
-    } else if (offset === 1) {
-      result = "昨天" + time + ":" + min;
-    } else if (offset === 2) {
-      result = "前天" + time + ":" + min;
-    }
-  } else {
-    result = year + "-" + mouth + "-" + day + " " + time + ":" + min;
-  }
-  return result
 }

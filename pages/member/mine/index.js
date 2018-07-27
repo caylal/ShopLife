@@ -3,7 +3,8 @@ import api from '../../../api/api.js';
 Page({ 
   data: {
     userInfo: {},
-    addressList: []
+    addressList: [],
+    isFresh: false
   },
   
   onLoad: function (options) {
@@ -12,10 +13,20 @@ Page({
     });
     this.getAddress()
   },
+  onShow(){
+    let pages = getCurrentPages()
+    let currPage = pages[pages.length - 1]
+    if(util.isEmpty(currPage.data.isFresh) && currPage.data.isFresh){
+      this.setData({
+        isFresh: currPage.data.isFresh
+      })  
+      this.onLoad()         
+    }       
+  },
   getAddress(){
     let _this = this
     let list = wx.getStorageSync('myAddress');
-    if(list.length > 0){
+    if(list.length > 0 && !_this.data.isFresh){
       _this.setData({
         addressList: list
       })
@@ -40,6 +51,15 @@ Page({
     let _this = this    
     wx.navigateTo({
       url: '../../member/address/index',
+    })
+  },
+  editAddress(e){
+    const addRList = this.data.addressList
+    let index = e.currentTarget.dataset.index
+    let this_addr = addRList[index]
+    const addr_str = JSON.stringify(this_addr)
+    wx.navigateTo({
+      url: '../../member/address/index?address='+ addr_str,
     })
   },
 
