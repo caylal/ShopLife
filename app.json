@@ -1,5 +1,7 @@
 {
   "pages":[
+    "pages/welcome/index",
+    "pages/authorize/index",
     "pages/home/index/index",
     "pages/home/location/location",
     "pages/logs/logs",

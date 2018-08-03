@@ -8,7 +8,7 @@
 		"newFeature": true
 	},
 	"compileType": "miniprogram",
-	"libVersion": "1.9.94",
+	"libVersion": "2.2.0",
 	"appid": "wx2b45c1f6d2e1694d",
 	"projectname": "shopLife",
 	"isGameTourist": false,

@@ -1,12 +1,12 @@
 import util from '../utils/util.js'
 import api from '../api/api.js'
 
-const AuthLogin = () => {
+const loginByCustom = () => {
   let code = null
   return new Promise((resolve, reject) => {
-    return util.login().then(res => {
+    return login().then(res => {
       code = res.code
-      return util.getUserInfo()
+      return getUserInfo()
     }).then(userinfo => {
       util.request(api.AuthLogin, {code: code,userInfo: userinfo}, 'POST').then(res => {
         // 存储用户信息
@@ -16,8 +16,7 @@ const AuthLogin = () => {
           resolve(res)
         }else{
           reject(res)
-        }
-        
+        }        
       }).catch(err => reject(err))
     }).catch(err => reject(err))
   })
@@ -76,9 +75,13 @@ const checkLogin = () => {
       checkSession().then(() => {
         resolve(true)
       }).catch(() => reject(false))
+    }else{
+      reject(false)
     }
   })
 }
 module.exports = {
-  AuthLogin: AuthLogin
+  checkLogin: checkLogin,
+  getUserInfo: getUserInfo,
+  loginByCustom: loginByCustom
 }
