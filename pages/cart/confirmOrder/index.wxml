@@ -5,7 +5,7 @@
     <view class="info-name">{{address.username}} <text class="add-phone"> {{address.userphone}}</text></view>
     <view class="info-addr"> {{address.address}}</view>
   </view>
-  <view class="add-edit"><text>修改 </text><span class="iconfont icon-gengduo1"></span></view>
+  <view class="add-edit" bindtap="editAddr"><text>修改 </text><span class="iconfont icon-gengduo1"></span></view>
   </view>  
   <view class="cartlist">
     <view class="item-box" wx:for="{{cartList}}" wx:key="{{index}}">

@@ -32,12 +32,24 @@ Page({
   onShow(){
     let pages = getCurrentPages()
     let currPage = pages[pages.length - 1]
+    let checked = currPage.data.checked
+    let addinfo = currPage.data.info
     if(util.isEmpty(currPage.data.isFresh) && currPage.data.isFresh){
       this.setData({
         isFresh: currPage.data.isFresh
       })          
-    }  
-    this.onLoad()  
+    } 
+    if(!checked){
+      this.onLoad() 
+    } 
+    else{
+      let infoObj = JSON.parse(addinfo)
+      this.setData({
+        address: infoObj
+      })
+      this.getCartList()
+    }
+    
   },
   getAddress(){
     let _this = this 
@@ -75,6 +87,11 @@ Page({
         })
       }
     });
+  },
+  editAddr(){
+    wx.navigateTo({
+      url: '../../member/mine/index?showInfo='+ false,
+    })
   },
   getCartList(){
     let list = wx.getStorageSync('checkOrder')

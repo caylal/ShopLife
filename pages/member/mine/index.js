@@ -4,13 +4,19 @@ Page({
   data: {
     userInfo: {},
     addressList: [],
-    isFresh: false
+    isFresh: false,
+    showInfo: true,
   },
   
   onLoad: function (options) {
     wx.setNavigationBarTitle({
       title: util.pageTitle.member.setting
     });
+    if (!util.isEmpty(options.showInfo)){
+      this.setData({
+        showInfo: false
+      })
+    }
     this.getAddress()
   },
   onShow(){
@@ -60,6 +66,20 @@ Page({
     const addr_str = JSON.stringify(this_addr)
     wx.navigateTo({
       url: '../../member/address/index?address='+ addr_str,
+    })
+  },
+  chooseAddr(e){
+    let index = e.currentTarget.dataset.index
+    const all_list = this.data.addressList
+    let str = JSON.stringify(all_list[index])
+    let pages = getCurrentPages();
+    let prev = pages[pages.length - 2]
+    prev.setData({
+      checked: true,
+      info: str
+    })
+    wx.navigateBack({
+      delta: 1
     })
   },
 

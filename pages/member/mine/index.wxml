@@ -1,6 +1,6 @@
 <view class="container">
   <view class="user-box">
-    <view class="user-info">
+    <view class="user-info" wx:if="{{showInfo}}">
       <view class="u-img"><image src="../../../images/pic.jpg"></image></view>
       <view class="u-tel"><view class="tel"><text>电话:</text><text class="u-mrg">15676210481</text></view><view class="edit"><span class="iconfont icon-bianji icon-edit"></span></view></view>
       <view class="u-tel"> <view class="tel"><text>昵称:</text><text class="u-mrg">广东雨神</text></view> <view class="edit"><span class="iconfont icon-bianji icon-edit"></span></view></view>
@@ -8,12 +8,13 @@
     <view class="user-addr">
       <view class="addr-box">
         <view class="addr-title">我的收货地址</view>
-        <view class="addr-info" wx:for="{{addressList}}" wx:key="{{index}}">
-          <view class="addr-detail"><text>{{item.username}} </text> <text> {{item.userphone}}</text></view>
-          <view class="addr-detail a-edit"><text>{{item.address}}</text><view class="addr-eidt" bindtap="editAddress" data-index="{{index}}"><span class="iconfont icon-bianji icon-edit"></span></view></view>
-          <view class="addr-detail"><text>{{item.lat}}</text>,<text> {{item.lng}}</text></view>
-        </view>
-
+        <block wx:for="{{addressList}}" wx:key="{{index}}"> 
+          <view class="addr-info" bindtap="{{!showInfo ? 'chooseAddr': ''}}" data-index='{{index}}'>
+            <view class="addr-detail"><text>{{item.username}} </text> <text> {{item.userphone}}</text></view>
+            <view class="addr-detail a-edit"><text>{{item.address}}</text><view class="addr-eidt" catchtap="editAddress" data-index="{{index}}"><span class="iconfont icon-bianji icon-edit"></span></view></view>
+            <view class="addr-detail"><text>{{item.lat}}</text>,<text> {{item.lng}}</text></view>
+          </view>
+        </block>
       </view>
     </view> 
     <view class="add-addr" bindtap="addAddress">
