@@ -1,5 +1,6 @@
 import user from '../../service/user.js'
 import util from '../../utils/util.js'
+import api from '../../api/api.js'
 let app = getApp()
 Page({
 
@@ -74,6 +75,9 @@ Page({
   // 获取用户购物车信息
   // 获取用户订单信息
   // 获取用户所在位置
+  getAllCity(){
+    
+  },
   onShow: function () {
     // 是否已有购物车信息，订单信息，用户信息等。没有就请求，有则无需请求
 

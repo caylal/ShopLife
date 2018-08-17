@@ -35,24 +35,31 @@
       <view>
         <view class='l-current'>
           <view class='l-position' bindtap="backChoose">
-            <text class='l-c' data-key="backCity" data-id="{{city.id}}">{{city.name}}</text><text class='l-c' data-key="backArea" data-id="{{city.id}}">{{area.name}}</text><text class='l-c' data-key="backNb" data-id="{{city.id}}">{{nbhd.name}}</text>
+            <text class='l-c' data-key="backProvince" data-id="province.id">{{province.namecn}}</text>
+            <text class='l-c' data-key="backCity" data-id="{{city.id}}">{{city.namecn}}</text><text class='l-c' data-key="backArea" data-id="{{city.id}}">{{area.namecn}}</text><text class='l-c' data-key="backNb" data-id="{{city.id}}">{{nbhd.namecn}}</text>
           </view>
           <span class="iconfont icon-dingwei" bindtap="choosed"></span>
         </view>
       </view>
       
-      <view class='l-area' style="display:{{showCity ? 'block':'none'}}">
-        <view wx:for="{{cityList}}" wx:key="{{index}}">
+       <view class='l-area' style="display:{{showProvince ? 'block':'none'}}">
+        <view wx:for="{{allCitys}}" wx:key="{{index}}">
           <text class='l-sort'>{{item.forShort}}</text>
-          <block wx:for="{{item.cities}}" wx:for-item="cities" wx:key="{{cities.id}}" >
-            <view class='l-city'data-cityid="{{cities.id}}" bindtap="chooseCity">{{cities.namecn}}</view>
+          <block wx:for="{{item.cities}}" wx:for-item="cities" wx:key="{{cities.id}}" wx:for-index="pindex">
+            <view class='l-city' data-pindex="{{pindex}}" data-index="{{index}}" bindtap="chooseProvince">{{cities.namecn}}</view>
           </block>          
         </view>         
       </view> 
 
+      <view class='l-area' style="display:{{showCity ? 'block':'none'}}">
+        <block wx:for="{{cityList}}" wx:key="item.id">
+          <view class='l-city'data-areaid="{{item.id}}" data-index="{{index}}" bindtap="chooseCity">{{item.namecn}}</view>
+        </block>        
+      </view> 
+
       <view class='l-area' style="display:{{showArea ? 'block':'none'}}">
         <block wx:for="{{areaList}}" wx:key="item.id" >
-          <view class='l-city'data-areaid="{{item.id}}" data-areaname="{{item.namecn}}" bindtap="chooseArea">{{item.namecn}}</view>
+          <view class='l-city'data-areaid="{{item.id}}" data-index="{{index}}" bindtap="chooseArea">{{item.namecn}}</view>
         </block>        
       </view> 
       

@@ -24,6 +24,9 @@ Page({
       wx.setStorageSync('userInfo', e.detail.userInfo)
       user.loginByCustom().then(res => {
         wx.navigateBack()
+      }).catch(err => {
+        //登录失败
+        wx.navigateBack()
       })
     }
 

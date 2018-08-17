@@ -9,13 +9,17 @@ Page({
    */
   data: {
     SearchVal:"",
+    province: {},
     city:{},
     area: {},
     nbhd: {},
-    showCity: true,
+    showProvince: true,
+    showCity: false,
     showArea: false,
     showNbhd: false,
-    choose: false,     
+    choose: false, 
+    allCitys: [],
+    provinceList: [],    
     cityList: [],
     areaList: [],
     nbhdList: [], 
@@ -30,6 +34,9 @@ Page({
     wx.setNavigationBarTitle({
       title: util.pageTitle.nbhd.list
     });
+    wx.showLoading({
+      title: '加载中',
+    })
     const areaNbhd = wx.getStorageSync('areaNbhd')
     if(areaNbhd.length > 0){
       this.setData({
@@ -45,15 +52,17 @@ Page({
     const storeAll = wx.getStorageSync('allCitys')
     if(storeAll){
       _this.setData({
-        cityList: storeAll,      
+        allCitys: storeAll,      
       })
+      wx.hideLoading()
     }else{
       util.request(api.getAllCity).then(res => {
         const data = res
         console.log("city:" + JSON.stringify(data))
         _this.setData({
-          cityList: data
+          allCitys: data
         })
+        wx.hideLoading()
         wx.setStorage({
           key: 'allCitys',
           data: data,
@@ -62,28 +71,50 @@ Page({
     }
     if(isback){
       _this.setData({
+        province: {},
         city: {},
         area: {},
         nbhd: {},
-        showCity: true,
+        showProvince: true,
+        showCity: false,
         showArea: false,
         showNbhd: false,
       })
     }
    
-  }, 
-  chooseCity(e){
-    let cityId = e.currentTarget.dataset.cityid
-    const areas = getStoreOfCity(cityId)
-    console.log("areas:" + JSON.stringify(areas))
-    const children = areas[0].children
-    const choose_city = { id: cityId, name: areas[0].namecn }
+  },
+  chooseProvince(e){
+    const {index, pindex} = e.currentTarget.dataset
+    const list = this.data.allCitys
+    let prov = list[index].cities
+    let choose_p = prov[pindex]
+    const children = choose_p.children
+    const choose_province = {id:choose_p.id, name: choose_p.namecn}
     if(cityAreaNbhd.length > 0) {
       cityAreaNbhd = []
     }
+    cityAreaNbhd.push(choose_province)
+    this.setData({
+      province: choose_p,
+      city: {},
+      area: {},
+      nbhd: {},
+      cityList: children || [],
+      showProvince: children.length <= 0 ? true : false,    
+      showCity: children.length >= 0 ? true : false,     
+      choose: true   
+    })
+    
+  }, 
+  chooseCity(e){
+    let index = e.currentTarget.dataset.index
+    const list = this.data.province
+    const choose_c = list.children[index]  
+    let children = choose_c.children  
+    const choose_city = { id: choose_c.id, name: choose_c.namecn }   
     cityAreaNbhd.push(choose_city)
     this.setData({
-      city: choose_city,
+      city: choose_c,
       area: {},
       nbhd: {},
       areaList: children || [],
@@ -94,25 +125,25 @@ Page({
      
   },
   chooseArea(e){
-    let areaId = e.currentTarget.dataset.areaid
-    let areaName = e.currentTarget.dataset.areaname    
-    let _this = this
-    const choose_area = { id: areaId, name: areaName }
+    let index = e.currentTarget.dataset.index
+    const list = this.data.city
+    const choose_a = list.children[index]  
+    const choose_area = { id: choose_a.id, name: choose_a.namecn }
     cityAreaNbhd.push(choose_area) 
-    util.request(api.getAreaNeighbor,{
-        pi:_this.data.pageIndex, 
-        ps: _this.data.pageSize,
-        area: areaId
-      }).then(res => {
-        const data = res
-        console.log("nbhd:" + JSON.stringify(data))
-        _this.setData({
-          nbhdList: data || [],
-          showArea: false,
-          showNbhd: true,
-          area: choose_area    
-        })
-    })
+    // util.request(api.getAreaNeighbor,{
+    //     pi:_this.data.pageIndex, 
+    //     ps: _this.data.pageSize,
+    //     area: areaId
+    //   }).then(res => {
+    //     const data = res
+    //     console.log("nbhd:" + JSON.stringify(data))
+    //     _this.setData({
+    //       nbhdList: data || [],
+    //       showArea: false,
+    //       showNbhd: true,
+    //       area: choose_area    
+    //     })
+    // })
   },
   chooseNbhd(e){
     let nbhdId = e.currentTarget.dataset.nbhdid
