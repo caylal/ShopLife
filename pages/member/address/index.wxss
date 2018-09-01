@@ -10,6 +10,19 @@
 .form-item .input{
     height: inherit;
 }
+.del-box{
+    padding-top:100rpx;
+    text-align:center;
+    background:#fff;
+}
+.del-box .del-btn{
+    line-height: 80rpx;
+    color: red;
+    width: 250rpx;
+    border: 1px solid;
+    border-radius: 15rpx;
+    margin: 0 auto;
+}
 .btns{
     position: fixed;
     bottom: 0;

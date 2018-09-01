@@ -24,6 +24,7 @@
 }
 .user-addr{
   margin-top: 10rpx;
+  margin-bottom:80rpx;
 }
 .icon-edit{
   font-size: 50rpx;

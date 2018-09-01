@@ -10,6 +10,9 @@
       <input class="input" bindinput="bindAddress" placeholder="详细地址, 如街道、楼盘号等" value="{{address.address}}"/>
     </view>
   </view>
+  <view class="del-box">
+    <view class="del-btn" bindtap="deleteBtn">删除收货地址</view>
+  </view>
   <view class="btns">
     <button class="cancel" bindtap="cancelBtn">取消</button>
     <button class="save" bindtap="saveBtn">保存</button>

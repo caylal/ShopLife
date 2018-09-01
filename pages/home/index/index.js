@@ -37,13 +37,7 @@ Page({
 
     wx.showLoading({
       title: '加载中...'
-    });
-    const areaNbhd = wx.getStorageSync('areaNbhd')
-    if (areaNbhd.length > 0){
-      this.setData({
-        locationName: areaNbhd[2].name
-      })
-    }    
+    });       
     Promise.all([
       this.getIndexBanner(),
       this.getRecommend(),
@@ -52,6 +46,14 @@ Page({
         wx.hideLoading()
     })    
    
+  },
+  onShow(){
+    const areaNbhd = wx.getStorageSync('areaNbhd')
+    if (areaNbhd.length > 0) {
+      this.setData({
+        locationName: areaNbhd[3].name
+      })
+    } 
   },
   getIndexBanner(){
     let _this = this
@@ -98,7 +100,7 @@ Page({
         util.request(api.getRecommendGoodOfMy, { 
           pi: _this.data.pageIndex, 
           ps: _this.data.pageSize, 
-          uid: "U00000000", 
+          uid: "U000000000", 
           nid: "N000" 
         }).then(res => {
           console.log("recomment:" + JSON.stringify(res));
@@ -196,11 +198,11 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-    this.setData({
-      pageIndex: 1,
-      isFresh: true
-    })
-    this.onLoad()
+    // this.setData({
+    //   pageIndex: 1,
+    //   isFresh: true
+    // })
+    // this.onLoad()
   },
   
 })

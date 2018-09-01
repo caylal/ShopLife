@@ -35,8 +35,8 @@
       <view>
         <view class='l-current'>
           <view class='l-position' bindtap="backChoose">
-            <text class='l-c' data-key="backProvince" data-id="province.id">{{province.namecn}}</text>
-            <text class='l-c' data-key="backCity" data-id="{{city.id}}">{{city.namecn}}</text><text class='l-c' data-key="backArea" data-id="{{city.id}}">{{area.namecn}}</text><text class='l-c' data-key="backNb" data-id="{{city.id}}">{{nbhd.namecn}}</text>
+            <text class='l-c' data-key="backProvince" data-id="province.id">{{province.namecn || province.name}}</text>
+            <text class='l-c' data-key="backCity" data-id="{{city.id}}">{{city.namecn || city.name}}</text><text class='l-c' data-key="backArea" data-id="{{area.id}}">{{area.namecn || area.name}}</text><text class='l-c' data-key="backNb" data-id="{{nbhd.id}}">{{nbhd.namecn || nbhd.name}}</text>
           </view>
           <span class="iconfont icon-dingwei" bindtap="choosed"></span>
         </view>
@@ -65,7 +65,7 @@
       
       <view class='l-area' style="display:{{showNbhd ? 'block':'none'}}">
         <block wx:for="{{nbhdList}}" wx:key="item.id" >
-          <view class='l-city'data-nbhdid="{{item.id}}" data-nbhdname="{{item.name}}"  bindtap="chooseNbhd">{{item.name}}</view>
+          <view class='l-city'data-nbhdid="{{item.id}}" data-index="{{index}}"  bindtap="chooseNbhd">{{item.name}}</view>
         </block>        
       </view> 
 

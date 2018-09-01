@@ -9,11 +9,17 @@ Page({
     wx.setNavigationBarTitle({
       title: util.pageTitle.orderM.detail
     });
+    wx.showLoading({
+      title: '加载中',
+    })
     this.getOrderDetail(options.id)
   },
   getOrderDetail(id){
     let orderlist =  wx.getStorageSync('myOrderList')
-    let list = orderlist.filter(item => item.id == id)
+    let list = []
+    if(orderlist.length > 0){
+      list = orderlist.filter(item => item.id == id)
+    }
     if(list.length <= 0){
       util.request(api.getOrderOfMy, {
         pi: 1,
@@ -29,6 +35,7 @@ Page({
             orderDetail: list[0]
           })
         }
+        wx.hideLoading();
       })
     }else{
       list[0].shopes.map(item => {
@@ -41,6 +48,7 @@ Page({
       this.setData({
         orderDetail: list[0]
       })
+      wx.hideLoading();
     }   
   
   },

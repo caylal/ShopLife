@@ -47,7 +47,7 @@ Page({
   saveBtn(){
     let _this = this
     const areaNbhd = wx.getStorageSync('areaNbhd')
-    let userId = "U00000000"
+    let userId = "U000000000"
     const adr_data = this.data.address
     if(util.isEmpty(adr_data.username)){
       wx.showToast({
@@ -73,7 +73,7 @@ Page({
     if(_this.data.isAdd){      
       util.request(api.setAddressOfMy,{
         userid: userId,
-        neighborhoodid: areaNbhd[2].id,
+        neighborhoodid: areaNbhd[3].id,
         username: adr_data.username,
         userphone: adr_data.userphone,
         lng: "22.6348928889",     //所在经纬度位置
@@ -93,6 +93,7 @@ Page({
       })
     }else{
       util.delOrPutRequest(api.setAddressOfMy,adr_data.id,{
+        id: adr_data.id,
         userid: userId,
         neighborhoodid: adr_data.neighborhoodid,
         username: adr_data.username,
@@ -125,6 +126,37 @@ Page({
     }   
     wx.navigateBack({
       delta: 1
+    })
+  },
+
+  deleteBtn(){
+    let _this = this
+    wx.showModal({
+      title: '提示',
+      content: '是否删除该收货地址',
+      success: function(res) {
+        if (res.confirm) {
+          const data = _this.data.address
+          util.delOrPutRequest(api.setAddressOfMy, data.id).then(res => {
+            if(res){
+              wx.showToast({
+                title: '删除成功',
+                icon: 'none',
+                success: res => {
+                  _this.cancelBtn(true)
+                }
+              })
+            }else{
+              wx.showToast({
+                title: '删除出错',
+                icon: 'error'                
+              })
+            }
+          })
+        } else if (res.cancel) {
+          console.log('用户点击取消')
+        }
+      }
     })
   },
   /**

@@ -40,9 +40,11 @@ Page({
     const areaNbhd = wx.getStorageSync('areaNbhd')
     if(areaNbhd.length > 0){
       this.setData({
-        city: areaNbhd[0],
-        area: areaNbhd[1],
-        nbhd: areaNbhd[2]
+        province: areaNbhd[0],
+        city: areaNbhd[1],
+        area: areaNbhd[2],
+        nbhd: areaNbhd[3],
+        choose: true
       })
     }
     this.getAllCity()
@@ -125,37 +127,40 @@ Page({
      
   },
   chooseArea(e){
+    let _this = this
     let index = e.currentTarget.dataset.index
     const list = this.data.city
     const choose_a = list.children[index]  
     const choose_area = { id: choose_a.id, name: choose_a.namecn }
     cityAreaNbhd.push(choose_area) 
-    // util.request(api.getAreaNeighbor,{
-    //     pi:_this.data.pageIndex, 
-    //     ps: _this.data.pageSize,
-    //     area: areaId
-    //   }).then(res => {
-    //     const data = res
-    //     console.log("nbhd:" + JSON.stringify(data))
-    //     _this.setData({
-    //       nbhdList: data || [],
-    //       showArea: false,
-    //       showNbhd: true,
-    //       area: choose_area    
-    //     })
-    // })
+    util.request(api.getAreaNeighbor,{
+        pi:_this.data.pageIndex, 
+        ps: _this.data.pageSize,
+        areaid: choose_a.id
+      }).then(res => {
+        const data = res
+        console.log("nbhd:" + JSON.stringify(data))
+        _this.setData({
+          nbhdList: data || [],
+          showArea: false,
+          showNbhd: true,
+          area: choose_a,
+          choose: true      
+        })
+    })
   },
   chooseNbhd(e){
-    let nbhdId = e.currentTarget.dataset.nbhdid
-    let nbhdName = e.currentTarget.dataset.nbhdname
-    const choose_nbhd = { id: nbhdId, name: nbhdName }
-    cityAreaNbhd.push(choose_nbhd)
+    let index = e.currentTarget.dataset.index
+    let list = this.data.nbhdList
+    const choose_n = list[index]
+    const choose_nbhd = { id: choose_n.id, name: choose_n.name }
+    cityAreaNbhd.push(choose_nbhd) 
     wx.setStorage({
       key: 'areaNbhd',
       data: cityAreaNbhd,
     })
     this.setData({
-      nbhd: choose_nbhd
+      nbhd: choose_n
     })
     wx.switchTab({
       url: '../index/index',
@@ -170,18 +175,41 @@ Page({
     if(this.data.choose){
       let key = e.target.dataset.key
       let id = e.target.dataset.id
-      if (key == 'backCity') {
+      let p_id = this.data.province.id
+      if (key == 'backProvince') {
         this.getAllCity(true)
-      } else if (key == 'backArea') {
-        const areas = getStoreOfCity(id)
+      } else if (key == 'backCity'){       
+        const data = getStoreOfCity(p_id);
+        this.setData({          
+          cityList: data[0].children || [],
+          city: {},
+          areaList: [],
+          area: {},
+          nbhd: {},
+          showProvince: data[0].children.length <= 0 ? true : false,
+          showCity: data[0].children.length >= 0 ? true : false,
+          showArea: false,
+          showNbhd: false
+        })
+        if(cityAreaNbhd.length > 0){
+          cityAreaNbhd.splice(1, 2)
+        }       
+      }else if (key == 'backArea') {
+        const city = getStoreOfCity(p_id)
+        const c_id = this.data.city.id
+        const areas = city[0].children.filter(item => item.id == c_id)
         this.setData({
           areaList: areas[0].children || [],
           showCity: areas[0].children.length <= 0 ? true : false,
           showArea: areas[0].children.length >= 0 ? true : false,
           area: {},
+          nbhd: {},
+          showProvince: false,
           showNbhd: false
         })
-        cityAreaNbhd.splice(1,2)
+        if(cityAreaNbhd.length > 0){
+          cityAreaNbhd.splice(2, 3)
+        }
       } else {
 
       }

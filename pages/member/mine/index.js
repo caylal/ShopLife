@@ -12,7 +12,7 @@ Page({
     wx.setNavigationBarTitle({
       title: util.pageTitle.member.setting
     });
-    if (!util.isEmpty(options.showInfo)){
+    if (options && !util.isEmpty(options.showInfo)){
       this.setData({
         showInfo: false
       })
@@ -22,7 +22,7 @@ Page({
   onShow(){
     let pages = getCurrentPages()
     let currPage = pages[pages.length - 1]
-    if(util.isEmpty(currPage.data.isFresh) && currPage.data.isFresh){
+    if(!util.isEmpty(currPage.data.isFresh) && currPage.data.isFresh){
       this.setData({
         isFresh: currPage.data.isFresh
       })  

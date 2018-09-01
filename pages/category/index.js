@@ -120,20 +120,22 @@ Page({
     util.request(url, data).then(res => {
       console.log("goodsList:" + JSON.stringify(res))
       const result = res
-      result.map(item => {
-        let quantity;
-        if(_this.data.showNbhd){        
-          item.url = `/pages/goods/detail/detail?url=${api.getShopGood}&&id=${item.id}`
-        } 
-        else{         
-          item.url = `/pages/goods/detail/detail?url=${api.getGood}&&id=${item.id}`
-        }   
-        quantity = _this.filterGood(item)    
-        if (quantity){
-          item.quantity = quantity
-        }        
-        return item
-      })     
+      if(!util.isEmpty(res)){
+        result.map(item => {
+          let quantity;
+          if (_this.data.showNbhd) {
+            item.url = `/pages/goods/detail/detail?url=${api.getShopGood}&&id=${item.id}`
+          }
+          else {
+            item.url = `/pages/goods/detail/detail?url=${api.getGood}&&id=${item.id}`
+          }
+          quantity = _this.filterGood(item)
+          if (quantity) {
+            item.quantity = quantity
+          }
+          return item
+        })   
+      }       
       _this.setData({
         goodsList: result || []
       })
