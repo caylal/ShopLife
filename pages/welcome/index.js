@@ -76,8 +76,41 @@ Page({
   // 获取用户订单信息
   // 获取用户所在位置
   getAllCity(){
-    
+    const storeAll = wx.getStorageSync('allCitys')
+    if (!storeAll) {
+      util.request(api.getAllCity).then(res => {
+        const data = res
+        console.log("city:" + JSON.stringify(data))
+        _this.setData({
+          allCitys: data
+        })        
+        wx.setStorage({
+          key: 'allCitys',
+          data: data,
+        })
+      })
+    }
   },
+  getLocation(){
+    let _this = this
+    wx.getLocation({
+      type: 'wgs84',
+      success: function (res) {
+        var latitude = res.latitude
+        var longitude = res.longitude
+        util.request(api.getLngLat,{
+          pi: 1,
+          ps: 20,
+          lng: longitude,
+          lat:latitude,
+          dis: 20
+        }).then(res => {
+          _this.setLocation(res)
+        })
+      }
+    })
+  },
+  
   onShow: function () {
     // 是否已有购物车信息，订单信息，用户信息等。没有就请求，有则无需请求
 

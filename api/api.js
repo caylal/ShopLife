@@ -7,7 +7,7 @@ module.exports = {
   getAllNeighbor: BASE_URL + 'neighbor/all',                       // 获取所有社区列表
   getNeighborQuery: BASE_URL + 'neighbor/query',                   // 分页获取社区列表  参数{pageIndex, pageSize}
   getAreaNeighbor: BASE_URL + 'neighbor/area',                     // 获取所在区域的社区列表 参数{pi:1, ps:20,areaid:"A0016"}
-  
+  getLngLat: BASE_URL + 'neighbor/lnglat',
 
   getAllShop: BASE_URL + 'shop/all',                               // 获取所有门店
   getShopQuery: BASE_URL + 'shop/query',                           // 分页获取门店 参数{pageIndex:1, pageSize:20}
