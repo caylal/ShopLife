@@ -20,8 +20,7 @@ Page({
   bindGetUserInfo(e) {
     let _this = this
     if (e.detail.userInfo) {
-      console.log(e.detail.userInfo)
-      wx.setStorageSync('userInfo', e.detail.userInfo)
+      console.log(e.detail.userInfo)      
       user.loginByCustom().then(res => {
         wx.navigateBack()
       }).catch(err => {

@@ -32,11 +32,11 @@ Page({
             })
             console.log(info)
             // 直接登录
-            user.loginByCustom().then(res => {
-              //登录成功，获取用户所在位置，用户购物车，订单信息等
-            }).catch(err => {
-              //登录失败，重新登录
-            })
+            // user.loginByCustom().then(res => {
+            //   //登录成功，获取用户所在位置，用户购物车，订单信息等
+            // }).catch(err => {
+            //   //登录失败，重新登录
+            // })
 
           }
           else {

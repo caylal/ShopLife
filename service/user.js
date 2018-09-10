@@ -1,43 +1,22 @@
 import util from '../utils/util.js'
 import api from '../api/api.js'
 
-const loginByCustom = () => {
-  let code = null
-  return new Promise((resolve, reject) => {
-    return login().then(res => {
-      code = res.code
-      return getUserInfo()
-    }).then(userinfo => {
-      util.request(api.AuthLogin, {code: code,userInfo: userinfo}, 'POST').then(res => {
-        // 存储用户信息
-        if(!util.isEmpty(res)){
-          wx.setStorageSync('userInfo', res.userinfo)
-          wx.setStorageSync('token', res.token)
-          resolve(res)
-        }else{
-          reject(res)
-        }        
-      }).catch(err => reject(err))
-    }).catch(err => reject(err))
-  })
-}
-/**调用微信登录 */
-const login = () => {
-  return Promise((resolve, reject) => {
+const loginByCustom = () => { 
+  return new Promise((resolve, reject) => {   
     wx.login({
       success: res => {
-        if (res.code) {
-          console.log(res);
-          resolve(res);
-        }
-        else {
-          reject(res);
-        }
-      },
-      fail: err => {
-        reject(err);
+        util.request(api.AuthLogin, { code: res.code }).then(res => {
+          // 存储用户信息
+          if (!util.isEmpty(res)) {
+            wx.setStorageSync('userInfo', res)
+            resolve(res)
+          } else {
+            reject(res)
+          }
+        }).catch(err => reject(err))
       }
     })
+    
   })
 }
 
@@ -71,10 +50,9 @@ const checkSession = () => {
 /**检查用户是否登录 */
 const checkLogin = () => {
   return new Promise((resolve, reject) => {
-    if(wx.getStorageSync('userInfo') && wx.getStorageSync('token')){
-      checkSession().then(() => {
-        resolve(true)
-      }).catch(() => reject(false))
+    const user = wx.getStorageSync('userInfo')
+    if (user && user.id && user.appid){      
+      resolve(true)
     }else{
       reject(false)
     }

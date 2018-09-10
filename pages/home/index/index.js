@@ -51,7 +51,7 @@ Page({
     const areaNbhd = wx.getStorageSync('areaNbhd')
     if (areaNbhd.length > 0) {
       this.setData({
-        locationName: areaNbhd[3].name
+        locationName: areaNbhd[2].name
       })
     } 
   },

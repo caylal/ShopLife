@@ -49,5 +49,7 @@ module.exports = {
 
   getAddressOfMy: BASE_URL + 'address/my' ,                   // 获取地址信息 参数 {userid: 'U000000001'}  
   setAddressOfMy: BASE_URL + 'address',                       // 添加购物车
-  createOrder: BASE_URL + 'order'                             // 提交订单
+  createOrder: BASE_URL + 'order',                             // 提交订单
+
+  AuthLogin: BASE_URL + 'grant/login/wx'
 }

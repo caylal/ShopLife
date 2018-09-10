@@ -73,7 +73,7 @@ Page({
     if(_this.data.isAdd){      
       util.request(api.setAddressOfMy,{
         userid: userId,
-        neighborhoodid: areaNbhd[3].id,
+        neighborhoodid: areaNbhd[2].id,
         username: adr_data.username,
         userphone: adr_data.userphone,
         lng: "22.6348928889",     //所在经纬度位置

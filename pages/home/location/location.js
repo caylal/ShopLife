@@ -8,19 +8,15 @@ Page({
    * 页面的初始数据
    */
   data: {
-    SearchVal:"",
-    province: {},
+    SearchVal:"",   
     city:{},
     area: {},
-    nbhd: {},
-    showProvince: true,
-    showCity: false,
+    nbhd: {},    
+    showCity: true,
     showArea: false,
     showNbhd: false,
     choose: false, 
-    allCitys: [],
-    provinceList: [],    
-    cityList: [],
+    allCitys: [], 
     areaList: [],
     nbhdList: [], 
     pageIndex: 1,
@@ -39,12 +35,10 @@ Page({
     })
     const areaNbhd = wx.getStorageSync('areaNbhd')
     if(areaNbhd.length > 0){
-      this.setData({
-        province: areaNbhd[0],
-        city: areaNbhd[1],
-        area: areaNbhd[2],
-        nbhd: areaNbhd[3],
-        choose: true
+      this.setData({       
+        city: areaNbhd[0],
+        area: areaNbhd[1],
+        nbhd: areaNbhd[2]
       })
     }
     this.getAllCity()
@@ -72,49 +66,52 @@ Page({
       })
     }
     if(isback){
-      _this.setData({
-        province: {},
+      _this.setData({       
         city: {},
         area: {},
-        nbhd: {},
-        showProvince: true,
-        showCity: false,
+        nbhd: {},        
+        showCity: true,
         showArea: false,
         showNbhd: false,
       })
     }
    
   },
-  chooseProvince(e){
-    const {index, pindex} = e.currentTarget.dataset
+  // chooseProvince(e){
+  //   const {index, pindex} = e.currentTarget.dataset
+  //   const list = this.data.allCitys
+  //   let prov = list[index].cities
+  //   let choose_p = prov[pindex]
+  //   const children = choose_p.children
+  //   const choose_province = {id:choose_p.id, name: choose_p.namecn}
+  //   if(cityAreaNbhd.length > 0) {
+  //     cityAreaNbhd = []
+  //   }
+  //   cityAreaNbhd.push(choose_province)
+  //   this.setData({
+  //     province: choose_p,
+  //     city: {},
+  //     area: {},
+  //     nbhd: {},
+  //     cityList: children || [],
+  //     showProvince: children.length <= 0 ? true : false,    
+  //     showCity: children.length >= 0 ? true : false,     
+  //     choose: true   
+  //   })
+    
+  // }, 
+  chooseCity(e){
+    const { index, pindex } = e.currentTarget.dataset
     const list = this.data.allCitys
-    let prov = list[index].cities
-    let choose_p = prov[pindex]
-    const children = choose_p.children
-    const choose_province = {id:choose_p.id, name: choose_p.namecn}
-    if(cityAreaNbhd.length > 0) {
+    let city = list[index].cities
+    let choose_c = city[pindex]
+    const children = choose_c.children
+    const choose_city = { id: choose_c.id, name: choose_c.namecn}
+    if (cityAreaNbhd.length > 0) {
       cityAreaNbhd = []
     }
-    cityAreaNbhd.push(choose_province)
-    this.setData({
-      province: choose_p,
-      city: {},
-      area: {},
-      nbhd: {},
-      cityList: children || [],
-      showProvince: children.length <= 0 ? true : false,    
-      showCity: children.length >= 0 ? true : false,     
-      choose: true   
-    })
-    
-  }, 
-  chooseCity(e){
-    let index = e.currentTarget.dataset.index
-    const list = this.data.province
-    const choose_c = list.children[index]  
-    let children = choose_c.children  
-    const choose_city = { id: choose_c.id, name: choose_c.namecn }   
     cityAreaNbhd.push(choose_city)
+    
     this.setData({
       city: choose_c,
       area: {},
@@ -174,41 +171,27 @@ Page({
   backChoose(e){
     if(this.data.choose){
       let key = e.target.dataset.key
-      let id = e.target.dataset.id
-      let p_id = this.data.province.id
-      if (key == 'backProvince') {
-        this.getAllCity(true)
-      } else if (key == 'backCity'){       
-        const data = getStoreOfCity(p_id);
-        this.setData({          
-          cityList: data[0].children || [],
-          city: {},
-          areaList: [],
-          area: {},
-          nbhd: {},
-          showProvince: data[0].children.length <= 0 ? true : false,
-          showCity: data[0].children.length >= 0 ? true : false,
-          showArea: false,
-          showNbhd: false
-        })
-        if(cityAreaNbhd.length > 0){
-          cityAreaNbhd.splice(1, 2)
-        }       
-      }else if (key == 'backArea') {
-        const city = getStoreOfCity(p_id)
-        const c_id = this.data.city.id
-        const areas = city[0].children.filter(item => item.id == c_id)
+      let id = e.target.dataset.id           
+      if (key == 'backCity') {
         this.setData({
-          areaList: areas[0].children || [],
-          showCity: areas[0].children.length <= 0 ? true : false,
-          showArea: areas[0].children.length >= 0 ? true : false,
+          showCity: true,
+          showArea: false,
+          city:{},
           area: {},
           nbhd: {},
-          showProvince: false,
+          showNbhd: false
+        })      
+      }
+      else if (key == 'backArea') {        
+        this.setData({          
+          showCity:  false,
+          showArea:  true ,
+          area: {},
+          nbhd: {},          
           showNbhd: false
         })
         if(cityAreaNbhd.length > 0){
-          cityAreaNbhd.splice(2, 3)
+          cityAreaNbhd.splice(1, 1)
         }
       } else {
 
