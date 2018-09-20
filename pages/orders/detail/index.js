@@ -1,5 +1,6 @@
 import util from '../../../utils/util.js';
 import api from '../../../api/api.js';
+const app = getApp()
 Page({  
   data: {
     orderDetail: {}
@@ -24,7 +25,7 @@ Page({
       util.request(api.getOrderOfMy, {
         pi: 1,
         ps: 10,
-        uid: "U000000000"
+        uid: app.globalData.userInfo.id
       }).then(res => {
         if(!util.isEmpty(res)){
           list = res.filter(item => item.id == id)

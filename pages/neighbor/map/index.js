@@ -1,12 +1,13 @@
 // pages/neighbor/map/index.js
+const app = getApp()
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    latitude: 22.6348928889,
-    longitude: 114.0321329018,   
+    latitude: null,
+    longitude: null,   
     markers: [],   
   },
 
@@ -15,12 +16,23 @@ Page({
    */
   onLoad: function (options) {
     console.log("before:" + JSON.stringify(options.item))
+    this.setData({
+      latitude: app.globalData.location.lat,
+      longitude: app.globalData.location.lon
+    })
     this.getNbhdLocation(options.item)
   },
 
   getNbhdLocation(data){
     const arr = []
-    const location = { latitude: 22.6348928889, longitude: 114.0321329018, iconPath: "/images/location-icon.png", width: 25, height: 25, label: { fontSize: 12, content: "当前位置" } }
+    const location = { 
+      latitude: app.globalData.location.lat,
+      longitude: app.globalData.location.lon, 
+      iconPath: "/images/location-icon.png",
+      width: 25, 
+      height: 25, 
+      label: { fontSize: 12, content: "当前位置" }
+    }
     arr.push(location)
     const res  = JSON.parse(data)
     res.forEach(item => {     

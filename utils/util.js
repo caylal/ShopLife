@@ -1,5 +1,4 @@
 import api from '../api/api.js'
-
 const formatTime = date => {
   date = new Date(date)
   const year = date.getFullYear()
@@ -119,13 +118,13 @@ const delOrPutRequest = (url, id, data = {}, method = "DELETE") => {
 
 
 /**获取用户购物车信息 */
-const getMyCart = (pindex = 1, psize = 10) =>{ 
+const getMyCart = (uid, pindex = 1, psize = 10) =>{ 
   wx.removeStorageSync('myCart')  
   return new Promise((resolve, reject) => {    
     request(api.getCartOfMy, {
       pi: pindex,
       ps: psize,
-      uid: "U000000000"
+      uid: uid
     }).then(res => {
       if(!isEmpty(res)){        
         const list = []
@@ -143,7 +142,7 @@ const getMyCart = (pindex = 1, psize = 10) =>{
         })
         console.log("购物车数量：" + list.length)
         if (list.length == 10) {
-          getMyCart(pindex + 1)
+          getMyCart(uid, pindex + 1)
         } else {
           resolve(lalist)
         }
@@ -180,7 +179,7 @@ const filterGood = (good) => {
   }
 }
 const editCart = (data) => {
-  let { goodsid, shopgid, shopgoodsid, btn } = data
+  let {uid, goodsid, shopgid, shopgoodsid, btn } = data
   return new Promise((resolve, reject) => {    
     let quantity = 1
     if (!isEmpty(shopgid) && isEmpty(shopgoodsid)) {
@@ -192,13 +191,13 @@ const editCart = (data) => {
     let data = {}
     if (isEmpty(shopgoodsid)) {
       data = {
-        userid: "U000000000",
+        userid: uid,
         goodsid: goodsid,
         quantity: quantity
       }
     } else {
       data = {
-        userid: "U000000000",
+        userid: uid,
         shopgoodsid: shopgoodsid,
         quantity: quantity
       }
@@ -213,7 +212,7 @@ const editCart = (data) => {
         })
       }      
       if (list.length <= 0){
-        getMyCart()
+        getMyCart(uid)
       }else{
         listall.map(item => {
           if (item.shoppingcartid == res.id){

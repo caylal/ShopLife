@@ -1,5 +1,6 @@
 import util from '../../../utils/util.js';
 import api from '../../../api/api.js';
+const app = getApp()
 Page({ 
   data: {
     userInfo: {},
@@ -37,7 +38,7 @@ Page({
         addressList: list
       })
     }else{
-      util.request(api.getAddressOfMy, { userid:'U000000000'}).then(res => {
+      util.request(api.getAddressOfMy, { userid: app.globalData.userInfo.id}).then(res => {
         res.map(item => {
           item.lng = item.lng.toFixed(2)
           item.lat = item.lat.toFixed(2)

@@ -1,5 +1,6 @@
 import util from '../../utils/util.js';
 import api from '../../api/api.js'
+const app = getApp()
 Page({
 
   /**
@@ -172,7 +173,7 @@ Page({
     }else{
       shopgoodsid = id     
     }
-    util.editCart({ goodsid: goodsid, shopgoodsid: shopgoodsid, btn: btn }).then(res => {
+    util.editCart({ uid: app.globalData.userInfo.id, goodsid: goodsid, shopgoodsid: shopgoodsid, btn: btn }).then(res => {
       if (res != null) {
         console.log(JSON.stringify(res))
         const list = res

@@ -17,13 +17,13 @@ App({
       // wx.navigateTo({
       //   url: "/pages/authorize/index"
       // })
-    });
-  
-    // 获取所有购物车信息
-    util.getMyCart().then(res => console.log("获取购物车成功：" + JSON.stringify(res)))    
+    });  
+      
   },
   globalData: {
     userInfo: null,
+    Nbhd: null,
+    location:null,    
     token: null 
   }
 })

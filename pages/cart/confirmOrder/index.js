@@ -65,7 +65,7 @@ Page({
         wx.showLoading({
           title:'加载中',
         })        
-        util.request(api.getAddressOfMy, { userid:'U000000000'}).then(res => {
+        util.request(api.getAddressOfMy, { userid: app.globalData.userInfo.id}).then(res => {
           if(!util.isEmpty(res)){
             console.log("addr:=====" + JSON.stringify(res))
             res.map(item => {

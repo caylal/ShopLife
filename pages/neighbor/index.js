@@ -1,6 +1,6 @@
 import util from '../../utils/util.js'
 import api from '../../api/api.js'
-
+const app = getApp()
 Page({
 
   /**
@@ -28,9 +28,9 @@ Page({
     const data = {
       pi: _this.data.pageIndex,
       ps: _this.data.pageSize,
-      nbhd: "N000",                //所在社区id
-      lng: "22.6348928889",     //所在经纬度位置
-      lat: "114.0321329018"
+      nbhd: app.globalData.Nbhd[2].id,                //所在社区id
+      lng: app.globalData.location.lng,     //所在经纬度位置
+      lat: app.globalData.location.lat
     }  
     const store_list = wx.getStorageSync('shopList')
     if(store_list.length > 0 && !_this.data.isFresh){

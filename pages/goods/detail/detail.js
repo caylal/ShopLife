@@ -46,7 +46,9 @@ Page({
   },
   changeCart(e){
     let _this = this
-    util.editCart(e.currentTarget.dataset).then(res => { 
+    let data = e.currentTarget.dataset
+    data.uid = getApp().globalData.userInfo.id
+    util.editCart(data).then(res => { 
       console.log("detail:===" + JSON.stringify(res))
       const info = _this.data.goodsInfo
       info.quantity = res.quantity

@@ -1,5 +1,6 @@
 import util from '../../utils/util.js';
 import api from '../../api/api.js';
+const app = getApp()
 Page({
   data: {
     tab: [{ type: 0, title: "全部" }, { type: 1, title: "待支付" }, { type: 2, title: "待发货" }, { type: 3, title: "待收货" },{ type: 4, title: "已完成" },{ type: 5, title: "已取消" }],
@@ -39,7 +40,7 @@ Page({
       util.request(api.getOrderOfMy, {
         pi: _this.data.pageIndex,
         ps: _this.data.pageSize,
-        uid: "U000000000"
+        uid: app.globalData.userInfo.id
       }).then(res => {
         if (!util.isEmpty(res)) {
           res.map(item => {
@@ -66,11 +67,11 @@ Page({
                 currentid: types
               })
             }
-          }
-          wx.hideLoading()
-          wx.hideNavigationBarLoading() //完成停止加载
-          wx.stopPullDownRefresh()
+          }          
         }
+        wx.hideLoading()
+        wx.hideNavigationBarLoading() //完成停止加载
+        wx.stopPullDownRefresh()
       })
     }
     

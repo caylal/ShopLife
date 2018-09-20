@@ -17,26 +17,54 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    let _this = this
-    if (wx.getStorageSync('userInfo') && wx.getStorageSync('token')){
+    let _this = this       
+    if (app.globalData.userInfo) {
       //已登录 获取用户所在位置，用户购物车，订单信息等
+      console.log("个人信息：" + JSON.stringify(app.globalData.userInfo))
+      _this.setData({
+        userInfo: app.globalData.userInfo
+      })
+      
+      Promise.all([
+        _this.getAllCity(),
+        _this.setLocation()
+      ]).then(res => {
+        _this.setData({
+          remind: ''
+        })
+        _this.getCart()
+      })
+      
     }
     else {
       wx.getSetting({
         success: function (res) {
           if (res.authSetting['scope.userInfo']) {
             // 已经授权，可以直接调用 getUserInfo 获取头像昵称
-            let info = wx.getStorageSync('userInfo')
-            _this.setData({
-              userInfo: info
-            })
-            console.log(info)
-            // 直接登录
-            // user.loginByCustom().then(res => {
-            //   //登录成功，获取用户所在位置，用户购物车，订单信息等
-            // }).catch(err => {
-            //   //登录失败，重新登录
+            // wx.getUserInfo({
+            //   success: function (res) {
+            //     console.log(res.userInfo)
+            //     user.loginByCustom().then(res => {})
+            //   }
             // })
+            user.loginByCustom().then(res => {
+              app.globalData.userInfo = res
+             
+              _this.setData({
+                userInfo: res
+              })
+              console.log(info)   
+              Promise.all([
+                _this.getAllCity(),
+                _this.setLocation()
+              ]).then(res => {
+                _this.setData({
+                  remind: ''
+                })
+                _this.getCart()
+              })
+            })
+              
 
           }
           else {
@@ -55,11 +83,11 @@ Page({
    */
   onReady: function () {
     var that = this;
-    setTimeout(function () {
-      that.setData({
-        remind: ''
-      });
-    }, 1000);
+    // setTimeout(function () {
+    //   that.setData({
+    //     remind: ''
+    //   });
+    // }, 1000);
     wx.onAccelerometerChange(function (res) {
       var angle = -(res.x * 30).toFixed(1);
       if (angle > 14) { angle = 14; }
@@ -72,48 +100,105 @@ Page({
     });
   },
 
-  // 获取用户购物车信息
-  // 获取用户订单信息
+  // 获取所有城市信息
   // 获取用户所在位置
   getAllCity(){
     const storeAll = wx.getStorageSync('allCitys')
-    if (!storeAll) {
-      util.request(api.getAllCity).then(res => {
-        const data = res
-        console.log("city:" + JSON.stringify(data))
-        _this.setData({
-          allCitys: data
-        })        
-        wx.setStorage({
-          key: 'allCitys',
-          data: data,
+    let _this = this  
+    return new Promise((resolve,reject) => {
+      if (!storeAll) {
+        util.request(api.getAllCity).then(res => {         
+          if (res) {
+            wx.setStorage({
+              key: 'allCitys',
+              data: res,
+            })
+            resolve(true)
+          }
         })
-      })
-    }
+      } else{
+        resolve(true)
+      }   
+    })
+    
   },
   getLocation(){
+    const nearestNbhd = wx.getStorageSync('nearestNbhd')
     let _this = this
-    wx.getLocation({
-      type: 'wgs84',
-      success: function (res) {
-        var latitude = res.latitude
-        var longitude = res.longitude
-        util.request(api.getLngLat,{
-          pi: 1,
-          ps: 20,
-          lng: longitude,
-          lat:latitude,
-          dis: 20
-        }).then(res => {
-          _this.setLocation(res)
+    return new Promise((resolve,reject) => {
+      if (!nearestNbhd) {
+        wx.getLocation({
+          type: 'wgs84',
+          success: function (res) {
+            var latitude = res.latitude
+            var longitude = res.longitude
+            wx.setStorage({
+              key: 'location',
+              data: { "lon": longitude, "lat": latitude},
+            })
+            app.globalData.location = { "lon": longitude, "lat": latitude }
+            util.request(api.getLngLat, {
+              pi: 1,
+              ps: 20,
+              lng: longitude,
+              lat: latitude,
+              dis: 20
+            }).then(res => {
+              if(res){
+                wx.setStorage({
+                  key: 'nearestNbhd',
+                  data: res,
+                })
+                resolve(true)
+              }else{
+                reject(false)
+              }
+              
+            })
+          }
         })
+      }else{
+        app.globalData.location = wx.getStorageSync('location')
+        resolve(true)
+      }
+    })
+    
+    
+  },
+  setLocation(){
+    const areaNbhd = wx.getStorageSync('areaNbhd')
+    return new Promise((resolve, reject) => {
+      if (!areaNbhd) {
+        this.getLocation().then(res => {
+          const nearestNbhd = wx.getStorageSync('nearestNbhd')
+          util.request(api.getArea, { id: nearestNbhd[0].areaid }).then(res => {
+            console.log("当前区域:" + JSON.stringify(res))
+            let city = []
+            let c = res[0].hierarchy.split('|')
+            let n = res[0].hierarchyname.split('|')
+            city.push({ id: c[1], name: n[1] })
+            city.push({ id: c[2], name: n[2] })
+            city.push({ id: nearestNbhd[0].id, name: nearestNbhd[0].name })
+            wx.setStorage({
+              key: 'areaNbhd',
+              data: city,
+            })
+            app.globalData.Nbhd = city
+            resolve(true)
+          })
+        })
+      }else{
+        app.globalData.Nbhd = areaNbhd
+        resolve(true)
       }
     })
   },
-  
-  onShow: function () {
-    // 是否已有购物车信息，订单信息，用户信息等。没有就请求，有则无需请求
-
+  getCart(){
+    // 获取所有购物车信息
+    util.getMyCart(app.globalData.userInfo.id).then(res => console.log("获取购物车成功：" + JSON.stringify(res)))  
+  },
+  onShow: function () {   
+    this.onLoad()    
   },
 
   goToIndex(){

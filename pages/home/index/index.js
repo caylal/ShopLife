@@ -1,6 +1,7 @@
 //index.js
 import util from '../../../utils/util.js'
 import api from '../../../api/api.js'
+const app = getApp()
 Page({
   data: {
     indicatorDots: true,
@@ -46,6 +47,9 @@ Page({
         wx.hideLoading()
     })    
    
+    console.log("当前位置：" + JSON.stringify(app.globalData.Nbhd))
+    console.log("当前Location：" + JSON.stringify(app.globalData.location))
+    console.log("当前用户id：" + JSON.stringify(app.globalData.userInfo.id))
   },
   onShow(){
     const areaNbhd = wx.getStorageSync('areaNbhd')
@@ -68,7 +72,7 @@ Page({
         util.request(api.getBannerOfnbhd,{
           pi: _this.data.pageIndex,
           ps: _this.data.pageSize, 
-          nbhd: "N000"
+          nbhd: app.globalData.Nbhd[2].id
         }).then(res => {
           if(!util.isEmpty(res)){
             console.log("result:" + JSON.stringify(res))      
@@ -100,8 +104,8 @@ Page({
         util.request(api.getRecommendGoodOfMy, { 
           pi: _this.data.pageIndex, 
           ps: _this.data.pageSize, 
-          uid: "U000000000", 
-          nid: "N000" 
+          uid: app.globalData.userInfo.id, 
+          nid: app.globalData.Nbhd[2].id 
         }).then(res => {
           console.log("recomment:" + JSON.stringify(res));
           if(!util.isEmpty(res)){
@@ -140,7 +144,7 @@ Page({
         util.request(api.getHotGoodsOfNbhd, {
           pi: _this.data.pageIndex, 
           ps: _this.data.pageSize, 
-          nbhd: "N000"
+          nbhd: app.globalData.Nbhd[2].id 
         }).then(res => {
           console.log("hot:" + JSON.stringify(res));
           if(!util.isEmpty(res)){
@@ -177,7 +181,7 @@ Page({
     console.log("indexList====" + JSON.stringify(item))
     let goodsid = item.goodsid,     
         shopgoodsid = item.shopgoodsid     
-    util.editCart({ goodsid: goodsid, shopgoodsid: shopgoodsid,btn: btn}).then(res => {    
+    util.editCart({ uid: app.globalData.userInfo.id, goodsid: goodsid, shopgoodsid: shopgoodsid,btn: btn}).then(res => {    
       if (res != null) {
         wx.showToast({
           title: '添加成功！',

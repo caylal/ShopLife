@@ -1,6 +1,6 @@
 import util from '../../utils/util.js';
 import api from '../../api/api.js';
-
+const app = getApp()
 Page({
   data: {
     cart: [],
@@ -25,7 +25,7 @@ Page({
     util.request(api.getCartOfMy,{
       pi: _this.data.pageIndex,
       ps: _this.data.pageSize,
-      uid: "U000000000"
+      uid: app.globalData.userInfo.id
     }).then( res => {
       if(!util.isEmpty(res)){
         console.log("myCart:" + JSON.stringify(res));
@@ -151,7 +151,7 @@ Page({
     let goodsid = item.goodsid,        
         shopgoodsid = item.shopgoodsid      
     
-    util.editCart({ goodsid: goodsid, shopgoodsid: shopgoodsid, btn: btn }).then(res => {
+    util.editCart({ uid: app.globalData.userInfo.id, goodsid: goodsid, shopgoodsid: shopgoodsid, btn: btn }).then(res => {
       if (res != null) {
         console.log("添加或减少：" + JSON.stringify(res))
         let account = _this.data.checkedGoodsAmount;

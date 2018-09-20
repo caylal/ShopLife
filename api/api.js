@@ -1,8 +1,9 @@
-const BASE_URL = "http://www.lifenearby.cn:8081/api/";
+const BASE_URL = "http://120.79.213.228:8081/api/";//"http://www.lifenearby.cn:8081/api/";
 
 module.exports = {
   getAllCity: BASE_URL + 'area/city',                        // 获取所有城市信息
   getAllArea: BASE_URL + 'area/all',                               // 获取所有区域 
+  getArea: BASE_URL + 'area',
 
   getAllNeighbor: BASE_URL + 'neighbor/all',                       // 获取所有社区列表
   getNeighborQuery: BASE_URL + 'neighbor/query',                   // 分页获取社区列表  参数{pageIndex, pageSize}

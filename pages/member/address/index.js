@@ -1,5 +1,6 @@
 import util from '../../../utils/util.js';
 import api from '../../../api/api.js';
+const app = getApp()
 Page({
 
   /**
@@ -47,7 +48,7 @@ Page({
   saveBtn(){
     let _this = this
     const areaNbhd = wx.getStorageSync('areaNbhd')
-    let userId = "U000000000"
+    //let userId = "U000000000"
     const adr_data = this.data.address
     if(util.isEmpty(adr_data.username)){
       wx.showToast({
@@ -72,12 +73,12 @@ Page({
     }
     if(_this.data.isAdd){      
       util.request(api.setAddressOfMy,{
-        userid: userId,
+        userid: app.globalData.userInfo.id,
         neighborhoodid: areaNbhd[2].id,
         username: adr_data.username,
         userphone: adr_data.userphone,
-        lng: "22.6348928889",     //所在经纬度位置
-        lat: "114.0321329018",
+        lng: app.globalData.location.lng,     //所在经纬度位置
+        lat: app.globalData.location.lat,
         address: adr_data.address
       },"POST").then(res => {
         console.log("添加地址成功" + JSON.stringify(res))
@@ -94,7 +95,7 @@ Page({
     }else{
       util.delOrPutRequest(api.setAddressOfMy,adr_data.id,{
         id: adr_data.id,
-        userid: userId,
+        userid: app.globalData.userInfo.id,
         neighborhoodid: adr_data.neighborhoodid,
         username: adr_data.username,
         userphone: adr_data.userphone,

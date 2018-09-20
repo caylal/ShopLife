@@ -22,6 +22,7 @@ Page({
     if (e.detail.userInfo) {
       console.log(e.detail.userInfo)      
       user.loginByCustom().then(res => {
+        getApp().globalData.userInfo = res
         wx.navigateBack()
       }).catch(err => {
         //登录失败
