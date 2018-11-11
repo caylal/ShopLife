@@ -1,6 +1,9 @@
 //index.js
 import util from '../../../utils/util.js'
 import api from '../../../api/api.js'
+import https from '../../../service/https.js'
+import { getMyCart, editCart } from '../../../service/service.js'
+
 const app = getApp()
 Page({
   data: {
@@ -11,7 +14,7 @@ Page({
     loadingHidden: false , // loading
     interval: 3000,
     duration: 1000,
-    locationName: '',
+    locationName: '定位中',
     imagesUrl:[],
     recGoods: [],
     hotGoods:[],
@@ -35,29 +38,29 @@ Page({
     wx.setNavigationBarTitle({
       title: util.pageTitle.home
     });
-
-    wx.showLoading({
-      title: '加载中...'
-    });       
-    Promise.all([
-      this.getIndexBanner(),
-      this.getRecommend(),
-      this.getHot()
-    ]).then(res => {    
-        wx.hideLoading()
-    })    
-   
-    console.log("当前位置：" + JSON.stringify(app.globalData.Nbhd))
-    console.log("当前Location：" + JSON.stringify(app.globalData.location))
-    console.log("当前用户id：" + JSON.stringify(app.globalData.userInfo.id))
-  },
-  onShow(){
-    const areaNbhd = wx.getStorageSync('areaNbhd')
-    if (areaNbhd.length > 0) {
-      this.setData({
-        locationName: areaNbhd[2].name
+    if (app.globalData.userInfo){
+      wx.showLoading({
+        title: '加载中...'
+      });
+      this.setLocation().then(res => {
+        Promise.all([
+          this.getIndexBanner(),
+          this.getRecommend(),
+          this.getHot(),
+          this.getCart()
+        ]).then(res => {
+          wx.hideLoading()
+        })    
+      })     
+    }else{
+      wx.navigateTo({
+        url: "/pages/authorize/index"
       })
-    } 
+    }    
+   
+  },
+  onShow(){    
+    this.onLoad()
   },
   getIndexBanner(){
     let _this = this
@@ -69,7 +72,7 @@ Page({
         })  
         resolve(true)
       }else{
-        util.request(api.getBannerOfnbhd,{
+        https.get(api.getBannerOfnbhd,{
           pi: _this.data.pageIndex,
           ps: _this.data.pageSize, 
           nbhd: app.globalData.Nbhd[2].id
@@ -101,11 +104,11 @@ Page({
         })  
         resolve(true)
       }else{
-        util.request(api.getRecommendGoodOfMy, { 
+        https.get(api.getRecommendGoodOfMy, { 
           pi: _this.data.pageIndex, 
           ps: _this.data.pageSize, 
           uid: app.globalData.userInfo.id, 
-          nid: app.globalData.Nbhd[2].id 
+          nid: app.globalData.Nbhd[2].id
         }).then(res => {
           console.log("recomment:" + JSON.stringify(res));
           if(!util.isEmpty(res)){
@@ -141,10 +144,10 @@ Page({
         })  
         resolve(true)
       }else{
-        util.request(api.getHotGoodsOfNbhd, {
+        https.get(api.getHotGoodsOfNbhd, {
           pi: _this.data.pageIndex, 
           ps: _this.data.pageSize, 
-          nbhd: app.globalData.Nbhd[2].id 
+          nbhd: app.globalData.Nbhd[2].id
         }).then(res => {
           console.log("hot:" + JSON.stringify(res));
           if(!util.isEmpty(res)){
@@ -168,6 +171,79 @@ Page({
       }      
     })   
   },  
+  getLocation() {    
+    let _this = this
+    return new Promise((resolve, reject) => {
+      wx.getLocation({
+        type: 'gcj02',
+        success: function (res) {
+          var latitude = res.latitude
+          var longitude = res.longitude
+          wx.setStorage({
+            key: 'location',
+            data: { "lng": longitude, "lat": latitude },
+          })
+          app.globalData.location = { "lng": longitude, "lat": latitude }
+          https.get(api.getLngLat, {
+            pi: 1,
+            ps: 20,
+            lng: longitude,
+            lat: latitude,
+            dis: 20
+          }).then(res => {
+            if (res) {
+              wx.setStorage({
+                key: 'nearestNbhd',
+                data: res,
+              })
+              resolve(true)
+            } else {
+              reject(false)
+            }
+
+          })
+        }
+      })
+    })
+  },
+  setLocation() {
+    const areaNbhd = wx.getStorageSync('areaNbhd')
+    return new Promise((resolve, reject) => {
+      if (!app.globalData.Nbhd) {
+        this.getLocation().then(res => {
+          const nearestNbhd = wx.getStorageSync('nearestNbhd')
+          https.get(api.getArea, { id: nearestNbhd[0].areaid }).then(res => {
+            console.log("当前区域:" + JSON.stringify(res))
+            let city = []
+            let c = res[0].hierarchy.split('|')
+            let n = res[0].hierarchyname.split('|')
+            city.push({ id: c[1], name: n[1] })
+            city.push({ id: c[2], name: n[2] })
+            city.push({ id: nearestNbhd[0].id, name: nearestNbhd[0].name })
+            wx.setStorage({
+              key: 'areaNbhd',
+              data: city,
+            })
+            app.globalData.Nbhd = city
+            this.setData({
+              locationName: city[2].name
+            })
+            resolve(true)
+          })
+        })
+      } else {
+        app.globalData.Nbhd = areaNbhd
+        this.setData({
+          locationName: areaNbhd[2].name
+        })
+        resolve(true)
+      }
+    })
+  },
+  getCart() {
+    // 获取所有购物车信息
+    getMyCart(app.globalData.userInfo.id).then(res => console.log("获取购物车成功：" + JSON.stringify(res)))
+  },
   changeCart(e){
     let _this = this
     const { cate, index, btn} = e.currentTarget.dataset
@@ -181,7 +257,7 @@ Page({
     console.log("indexList====" + JSON.stringify(item))
     let goodsid = item.goodsid,     
         shopgoodsid = item.shopgoodsid     
-    util.editCart({ uid: app.globalData.userInfo.id, goodsid: goodsid, shopgoodsid: shopgoodsid,btn: btn}).then(res => {    
+    editCart({ uid: app.globalData.userInfo.id, goodsid: goodsid, shopgoodsid: shopgoodsid,btn: btn}).then(res => {    
       if (res != null) {
         wx.showToast({
           title: '添加成功！',

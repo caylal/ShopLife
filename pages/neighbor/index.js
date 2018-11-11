@@ -1,5 +1,6 @@
 import util from '../../utils/util.js'
 import api from '../../api/api.js'
+import https from '../../service/https.js'
 const app = getApp()
 Page({
 
@@ -42,11 +43,13 @@ Page({
       wx.showLoading({
         title: '加载中...'
       });
-      util.request(api.getNeighborShop, data).then( res => {
+      https.get(api.getNeighborShop, data).then( res => {
         console.log("getNbhdShop:" + JSON.stringify(res))
         if(!util.isEmpty(res)){
           res.map(item => {
-            item.distance = util.transDistance(item.distance)            
+            item.distance = util.transDistance(item.distance)
+            item.openingtime = util.formatTime(item.openingtime,2)   
+            item.closinghour = util.formatTime(item.closinghour,2)      
           })
           _this.setData({
             nbhdList:  _this.data.pageIndex != 1 ? _this.data.cart.concat(res) : res,

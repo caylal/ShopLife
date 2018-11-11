@@ -1,5 +1,7 @@
 import util from '../../utils/util.js';
 import api from '../../api/api.js'
+import https from '../../service/https.js'
+import { editCart } from '../../service/service.js'
 const app = getApp()
 Page({
 
@@ -51,7 +53,7 @@ Page({
       info = { shop: this.data.shop.id, cate: id }
     }
     else {
-      info = { id: id }
+      info = { cate: id }
     }
     this.getShopByCate(info)
   },
@@ -66,7 +68,7 @@ Page({
       info = { shop: this.data.shop.id, cate: id }
     }
     else {
-      info = { id: id }
+      info = { cate: id }
     }
     this.getShopByCate(info)
   },
@@ -75,7 +77,7 @@ Page({
     let _this = this
     let { url, data } = req
     return new Promise((resolve,reject) => {
-      util.request(url, data).then(res =>{
+      https.get(url, data).then(res =>{
         console.log("category:" + JSON.stringify(res))
         _this.setData({
           navList: res,
@@ -118,7 +120,7 @@ Page({
     Object.assign(data, { pi: _this.data.pageIndex, ps: _this.data.pageSize})
     console.log("url:" + url + " data:" + JSON.stringify(data))  
    
-    util.request(url, data).then(res => {
+    https.get(url, data).then(res => {
       console.log("goodsList:" + JSON.stringify(res))
       const result = res
       if(!util.isEmpty(res)){
@@ -173,7 +175,7 @@ Page({
     }else{
       shopgoodsid = id     
     }
-    util.editCart({ uid: app.globalData.userInfo.id, goodsid: goodsid, shopgoodsid: shopgoodsid, btn: btn }).then(res => {
+    editCart({ uid: app.globalData.userInfo.id, goodsid: goodsid, shopgoodsid: shopgoodsid, btn: btn }).then(res => {
       if (res != null) {
         console.log(JSON.stringify(res))
         const list = res

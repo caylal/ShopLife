@@ -1,5 +1,8 @@
 @import "../../search/search.wxss";
 
+.p{
+  position: relative;
+}
 .location{
   background: #fff;
 }
@@ -13,7 +16,7 @@
   letter-spacing: 2rpx;
 }
 .l-current{
-  padding: 15rpx 30rpx 15rpx 15rpx;
+  padding: 15rpx 50rpx 15rpx 15rpx;
   display: flex;
   font-size: 32rpx;
   justify-content: space-between;
@@ -38,4 +41,22 @@
 .l-city{
   line-height: 80rpx;
   border-bottom: 1px solid #eee;
+}
+
+.area-right{
+  position: fixed;
+  top: 105rpx;
+  right: 0;
+  width: 60rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.letter_item{
+  flex: 1;
+  display: block;
+  font-size: 32rpx;
+  color: #33B9FF;
+  text-align: center;
+  line-height: 42rpx;
 }

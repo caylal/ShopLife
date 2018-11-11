@@ -18,7 +18,7 @@ Page({
     console.log("before:" + JSON.stringify(options.item))
     this.setData({
       latitude: app.globalData.location.lat,
-      longitude: app.globalData.location.lon
+      longitude: app.globalData.location.lng
     })
     this.getNbhdLocation(options.item)
   },
@@ -27,7 +27,7 @@ Page({
     const arr = []
     const location = { 
       latitude: app.globalData.location.lat,
-      longitude: app.globalData.location.lon, 
+      longitude: app.globalData.location.lng, 
       iconPath: "/images/location-icon.png",
       width: 25, 
       height: 25, 

@@ -1,5 +1,6 @@
 import util from '../../../utils/util.js';
 import api from '../../../api/api.js';
+import https from '../../../service/https.js'
 const app = getApp()
 Page({
 
@@ -72,7 +73,7 @@ Page({
       return false
     }
     if(_this.data.isAdd){      
-      util.request(api.setAddressOfMy,{
+      https.post(api.setAddressOfMy,{
         userid: app.globalData.userInfo.id,
         neighborhoodid: areaNbhd[2].id,
         username: adr_data.username,
@@ -80,7 +81,7 @@ Page({
         lng: app.globalData.location.lng,     //所在经纬度位置
         lat: app.globalData.location.lat,
         address: adr_data.address
-      },"POST").then(res => {
+      }).then(res => {
         console.log("添加地址成功" + JSON.stringify(res))
         if(!util.isEmpty(res)){
           wx.showToast({
@@ -93,7 +94,7 @@ Page({
         }      
       })
     }else{
-      util.delOrPutRequest(api.setAddressOfMy,adr_data.id,{
+      https.put(api.editAddressOfMy,{
         id: adr_data.id,
         userid: app.globalData.userInfo.id,
         neighborhoodid: adr_data.neighborhoodid,
@@ -102,7 +103,7 @@ Page({
         lng: adr_data.lng,     //所在经纬度位置
         lat: adr_data.lat,
         address: adr_data.address
-      },"PUT").then(res => {
+      }, undefined, { id: adr_data.id}).then(res => {
         console.log("修改地址成功" + JSON.stringify(res))
         if(!util.isEmpty(res)){
           wx.showToast({
@@ -138,7 +139,7 @@ Page({
       success: function(res) {
         if (res.confirm) {
           const data = _this.data.address
-          util.delOrPutRequest(api.setAddressOfMy, data.id).then(res => {
+          https.deletes(api.editAddressOfMy, undefined, undefined, { id: data.id}).then(res => {
             if(res){
               wx.showToast({
                 title: '删除成功',

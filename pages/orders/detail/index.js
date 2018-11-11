@@ -1,5 +1,6 @@
 import util from '../../../utils/util.js';
 import api from '../../../api/api.js';
+import https from '../../../service/https.js'
 const app = getApp()
 Page({  
   data: {
@@ -22,7 +23,7 @@ Page({
       list = orderlist.filter(item => item.id == id)
     }
     if(list.length <= 0){
-      util.request(api.getOrderOfMy, {
+      https.get(api.getOrderOfMy, {
         pi: 1,
         ps: 10,
         uid: app.globalData.userInfo.id
@@ -30,6 +31,8 @@ Page({
         if(!util.isEmpty(res)){
           list = res.filter(item => item.id == id)
           list[0].shopes.map(val => {
+            val.openingtime = util.formatTime(val.openingtime, 2)
+            val.closinghour = util.formatTime(val.closinghour, 2)
             val.distance = util.transDistance(val.distance)           
           })
           this.setData({
@@ -40,6 +43,8 @@ Page({
       })
     }else{
       list[0].shopes.map(item => {
+        item.openingtime = util.formatTime(item.openingtime, 2)
+        item.closinghour = util.formatTime(item.closinghour, 2)
         if (item.distance < 1000) {
           item.distance = item.distance.toFixed(1) + 'm'
         } else {
@@ -61,4 +66,16 @@ Page({
       url: '../shopdetail/index?item=' + JSON.stringify(items)
     })
   },
+  orderOpt(e){
+    let type = e.currentTarget.dataset.type
+    let order = this.data.orderDetail
+    let info = { id: order.id, total: order.actualprice}
+    if(type == "cancel"){ //取消订单
+
+    }else{
+      wx.navigateTo({
+        url: '../../payment/payment?item=' + JSON.stringify(info)
+      })
+    }
+  }
 })

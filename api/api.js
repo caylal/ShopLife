@@ -1,4 +1,4 @@
-const BASE_URL = "http://120.79.213.228:8081/api/";//"http://www.lifenearby.cn:8081/api/";
+const BASE_URL = "http://www.lifenearby.cn:8081/api/"; //"http://120.79.213.228:8081/api/";
 
 module.exports = {
   getAllCity: BASE_URL + 'area/city',                        // 获取所有城市信息
@@ -39,8 +39,9 @@ module.exports = {
   getAllCart: BASE_URL + 'shoppingcart/all',                       // 获取所有购物车
   getCartQuery: BASE_URL + 'shoppingcart/query',                   // 分页获取购物车 参数{pageIndex,pageSize}
   getCartOfMy: BASE_URL + 'shoppingcart/my',                 // 获取我的购物车 参数{pageIndex: 1, pageSize: 3, uid: "U00000000"} 用户id
-  createOrdeleteCart: BASE_URL + 'shoppingcart',                    // 添加购物车 参数{"userid": "U000000001","goodsid": "G0001"/"shopgoodsid": "SG0009",,"quantity": 2}
-
+  createCart: BASE_URL + 'shoppingcart',                    // 添加购物车 参数{"userid": "U000000001","goodsid": "G0001"/"shopgoodsid": "SG0009",,"quantity": 2}
+  deleteCart: BASE_URL + 'shoppingcart/{id}',
+  
   getAllGoods: BASE_URL + 'goods/all',                             // 获取所有商品列表
   getGood: BASE_URL + 'goods',                                 // 获取单个商品信息 参数{id:"G0000"}
   getGoodQuery: BASE_URL + 'goods/query',                          // 分页获取商品 参数{pageIndex: 1, pageSize: 3 }
@@ -49,8 +50,10 @@ module.exports = {
   getOrderOfMy: BASE_URL + 'order/my',                       // 获取我的订单信息参数{pi: 1, ps: 20,uid:} 
 
   getAddressOfMy: BASE_URL + 'address/my' ,                   // 获取地址信息 参数 {userid: 'U000000001'}  
-  setAddressOfMy: BASE_URL + 'address',                       // 添加购物车
+  setAddressOfMy: BASE_URL + 'address',                       // 添加地址
+  editAddressOfMy: BASE_URL + 'address/{id}',
   createOrder: BASE_URL + 'order',                             // 提交订单
 
-  AuthLogin: BASE_URL + 'grant/login/wx'
+  AuthLogin: BASE_URL + 'auth/login/wx',
+  updateUserInfo: BASE_URL + 'user/{id}'
 }

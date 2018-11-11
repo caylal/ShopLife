@@ -1,5 +1,7 @@
 import util from '../../../utils/util.js';
 import api from '../../../api/api.js'
+import https from '../../../service/https.js'
+import { editCart } from '../../../service/service.js'
 Page({
 
   /**
@@ -21,7 +23,7 @@ Page({
   getGoodsInfo(res){
     let _this = this
     const { id, url} = res
-    util.request(url,{id: id}).then(res => {
+    https.get(url,{id: id}).then(res => {
       console.log("goodsInfo: " + JSON.stringify(res))
       const info = res[0];
       let num = parseFloat(info.retailprice);
@@ -48,7 +50,7 @@ Page({
     let _this = this
     let data = e.currentTarget.dataset
     data.uid = getApp().globalData.userInfo.id
-    util.editCart(data).then(res => { 
+    editCart(data).then(res => { 
       console.log("detail:===" + JSON.stringify(res))
       const info = _this.data.goodsInfo
       info.quantity = res.quantity

@@ -1,18 +1,25 @@
 import util from '../utils/util.js'
 import api from '../api/api.js'
+import https from '../service/https.js'
 
-const loginByCustom = () => { 
+const loginByCustom = (info) => { 
   return new Promise((resolve, reject) => {   
     wx.login({
       success: res => {
-        util.request(api.AuthLogin, { code: res.code }).then(res => {
+        https.get(api.AuthLogin, { code: res.code }).then(res => {
           // 存储用户信息
-          if (!util.isEmpty(res)) {
-            wx.setStorageSync('userInfo', res)
-            resolve(res)
-          } else {
-            reject(res)
-          }
+          if(!res.user_model.nickname) {
+            const userid = res.user_model.id
+            Object.assign(info, { id: userid, name: res.user_model.name})
+            https.put(api.updateUserInfo, info, undefined, { id: userid}).then(res => {
+              console.log("第三方用户信息更新: " + JSON.stringify(res))
+              wx.setStorageSync('userInfo', res)
+              resolve(res.user_model)
+            })
+          }else{
+            wx.setStorageSync('userInfo', res.user_model)
+            resolve(res.user_model)
+          }         
         }).catch(err => reject(err))
       }
     })

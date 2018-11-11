@@ -1,5 +1,6 @@
 import util from '../../utils/util.js';
 import api from '../../api/api.js';
+import https from '../../service/https.js'
 const app = getApp()
 Page({
   data: {
@@ -37,7 +38,7 @@ Page({
       }
       wx.hideLoading()
     }else{
-      util.request(api.getOrderOfMy, {
+      https.get(api.getOrderOfMy, {
         pi: _this.data.pageIndex,
         ps: _this.data.pageSize,
         uid: app.globalData.userInfo.id
@@ -45,7 +46,7 @@ Page({
         if (!util.isEmpty(res)) {
           res.map(item => {
             item.state = OrderState(item.status)
-            item.date = util.transDate(item.createdt)
+            item.date = util.transDate(item.createdt)           
           })
           console.log("所有订单信息：" + JSON.stringify(res))
           const store_order = wx.getStorageSync('myOrderList')

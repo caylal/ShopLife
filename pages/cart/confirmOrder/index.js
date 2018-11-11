@@ -1,6 +1,6 @@
 import util from '../../../utils/util.js';
 import api from '../../../api/api.js';
-
+import https from '../../../service/https.js'
 var app = getApp();
 Page({
 
@@ -65,7 +65,7 @@ Page({
         wx.showLoading({
           title:'加载中',
         })        
-        util.request(api.getAddressOfMy, { userid: app.globalData.userInfo.id}).then(res => {
+        https.get(api.getAddressOfMy, { userid: app.globalData.userInfo.id}).then(res => {
           if(!util.isEmpty(res)){
             console.log("addr:=====" + JSON.stringify(res))
             res.map(item => {
@@ -107,13 +107,15 @@ Page({
     })
     if(goodsid.length > 0){
       let goodsStr = goodsid.join('|')
-      util.request(api.getShopByAddrWithGoods,{
+      https.get(api.getShopByAddrWithGoods,{
         address: _this.data.address.id,
         goods: goodsStr
       }).then(res => {
         console.log("所有商品门店： " + JSON.stringify(res))      
        
-        res.map(ress => {         
+        res.map(ress => { 
+          ress.closinghour = util.formatTime(ress.closinghour, 2)
+          ress.openingtime = util.formatTime(ress.openingtime, 2)
           let timeout = _this.isTimeOut({ closinghour: ress.closinghour, openingtime: ress.openingtime })
           if (timeout) {
             ress.timeout = true
@@ -305,13 +307,13 @@ Page({
       })
       console.log("商品map:" + JSON.stringify(listMap))
       let data = { 
-        userid: "U000000000",
+        userid: app.globalData.userInfo.id,
         addressid: _this.data.address.id, 
         arrivalstart: "1", 
         arrivalend: "2",
         items:listMap
       }
-      util.request(api.createOrder, data,"POST").then(res => {
+      https.post(api.createOrder, data).then(res => {
         console.log("订单回调：" + JSON.stringify(res) )
         if(!util.isEmpty(res)){
           wx.navigateTo({

@@ -1,8 +1,7 @@
 {
   "pages":[
-    "pages/welcome/index",
+    "pages/home/index/index",    
     "pages/authorize/index",
-    "pages/home/index/index",
     "pages/home/location/location",
     "pages/logs/logs",
     "pages/cart/index",
@@ -18,8 +17,8 @@
     "pages/member/index",
     "pages/member/msg/index",
     "pages/member/mine/index",
-    "pages/member/address/index"
-        
+    "pages/member/address/index",
+    "pages/payment/payment"        
   ],
   "window":{
     "backgroundTextStyle":"light",

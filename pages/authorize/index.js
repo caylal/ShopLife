@@ -1,12 +1,13 @@
 import user from '../../service/user.js'
 import util from '../../utils/util.js'
+const app = getApp()
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    canIUse: wx.canIUse('button.open-type.getUserInfo')
+    canIUse: wx.canIUse('button.open-type.getUserInfo')   
   },
 
   /**
@@ -16,18 +17,48 @@ Page({
   
     let a = wx.canIUse('button.open-type.getUserInfo')
     console.log(a)
+    wx.getSetting({
+      success: function (res) {
+        if (res.authSetting['scope.userInfo']) {
+          // 已经授权，可以直接调用 getUserInfo 获取头像昵称  
+          wx.getUserInfo({
+            success: res => {
+              console.log('wx.getUserInfo:' + JSON.stringify(res))
+              user.loginByCustom(res.userInfo).then(res => {
+                app.globalData.userInfo = res
+                console.log('loginByCustomer: ' + JSON.stringify(res))
+                wx.navigateBack()
+              })
+            }
+          })
+        }
+      }
+    })
+    
   },
   bindGetUserInfo(e) {
     let _this = this
     if (e.detail.userInfo) {
       console.log(e.detail.userInfo)      
-      user.loginByCustom().then(res => {
+      user.loginByCustom(e.detail.userInfo).then(res => {
         getApp().globalData.userInfo = res
         wx.navigateBack()
       }).catch(err => {
         //登录失败
         wx.navigateBack()
       })
+    }else{
+      wx.showModal({
+        title: '警告',
+        content: '您点击了拒绝授权，将无法进入小程序，请授权之后再进入!!!',
+        showCancel: false,
+        confirmText: '返回授权',
+        success: function (res) {
+          if (res.confirm) {
+            console.log('用户点击了“返回授权”')
+          }
+        }
+      })     
     }
 
   },

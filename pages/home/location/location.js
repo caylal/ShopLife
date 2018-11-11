@@ -1,6 +1,6 @@
 import util from '../../../utils/util.js'
 import api from '../../../api/api.js'
-
+import https from '../../../service/https.js'
 let cityAreaNbhd = []
 Page({
 
@@ -8,7 +8,9 @@ Page({
    * 页面的初始数据
    */
   data: {
-    SearchVal:"",   
+    SearchVal:"",  
+    letter: ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"], 
+    cityListId: '',
     city:{},
     area: {},
     nbhd: {},    
@@ -52,7 +54,7 @@ Page({
       })
       wx.hideLoading()
     }else{
-      util.request(api.getAllCity).then(res => {
+      https.get(api.getAllCity).then(res => {
         const data = res
         console.log("city:" + JSON.stringify(data))
         _this.setData({
@@ -130,7 +132,7 @@ Page({
     const choose_a = list.children[index]  
     const choose_area = { id: choose_a.id, name: choose_a.namecn }
     cityAreaNbhd.push(choose_area) 
-    util.request(api.getAreaNeighbor,{
+    https.get(api.getAreaNeighbor,{
         pi:_this.data.pageIndex, 
         ps: _this.data.pageSize,
         areaid: choose_a.id

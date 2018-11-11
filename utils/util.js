@@ -1,5 +1,4 @@
-import api from '../api/api.js'
-const formatTime = date => {
+const formatTime = (date, types = 1) => {
   date = new Date(date)
   const year = date.getFullYear()
   const month = date.getMonth() + 1
@@ -8,9 +7,13 @@ const formatTime = date => {
   const minute = date.getMinutes()
   const second = date.getSeconds()
 
-  return [year, month, day].map(formatNumber).join('/') + ' ' + [hour, minute, second].map(formatNumber).join(':')
+  if(types === 1){
+    return [year, month, day].map(formatNumber).join('/') + ' ' + [hour, minute, second].map(formatNumber).join(':')
+  }else{
+    return [hour, minute, second].map(formatNumber).join(':')
+  }
+ 
 }
-
 const formatNumber = n => {
   n = n.toString()
   return n[1] ? n : '0' + n
@@ -25,9 +28,19 @@ const numDate = (start, end) =>{
 }
 
 const isEmpty = n => {
-  if(n != "" && n != null && n != undefined){
-    return false;
-  }
+  if (Object.prototype.toString.call(n) === '[object Object]'){
+    if (JSON.stringify(n) !== '{}' || Object.keys(n).length > 0){
+      return false
+    }
+  } else if (Object.prototype.toString.call(n) === '[object Array]'){
+    if(n.length > 0){
+      return false
+    }
+  }else{
+    if (n != "" && n != null && n != undefined) {
+      return false
+    }
+  } 
   return true;
 }
 
@@ -67,169 +80,6 @@ const transDate = date => {
     result = year + "-" + mouth + "-" + day + " " + time + ":" + min;
   }
   return result
-}
-/**封装微信的request */
-const request = (url,data={},method = "Get") => {
-  return new Promise((resolve,reject) =>{
-    wx.request({
-      url: url,
-      data: data,
-      method: method,
-      header: {
-        'Content-Type': 'application/json'
-      },
-      success: res =>{
-        console.log("success");
-        if (res.statusCode == 200 && res.data._wrapperCode == 200){         
-          resolve(res.data.result)
-        } else if (res.statusCode == 200 && res.data.result == null){
-          resolve(res.data.result)
-        }
-        else{
-          reject(res.data.error)
-        }
-      },
-      fail: res => {
-        console.log("failed");
-        reject(res.errMsg);
-      }
-    })
-  })
-}
-const delOrPutRequest = (url, id, data = {}, method = "DELETE") => { 
-  return new Promise((resolve, reject) => {
-    wx.request({
-      url: url + '/' + id,
-      method: method,
-      data: data,
-      success: res => {
-        if(res.statusCode == 200 && res.data._wrapperCode == 200){
-          resolve(res.data.result)
-        }else{
-          reject(res.data.error)
-        }
-      },
-      fail: res => {
-        reject(res.errMsg)
-      }
-    })
-  })
-}
-
-
-/**获取用户购物车信息 */
-const getMyCart = (uid, pindex = 1, psize = 10) =>{ 
-  wx.removeStorageSync('myCart')  
-  return new Promise((resolve, reject) => {    
-    request(api.getCartOfMy, {
-      pi: pindex,
-      ps: psize,
-      uid: uid
-    }).then(res => {
-      if(!isEmpty(res)){        
-        const list = []
-        res.forEach(item => {
-          item.items.forEach(val => {
-            list.push(val)
-          })
-        })
-        console.log("myCartList===:" + JSON.stringify(list))
-        const storeCart = wx.getStorageSync('myCart') || []
-        const lalist = storeCart.concat(list)
-        wx.setStorage({
-          key: 'myCart',
-          data: lalist,
-        })
-        console.log("购物车数量：" + list.length)
-        if (list.length == 10) {
-          getMyCart(uid, pindex + 1)
-        } else {
-          resolve(lalist)
-        }
-      }
-     
-    }).catch(err => reject(err)) 
-  }) 
- 
-}
-const filterGood = (good) => {
-  const list = wx.getStorageSync('myCart')
-  console.log("myCart:" + JSON.stringify(list))
-  let data;
-  if(list.length > 0){
-    list.forEach(val => {
-      if (!val.hasOwnProperty("shopid") && !good.hasOwnProperty("shopid")) {
-        if (val.goodsid === good.goodsid) {
-          data = val
-          return
-        }
-      } else {
-        if (val.shopid === good.shopid && val.shopgoodsid === good.shopgoodsid) {
-          data = val
-          return
-        }
-      }
-    })
-  }  
-  if (!isEmpty(data)) {
-    return data.quantity
-  }
-  else {
-    return false
-  }
-}
-const editCart = (data) => {
-  let {uid, goodsid, shopgid, shopgoodsid, btn } = data
-  return new Promise((resolve, reject) => {    
-    let quantity = 1
-    if (!isEmpty(shopgid) && isEmpty(shopgoodsid)) {
-      shopgoodsid = shopgid
-    }
-    if (btn == "cut") {
-      quantity = -1
-    }
-    let data = {}
-    if (isEmpty(shopgoodsid)) {
-      data = {
-        userid: uid,
-        goodsid: goodsid,
-        quantity: quantity
-      }
-    } else {
-      data = {
-        userid: uid,
-        shopgoodsid: shopgoodsid,
-        quantity: quantity
-      }
-    }
-    request(api.createOrdeleteCart, data, "POST").then(res => {
-      console.log("addorcut:===" + JSON.stringify(res))
-      const listall = wx.getStorageSync('myCart')
-      let list = []
-      if(listall.length > 0){
-        list = listall.filter(item => {
-          return item.shoppingcartid == res.id
-        })
-      }      
-      if (list.length <= 0){
-        getMyCart(uid)
-      }else{
-        listall.map(item => {
-          if (item.shoppingcartid == res.id){
-            item.quantity = res.quantity
-          }
-        })
-        wx.setStorage({
-          key: 'myCart',
-          data: listall,
-        })
-      }
-      if (res){
-        resolve(res)
-      }
-    }).catch(err => reject(err))
-  })
-  
 }
 const pageTitle = {
   home: "近邻生活",
@@ -271,12 +121,7 @@ const pageTitle = {
 };
 module.exports = {
   formatTime: formatTime,
-  pageTitle: pageTitle,
-  request,
-  delOrPutRequest, 
-  getMyCart, 
-  filterGood,
-  editCart,
+  pageTitle: pageTitle,   
   isEmpty,
   numDate,
   transDistance,

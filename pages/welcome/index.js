@@ -1,6 +1,8 @@
 import user from '../../service/user.js'
 import util from '../../utils/util.js'
 import api from '../../api/api.js'
+import https from '../../service/https.js'
+import { getMyCart } from '../../service/service.js'
 let app = getApp()
 Page({
 
@@ -53,7 +55,7 @@ Page({
               _this.setData({
                 userInfo: res
               })
-              console.log(info)   
+              console.log(res)   
               Promise.all([
                 _this.getAllCity(),
                 _this.setLocation()
@@ -107,7 +109,7 @@ Page({
     let _this = this  
     return new Promise((resolve,reject) => {
       if (!storeAll) {
-        util.request(api.getAllCity).then(res => {         
+        https.get(api.getAllCity).then(res => {         
           if (res) {
             wx.setStorage({
               key: 'allCitys',
@@ -137,7 +139,7 @@ Page({
               data: { "lon": longitude, "lat": latitude},
             })
             app.globalData.location = { "lon": longitude, "lat": latitude }
-            util.request(api.getLngLat, {
+            https.get(api.getLngLat, {
               pi: 1,
               ps: 20,
               lng: longitude,
@@ -171,7 +173,7 @@ Page({
       if (!areaNbhd) {
         this.getLocation().then(res => {
           const nearestNbhd = wx.getStorageSync('nearestNbhd')
-          util.request(api.getArea, { id: nearestNbhd[0].areaid }).then(res => {
+          https.get(api.getArea, { id: nearestNbhd[0].areaid }).then(res => {
             console.log("当前区域:" + JSON.stringify(res))
             let city = []
             let c = res[0].hierarchy.split('|')
@@ -195,7 +197,7 @@ Page({
   },
   getCart(){
     // 获取所有购物车信息
-    util.getMyCart(app.globalData.userInfo.id).then(res => console.log("获取购物车成功：" + JSON.stringify(res)))  
+    getMyCart(app.globalData.userInfo.id).then(res => console.log("获取购物车成功：" + JSON.stringify(res)))  
   },
   onShow: function () {   
     this.onLoad()    

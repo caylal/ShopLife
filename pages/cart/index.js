@@ -1,5 +1,7 @@
 import util from '../../utils/util.js';
 import api from '../../api/api.js';
+import https from '../../service/https.js'
+import { editCart } from '../../service/service.js'
 const app = getApp()
 Page({
   data: {
@@ -22,7 +24,7 @@ Page({
   },
   getMyCarts(){
     let _this = this
-    util.request(api.getCartOfMy,{
+    https.get(api.getCartOfMy,{
       pi: _this.data.pageIndex,
       ps: _this.data.pageSize,
       uid: app.globalData.userInfo.id
@@ -151,7 +153,7 @@ Page({
     let goodsid = item.goodsid,        
         shopgoodsid = item.shopgoodsid      
     
-    util.editCart({ uid: app.globalData.userInfo.id, goodsid: goodsid, shopgoodsid: shopgoodsid, btn: btn }).then(res => {
+    editCart({ uid: app.globalData.userInfo.id, goodsid: goodsid, shopgoodsid: shopgoodsid, btn: btn }).then(res => {
       if (res != null) {
         console.log("添加或减少：" + JSON.stringify(res))
         let account = _this.data.checkedGoodsAmount;
@@ -194,7 +196,7 @@ Page({
       })
     } else {
       list.forEach( res => {
-        util.delOrPutRequest(api.createOrdeleteCart, res.shoppingcartid).then(result => {
+        https.deletes(api.deleteCart, undefined, undefined, { id: res.shoppingcartid}).then(result => {
           console.log(result)
           if(result){
             const cart = allCart.filter(item => {
