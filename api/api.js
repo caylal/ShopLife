@@ -40,7 +40,7 @@ module.exports = {
   getCartQuery: BASE_URL + 'shoppingcart/query',                   // 分页获取购物车 参数{pageIndex,pageSize}
   getCartOfMy: BASE_URL + 'shoppingcart/my',                 // 获取我的购物车 参数{pageIndex: 1, pageSize: 3, uid: "U00000000"} 用户id
   createCart: BASE_URL + 'shoppingcart',                    // 添加购物车 参数{"userid": "U000000001","goodsid": "G0001"/"shopgoodsid": "SG0009",,"quantity": 2}
-  deleteCart: BASE_URL + 'shoppingcart/{id}',
+  deleteCart: BASE_URL + 'shoppingcart/{id}',               //删除购物车
   
   getAllGoods: BASE_URL + 'goods/all',                             // 获取所有商品列表
   getGood: BASE_URL + 'goods',                                 // 获取单个商品信息 参数{id:"G0000"}
@@ -51,9 +51,9 @@ module.exports = {
 
   getAddressOfMy: BASE_URL + 'address/my' ,                   // 获取地址信息 参数 {userid: 'U000000001'}  
   setAddressOfMy: BASE_URL + 'address',                       // 添加地址
-  editAddressOfMy: BASE_URL + 'address/{id}',
+  editAddressOfMy: BASE_URL + 'address/{id}',                 //编辑地址
   createOrder: BASE_URL + 'order',                             // 提交订单
 
-  AuthLogin: BASE_URL + 'auth/login/wx',
-  updateUserInfo: BASE_URL + 'user/{id}'
+  AuthLogin: BASE_URL + 'auth/login/wx',                      // 登录                     
+  updateUserInfo: BASE_URL + 'user/{id}'                     // 更新用户信息
 }

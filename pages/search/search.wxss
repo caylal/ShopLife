@@ -3,7 +3,7 @@
 /** 整个区域 */
 .wxSearch{ 
   width: 100%;
-  height: 100%;
+  height: calc(100% - 90rpx);
   padding-top: 90rpx;
   box-sizing: border-box;
 
@@ -94,6 +94,7 @@
   background-color: #efeff4;
   top:0; 
   border-bottom: 1rpx solid #d7d6dc; 
+  z-index: 12;
 }
 
 .weui-icon-search {

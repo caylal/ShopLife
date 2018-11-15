@@ -2,6 +2,9 @@ import util from '../../utils/util.js';
 import api from '../../api/api.js';
 import https from '../../service/https.js'
 import { editCart } from '../../service/service.js'
+import { logFactory } from '../../utils/log/logFactory.js'
+
+const log = logFactory.get("Cart")
 const app = getApp()
 Page({
   data: {
@@ -30,7 +33,7 @@ Page({
       uid: app.globalData.userInfo.id
     }).then( res => {
       if(!util.isEmpty(res)){
-        console.log("myCart:" + JSON.stringify(res));
+        log.log(util.getPageUrl() + " myCart: ", res);
         const goods = res
         goods.map(value => {
           value.checked = false
@@ -44,7 +47,7 @@ Page({
             return item
           })
         })       
-        console.log("mapCart:" + JSON.stringify(goods))
+        log.log(util.getPageUrl() + " mapCart: ", goods)
         _this.setData({
           cart: _this.data.pageIndex != 1 ? _this.data.cart.concat(goods) : goods,
           allSelected: false,
@@ -52,7 +55,7 @@ Page({
         })    
       }
       else{
-        console.log("没有购物车信息")
+        log.log(util.getPageUrl() + " 没有购物车信息 ", res)
         _this.setData({         
           cart: [],
           allSelected: false,
@@ -129,8 +132,7 @@ Page({
         return prev + (cur.goodsretailprice * cur.quantity)
       },0)
     })
-    console.log(total)
-    console.log("all:" + JSON.stringify(cartList))
+    log.log(util.getPageUrl() + " cartList all: ", cartList)
     this.setData({
       cart: cartList,
       allSelected: !selectAll,
@@ -155,7 +157,7 @@ Page({
     
     editCart({ uid: app.globalData.userInfo.id, goodsid: goodsid, shopgoodsid: shopgoodsid, btn: btn }).then(res => {
       if (res != null) {
-        console.log("添加或减少：" + JSON.stringify(res))
+        log.log(util.getPageUrl() + " 添加或减少：", res)
         let account = _this.data.checkedGoodsAmount;
         if (res != null) {
           if (item.checked) {
@@ -196,8 +198,7 @@ Page({
       })
     } else {
       list.forEach( res => {
-        https.deletes(api.deleteCart, undefined, undefined, { id: res.shoppingcartid}).then(result => {
-          console.log(result)
+        https.deletes(api.deleteCart, undefined, undefined, { id: res.shoppingcartid}).then(result => {          
           if(result){
             const cart = allCart.filter(item => {
               return item.shoppingcartid != res.shoppingcartid
@@ -219,7 +220,7 @@ Page({
   // 获取选中商品
   getCheckedList(){
     const cartList = this.data.cart
-    console.log("所有cartlist：" + JSON.stringify(cartList))
+    log.log(util.getPageUrl() + " 所有cartlist：", cartList)
     let list = []
     if (this.data.allSelected) {
       cartList.forEach(res => {
@@ -245,7 +246,7 @@ Page({
         content: '请选择需要下单的商品',
       })
     }else{
-      console.log("已选择: " + JSON.stringify(list))
+      log.log(util.getPageUrl() + " 已选择: ", list)
       wx.setStorage({
         key: 'checkOrder',
         data: list,

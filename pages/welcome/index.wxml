@@ -1,5 +1,5 @@
 <!--start.wxml-->
-<view class="container">
+<!-- <view class="container">
   <view class="remind-box" wx:if="{{remind}}">
     <image class="remind-img" src="/images/loading.gif"></image>
   </view>
@@ -20,4 +20,48 @@
       </view>
     </view>
   </block>
+</view> -->
+<view class='container'> 
+  <view class="search-bar">
+    <view class="search-bar__form">
+      <view class="search-bar__box">
+        <icon class="weui-icon-search_in-box" type="search" size="14" color='#fff'></icon>
+        <input type="text" class="search-bar__input" placeholder-style='color: #fff' placeholder="请输入查询内容" value="{{SearchVal}}" bindinput="SearchData"/>
+        <view class="weui-icon-clear" wx:if="{{SearchVal.length > 0}}" bindtap="SearchClear">
+          <icon type="clear" size="14"></icon>
+        </view>
+      </view>
+    </view>
+    <view class="search-bar__cancel-btn" bindtap="SearchConfirm">
+      <text wx:if="{{SearchVal.length>0}}" data-key='search'>搜索</text>
+      <text wx:else data-key='back'>取消</text>
+    </view>
+  </view>
+
+  <view class="wxSearch"> 
+
+    <view class='location'>
+       <view class='l-area'>
+        <scroll-view scroll-y='true' style="height:{{winHeight}}px" bindscroll="bindScroll" scroll-top="{{scrollTop}}">
+          <view wx:for="{{allCitys}}" wx:key="{{item.forShort}}">
+            <view class='l-sort'>{{item.forShort}}</view>
+            <block wx:for="{{item.cities}}" wx:for-item="cities" wx:key="{{cities.id}}" wx:for-index="pindex">
+              <view class='l-city' data-pindex="{{pindex}}" data-index="{{index}}" bindtap="chooseCity">{{cities.namecn}}</view>
+            </block>          
+          </view> 
+        </scroll-view>        
+      </view>
+    </view>   
+
+    <view class='area-right'>
+      <view class='letter_item' wx:for='{{letter}}' style='height:{{itemH}}px' wx:key='this' catchtouchstart='searchStart' catchtouchmove="searchMove" catchtouchend="searchEnd" data-item='{{item}}'>
+      {{item}}
+      </view>
+    </view>
+    <block wx:if="{{isShowLetter}}">
+      <view class="showSlectedLetter">{{showLetter}}</view>
+    </block>
+   
+  </view> 
+
 </view>

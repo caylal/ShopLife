@@ -1,7 +1,11 @@
 import util from '../../../utils/util.js';
 import api from '../../../api/api.js'
 import https from '../../../service/https.js'
-import { editCart } from '../../../service/service.js'
+import { filterGood, editCart, getMyCart } from '../../../service/service.js'
+import { logFactory } from '../../../utils/log/logFactory.js'
+
+const log = logFactory.get("Goods")
+const app = getApp()
 Page({
 
   /**
@@ -18,13 +22,20 @@ Page({
     wx.setNavigationBarTitle({
       title: util.pageTitle.goods.detail
     });
+    wx.showLoading({
+      title: '加载中',
+    })
+    // getMyCart(app.globalData.userInfo.id).then(res => {
+    //   log.log(util.getPageUrl() + " 获取购物车成功：", res)
+      
+    // })
     this.getGoodsInfo(options)
   },
   getGoodsInfo(res){
     let _this = this
     const { id, url} = res
     https.get(url,{id: id}).then(res => {
-      console.log("goodsInfo: " + JSON.stringify(res))
+      log.log(util.getPageUrl() + " goodsInfo: ", res)
       const info = res[0];
       let num = parseFloat(info.retailprice);
       num = num.toFixed(2);
@@ -34,16 +45,17 @@ Page({
       if (info.shopid && !info.hasOwnProperty("shopgoodsid")){
         info.shopgoodsid = info.id
       }      
-      let quantity = util.filterGood(info)
+      let quantity = filterGood(info)
       if (quantity) {
         info.quantity = quantity
       }  
       info.retailprice = num
       info.days = util.numDate(info.effectivedt, info.expireddt) 
-      console.log("Info: " + JSON.stringify(info))    
+      log.log(util.getPageUrl() + " Info: ", info)    
       _this.setData({
         goodsInfo: info
       })
+      wx.hideLoading()
     })
   },
   changeCart(e){
@@ -51,7 +63,7 @@ Page({
     let data = e.currentTarget.dataset
     data.uid = getApp().globalData.userInfo.id
     editCart(data).then(res => { 
-      console.log("detail:===" + JSON.stringify(res))
+      log.log(util.getPageUrl() + " detail: ", res)
       const info = _this.data.goodsInfo
       info.quantity = res.quantity
       _this.setData({

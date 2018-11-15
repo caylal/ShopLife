@@ -1,0 +1,87 @@
+@import "../search/search.wxss";
+
+.p{
+  position: relative;
+}
+.location{
+  background: #fff;
+}
+.l-title{
+  height: 50rpx;
+  width: 100%;
+  background: #eee;
+  font-size: 32rpx;
+  padding-left:15rpx;
+  line-height: 50rpx;
+  letter-spacing: 2rpx;
+  box-sizing: border-box;
+}
+.l-current{
+  padding: 15rpx 50rpx 15rpx 15rpx;
+  display: flex;
+  font-size: 32rpx;
+  justify-content: space-between;
+  border: 1px solid #eee;
+  box-sizing: border-box;
+}
+
+.l-position .l-c{
+  margin-left: 20rpx;
+}
+.l-position :first-child{
+  margin-left: 0;
+}
+.l-area{
+  font-size: 34rpx;
+}
+.l-sort{
+  width: 100%;
+  height: 25px;
+  background: #eee;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+}
+.l-city{
+  height: 40px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+  justify-content: space-between
+}
+
+.area-right{
+  position: fixed;
+  height: calc(100% - 90rpx);
+  top: 90rpx;
+  right: 0;
+  width: 60rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: rgba(0, 0, 0, .25)
+}
+.letter_item{  
+  color: #fff;
+  text-align: center;  
+}
+.search-bar__input{
+  height:100%;
+}
+.showSlectedLetter{
+    background-color: rgba(0, 0, 0,0.25);
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top:50%;
+    left: 50%;
+    margin: -75rpx;
+    width: 150rpx;
+    height: 150rpx;
+    border-radius:10rpx; 
+    font-size: 26px;
+    z-index: 1
+}

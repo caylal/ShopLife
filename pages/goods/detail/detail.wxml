@@ -36,13 +36,13 @@
       <span class="iconfont icon-xihuan"></span>
       <text class="c-t">收藏商品</text>
     </view>
-    <view class="c-collect">
+    <view class="c-collect" bindtap="myCart">
       <span class="iconfont icon-gouwuche"></span>
-      <view class="c-t" bindtap="myCart">购物车</view>
+      <view class="c-t">购物车</view>
     </view>
     <view class="c-option">
       <text>添加商品</text>
-      <view wx:if="{{goodsInfo.quantity}}" bindtap="changeCart" data-goodsid="{{goodsInfo.goodsid}}" data-shopgid="{{goodsInfo.shopgoodsid}}" data-shopgoodsid="{{goodsInfo.shopgoodsid}}" data-btn="cut"><span class='iconfont icon-offline goods-btn'></span></view>
+      <view wx:if="{{goodsInfo.quantity > 1}}" bindtap="changeCart" data-goodsid="{{goodsInfo.goodsid}}" data-shopgid="{{goodsInfo.shopgoodsid}}" data-shopgoodsid="{{goodsInfo.shopgoodsid}}" data-btn="cut"><span class='iconfont icon-offline goods-btn'></span></view>
       <view class='goods-num'>{{goodsInfo.quantity}}</view>
       <view bindtap="changeCart" data-goodsid="{{goodsInfo.goodsid}}" data-shopgid="{{goodsInfo.shopgoodsid}}" data-shopgoodsid="{{goodsInfo.shopgoodsid}}" data-btn="add"><span class='iconfont icon-addition goods-btn'></span></view>     
     </view>

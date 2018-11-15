@@ -1,4 +1,7 @@
 import util from '../../utils/util.js';
+import { logFactory } from '../../utils/log/logFactory.js'
+
+const log = logFactory.get("Search")
 Page({
   data: {
     resultList: [], //搜索结果
@@ -21,7 +24,7 @@ Page({
     _this.setData({
       searchLogList: value || []      
     })
-    console.log("history:" + _this.data.searchLogList);
+    log.log(util.getPageUrl() + " history: " , _this.data.searchLogList);
     
   },
   //搜索框输入
@@ -30,7 +33,7 @@ Page({
     _this.setData({
       SearchVal: e.detail.value
     })
-    console.log('SearchData' + _this.data.SearchVal)
+    log.log(util.getPageUrl() + ' SearchData: ' , _this.data.SearchVal)
   }, 
   //清空搜索框
   SearchClear (e) {

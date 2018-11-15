@@ -1,7 +1,10 @@
 import util from '../../utils/util.js';
 import api from '../../api/api.js'
 import https from '../../service/https.js'
-import { editCart } from '../../service/service.js'
+import { editCart, filterGood, getMyCart } from '../../service/service.js'
+import { logFactory } from '../../utils/log/logFactory.js'
+
+const log = logFactory.get("Category")
 const app = getApp()
 Page({
 
@@ -11,7 +14,6 @@ Page({
   data: {
     navList: [],  // 左侧分类栏
     goodsList: [], // 右侧商品
-    cartList: [], //我的购物车
     checkedGoodsAmount: 0,
     curId: '',
     childId: '',
@@ -32,12 +34,16 @@ Page({
     wx.showLoading({
       title: '加载中...'
     });
-    if (!util.isEmpty(options.itemId)){
+    // getMyCart(app.globalData.userInfo.id).then(res => {
+    //   log.log("myCartBack: ", res)
+      
+    // })    
+    this.countMoney()
+    if (!util.isEmpty(options.itemId)) {
       this.showShopInfo(options.itemId)
-    }else{
-      this.getNavList({ url: api.getAllCategory, data:{pi: this.data.pageIndex,ps: this.data.pageSize, ob:'sort', rs:1}})
-    }
-    
+    } else {
+      this.getNavList({ url: api.getAllCategory, data: { pi: this.data.pageIndex, ps: this.data.pageSize, ob: 'createdt', rs: 1 } })
+    } 
   },
   // 右侧分类tab点击
   switchRightTab(e){
@@ -78,7 +84,7 @@ Page({
     let { url, data } = req
     return new Promise((resolve,reject) => {
       https.get(url, data).then(res =>{
-        console.log("category:" + JSON.stringify(res))
+        log.log(util.getPageUrl() + " category: " ,res)
         _this.setData({
           navList: res,
           curId: res[0].id
@@ -101,12 +107,12 @@ Page({
     let _this = this
     const shop = wx.getStorageSync('shopList')
     const item = shop.filter(item => { return item.id === id })
-    console.log("item:" + JSON.stringify(item))       
+    log.log(util.getPageUrl() + " item: ", item)       
     _this.setData({
       shop: item[0],
       showNbhd:true
     })
-    console.log("shop: " + JSON.stringify(this.data.shop))
+    log.log(util.getPageUrl() + " shop: ",this.data.shop)
     let data = { url: api.getShopGoodAll, data: { shop: id}} // 门店id
     _this.getNavList(data)
   },
@@ -117,11 +123,10 @@ Page({
     if (_this.data.showNbhd){
       url = api.getShopGoodsByCate
     }
-    Object.assign(data, { pi: _this.data.pageIndex, ps: _this.data.pageSize})
-    console.log("url:" + url + " data:" + JSON.stringify(data))  
+    Object.assign(data, { pi: _this.data.pageIndex, ps: _this.data.pageSize})     
    
     https.get(url, data).then(res => {
-      console.log("goodsList:" + JSON.stringify(res))
+      log.log(util.getPageUrl() + " goodsList: ",res)
       const result = res
       if(!util.isEmpty(res)){
         result.map(item => {
@@ -132,7 +137,8 @@ Page({
           else {
             item.url = `/pages/goods/detail/detail?url=${api.getGood}&&id=${item.id}`
           }
-          quantity = _this.filterGood(item)
+          item.goodsid = item.id
+          quantity = filterGood(item)
           if (quantity) {
             item.quantity = quantity
           }
@@ -145,24 +151,24 @@ Page({
       wx.hideLoading()
     })
   },
-  filterGood(good){
-    const list = this.data.cartList
-    let res = list.filter(item => {
-      if (!this.data.showNbhd){
-        if (!item.hasOwnProperty("shopid")){
-          return item.goodsid == good.id
-        }        
-      }else{
-        return item.shopid == good.shopid && item.goodsid == good.goodsid
-      }
-    })    
-    if (res.length > 0){
-      return res[0].quantity
-    }
-    else{
-      return false
-    }
-  },
+  // filterGood(good){
+  //   const list = this.data.cartList
+  //   let res = list.filter(item => {
+  //     if (!this.data.showNbhd){
+  //       if (!item.hasOwnProperty("shopid")){
+  //         return item.goodsid == good.id
+  //       }        
+  //     }else{
+  //       return item.shopid == good.shopid && item.goodsid == good.goodsid
+  //     }
+  //   })    
+  //   if (res.length > 0){
+  //     return res[0].quantity
+  //   }
+  //   else{
+  //     return false
+  //   }
+  // },
   // 添加购物车
   changeCart(e){
     const { id, btn, index } = e.currentTarget.dataset
@@ -176,8 +182,7 @@ Page({
       shopgoodsid = id     
     }
     editCart({ uid: app.globalData.userInfo.id, goodsid: goodsid, shopgoodsid: shopgoodsid, btn: btn }).then(res => {
-      if (res != null) {
-        console.log(JSON.stringify(res))
+      if (res != null) {       
         const list = res
         if (list != null) {
           const goodslist = _this.data.goodsList
@@ -193,16 +198,24 @@ Page({
   },
   countMoney(){
     let _this = this 
-    const list = wx.getStorageSync('myCart')
-    console.log("lastList======:" + JSON.stringify(list))
-    let total = list.reduce((pre, cur) => {
-      return pre + (cur.goodsretailprice * cur.quantity)
-    }, 0)
-    console.log(total)
-    _this.setData({
-      cartList: list,
-      checkedGoodsAmount: total
+    wx.getStorage({
+      key: 'myCart',
+      success: function(res) {
+        if (!util.isEmpty(res)) {
+          log.log(util.getPageUrl() + " lastList: ", res)
+          let total = res.data.reduce((pre, cur) => {
+            return pre + (cur.goodsretailprice * cur.quantity)
+          }, 0)
+          console.log(total)
+          _this.setData({
+            checkedGoodsAmount: total
+          })
+        } else {
+          log.log(util.getPageUrl() + "无购物车数据：", res)
+        }    
+      },
     })
+   
   },
   onShow(){
     let _this = this
@@ -213,8 +226,7 @@ Page({
           srollHeight: height
         });
       }
-    })
-    _this.countMoney()
+    })    
   },
   goCart(){
     wx.switchTab({

@@ -1,6 +1,9 @@
 import util from '../../utils/util.js';
 import api from '../../api/api.js';
 import https from '../../service/https.js'
+import { logFactory } from '../../utils/log/logFactory.js'
+
+const log = logFactory.get("Orders")
 const app = getApp()
 Page({
   data: {
@@ -48,7 +51,7 @@ Page({
             item.state = OrderState(item.status)
             item.date = util.transDate(item.createdt)           
           })
-          console.log("所有订单信息：" + JSON.stringify(res))
+          log.log(util.getPageUrl() + " 所有订单信息：" ,res)
           const store_order = wx.getStorageSync('myOrderList')
           wx.setStorage({
             key: 'myOrderList',

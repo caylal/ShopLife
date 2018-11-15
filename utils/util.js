@@ -81,6 +81,13 @@ const transDate = date => {
   }
   return result
 }
+
+const getPageUrl = () => {
+  let pages = getCurrentPages()
+  let currentPage = pages[pages.length -1]
+  return currentPage.route
+}
+
 const pageTitle = {
   home: "近邻生活",
   nbhd: {
@@ -125,5 +132,6 @@ module.exports = {
   isEmpty,
   numDate,
   transDistance,
-  transDate
+  transDate,
+  getPageUrl
 }

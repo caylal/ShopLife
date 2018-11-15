@@ -10,74 +10,106 @@ Page({
    * 页面的初始数据
    */
   data: {
-    remind: '加载中',
-    angle: 0,
-    userInfo: {}
+    // remind: '加载中',
+    // angle: 0,
+    // userInfo: {}
+    isShowLetter: false,
+    showLetter: "",
+    SearchVal: "",
+    letter: [],
+    winHeight: 0,
+    scrollTop: 0,
+    allCitys: [],
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    let _this = this       
-    if (app.globalData.userInfo) {
-      //已登录 获取用户所在位置，用户购物车，订单信息等
-      console.log("个人信息：" + JSON.stringify(app.globalData.userInfo))
-      _this.setData({
-        userInfo: app.globalData.userInfo
-      })
+
+    wx.showLoading({
+      title: '加载中',
+    })
+    
+    let sysInfo = wx.getSystemInfoSync();
+    console.log(util.getPageUrl() + " 系统信息：", sysInfo)
+
+    let winHeight = sysInfo.windowHeight;
+    console.log(util.getPageUrl() + " 窗口高度：", winHeight)
+
+    let _this = this
+    const storeAll = wx.getStorageSync('allCitys')   
+    const letter = getLetter(storeAll)
+    let itemH = (winHeight - 45) / letter.length
+    console.log(itemH)
+    console.time("渲染计时")
+    this.setData({
+      allCitys: storeAll,
+      winHeight: winHeight,
+      letter: letter,
+      itemH: itemH
+    })
+    wx.hideLoading()
+    console.timeEnd("渲染计时")
+    // let _this = this       
+    // if (app.globalData.userInfo) {
+    //   //已登录 获取用户所在位置，用户购物车，订单信息等
+    //   console.log("个人信息：" + JSON.stringify(app.globalData.userInfo))
+    //   _this.setData({
+    //     userInfo: app.globalData.userInfo
+    //   })
       
-      Promise.all([
-        _this.getAllCity(),
-        _this.setLocation()
-      ]).then(res => {
-        _this.setData({
-          remind: ''
-        })
-        _this.getCart()
-      })
+    //   Promise.all([
+    //     _this.getAllCity(),
+    //     _this.setLocation()
+    //   ]).then(res => {
+    //     _this.setData({
+    //       remind: ''
+    //     })
+    //     _this.getCart()
+    //   })
       
-    }
-    else {
-      wx.getSetting({
-        success: function (res) {
-          if (res.authSetting['scope.userInfo']) {
-            // 已经授权，可以直接调用 getUserInfo 获取头像昵称
-            // wx.getUserInfo({
-            //   success: function (res) {
-            //     console.log(res.userInfo)
-            //     user.loginByCustom().then(res => {})
-            //   }
-            // })
-            user.loginByCustom().then(res => {
-              app.globalData.userInfo = res
+    // }
+    // else {
+    //   wx.getSetting({
+    //     success: function (res) {
+    //       if (res.authSetting['scope.userInfo']) {
+    //         // 已经授权，可以直接调用 getUserInfo 获取头像昵称
+    //         // wx.getUserInfo({
+    //         //   success: function (res) {
+    //         //     console.log(res.userInfo)
+    //         //     user.loginByCustom().then(res => {})
+    //         //   }
+    //         // })
+    //         user.loginByCustom().then(res => {
+    //           app.globalData.userInfo = res
              
-              _this.setData({
-                userInfo: res
-              })
-              console.log(res)   
-              Promise.all([
-                _this.getAllCity(),
-                _this.setLocation()
-              ]).then(res => {
-                _this.setData({
-                  remind: ''
-                })
-                _this.getCart()
-              })
-            })
+    //           _this.setData({
+    //             userInfo: res
+    //           })
+    //           console.log(res)   
+    //           Promise.all([
+    //             _this.getAllCity(),
+    //             _this.setLocation()
+    //           ]).then(res => {
+    //             _this.setData({
+    //               remind: ''
+    //             })
+    //             _this.getCart()
+    //           })
+    //         })
               
 
-          }
-          else {
-            //跳转授权并登录
-            wx.navigateTo({
-              url: "/pages/authorize/index"
-            })
-          }
-        }
-      })
-    }    
+    //       }
+    //       else {
+    //         //跳转授权并登录
+    //         wx.navigateTo({
+    //           url: "/pages/authorize/index"
+    //         })
+    //       }
+    //     }
+    //   })
+    // }    
   },
 
   /**
@@ -200,7 +232,7 @@ Page({
     getMyCart(app.globalData.userInfo.id).then(res => console.log("获取购物车成功：" + JSON.stringify(res)))  
   },
   onShow: function () {   
-    this.onLoad()    
+    //this.onLoad()    
   },
 
   goToIndex(){
@@ -243,3 +275,11 @@ Page({
   
   }
 })
+
+const getLetter = (data) => {
+  let tempObj = []
+  for (let i = 0; i < data.length; i++) {
+    tempObj.push(data[i].forShort)
+  }
+  return tempObj
+}

@@ -1,5 +1,8 @@
 import user from '../../service/user.js'
 import util from '../../utils/util.js'
+import {logFactory} from '../../utils/log/logFactory.js'
+
+const log = logFactory.get("Authorize")
 const app = getApp()
 Page({
 
@@ -14,19 +17,21 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-  
-    let a = wx.canIUse('button.open-type.getUserInfo')
-    console.log(a)
     wx.getSetting({
       success: function (res) {
         if (res.authSetting['scope.userInfo']) {
           // 已经授权，可以直接调用 getUserInfo 获取头像昵称  
           wx.getUserInfo({
             success: res => {
-              console.log('wx.getUserInfo:' + JSON.stringify(res))
+              log.log(util.getPageUrl() + ' wx.getUserInfo: ', res)
               user.loginByCustom(res.userInfo).then(res => {
                 app.globalData.userInfo = res
-                console.log('loginByCustomer: ' + JSON.stringify(res))
+                log.log(util.getPageUrl() + ' loginByCustomer: ', res)
+                let pages = getCurrentPages() // 获取当前页面
+                let prevPage = pages[pages.length - 2]
+                prevPage.setData({
+                  back: true
+                })
                 wx.navigateBack()
               })
             }
@@ -39,9 +44,14 @@ Page({
   bindGetUserInfo(e) {
     let _this = this
     if (e.detail.userInfo) {
-      console.log(e.detail.userInfo)      
+      log.log(util.getPageUrl() + '用户信息：', e.detail.userInfo)      
       user.loginByCustom(e.detail.userInfo).then(res => {
         getApp().globalData.userInfo = res
+        let pages = getCurrentPages() // 获取当前页面
+        let prevPage = pages[pages.length - 2]
+        prevPage.setData({
+          back: true
+        })
         wx.navigateBack()
       }).catch(err => {
         //登录失败
@@ -55,7 +65,7 @@ Page({
         confirmText: '返回授权',
         success: function (res) {
           if (res.confirm) {
-            console.log('用户点击了“返回授权”')
+            log.log(util.getPageUrl() + ' 用户点击了“返回授权”', res)
           }
         }
       })     

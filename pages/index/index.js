@@ -1,8 +1,11 @@
 //index.js
-import util from '../../../utils/util.js'
-import api from '../../../api/api.js'
-import https from '../../../service/https.js'
-import { getMyCart, editCart } from '../../../service/service.js'
+import util from '../../utils/util.js'
+import api from '../../api/api.js'
+import https from '../../service/https.js'
+import { getMyCart, editCart, getAllCity } from '../../service/service.js'
+import { logFactory } from '../../utils/log/logFactory.js'
+
+const log = logFactory.get("Home")
 
 const app = getApp()
 Page({
@@ -26,41 +29,37 @@ Page({
   // 搜索入口  
   Search () {
     wx.redirectTo({
-      url: '../../search/search'
+      url: '../search/search'
     })
-  },
-  getLocation(){
-    wx.redirectTo({
-      url: '../location/location',
-    })
-  },
+  }, 
   onLoad() {
     wx.setNavigationBarTitle({
       title: util.pageTitle.home
-    });
-    if (app.globalData.userInfo){
-      wx.showLoading({
-        title: '加载中...'
-      });
-      this.setLocation().then(res => {
-        Promise.all([
-          this.getIndexBanner(),
-          this.getRecommend(),
-          this.getHot(),
-          this.getCart()
-        ]).then(res => {
-          wx.hideLoading()
-        })    
-      })     
-    }else{
-      wx.navigateTo({
-        url: "/pages/authorize/index"
-      })
-    }    
-   
+    });    
+    this.setData({
+      locationName: app.globalData.Nbhd[2].name
+    })
+    wx.showLoading({
+      title: '加载中...'
+    });   
+    Promise.all([
+      this.getIndexBanner(),
+      this.getRecommend(),
+      this.getHot()
+    ]).then(res => {
+      wx.hideLoading()
+    }) 
+    getAllCity()
+    getMyCart(app.globalData.userInfo.id).then(res => {
+      log.log("首次获取购物车信息：", res)
+    })
   },
-  onShow(){    
-    this.onLoad()
+  onShow(){ 
+    let pages = getCurrentPages()
+    let currPage = pages[pages.length - 1]
+    if(!util.isEmpty(currPage.data.load)){
+      this.onLoad()
+    }
   },
   getIndexBanner(){
     let _this = this
@@ -77,8 +76,8 @@ Page({
           ps: _this.data.pageSize, 
           nbhd: app.globalData.Nbhd[2].id
         }).then(res => {
-          if(!util.isEmpty(res)){
-            console.log("result:" + JSON.stringify(res))      
+          if(!util.isEmpty(res)){             
+            log.log(util.getPageUrl() + ' banner: ', res)   
             _this.setData({
               imagesUrl: res
             })  
@@ -86,8 +85,8 @@ Page({
               key: 'IndexBanner',
               data: res,
             })
-          }else{
-            console.log("banner无数据")
+          }else{           
+            log.log(util.getPageUrl() + ' banner无数据', res)   
           }
           resolve(true)
         }).catch(err => rejecet(err))
@@ -109,8 +108,7 @@ Page({
           ps: _this.data.pageSize, 
           uid: app.globalData.userInfo.id, 
           nid: app.globalData.Nbhd[2].id
-        }).then(res => {
-          console.log("recomment:" + JSON.stringify(res));
+        }).then(res => {         
           if(!util.isEmpty(res)){
             res.map(item => {         
               item.cate = "rec"  
@@ -126,8 +124,8 @@ Page({
               key: 'IndexRecommend',
               data: res,
             })          
-          } else{
-            console.log("Recommend无数据")
+          } else{            
+            log.log(util.getPageUrl() + ' Recommend无数据', res) 
           } 
           resolve(true)
         }).catch(err => rejecet(err))
@@ -148,14 +146,13 @@ Page({
           pi: _this.data.pageIndex, 
           ps: _this.data.pageSize, 
           nbhd: app.globalData.Nbhd[2].id
-        }).then(res => {
-          console.log("hot:" + JSON.stringify(res));
+        }).then(res => { 
           if(!util.isEmpty(res)){
             res.map(item => { 
               item.cate = "hot"  
               item.url = `/pages/goods/detail/detail?url=${api.getHotGood}&&id=${item.id}`          
             })
-            console.log("resultmap:" + JSON.stringify(res))
+            log.log(util.getPageUrl() + " resultmap:", res)
             _this.setData({
               hotGoods: res
             })
@@ -163,87 +160,18 @@ Page({
               key: 'IndexHot',
               data: res,
             })    
-          }else{
-            console.log("Hot无数据")
+          }else{           
+            log.log(util.getPageUrl() + ' Hot无数据', res)
           }       
           resolve(true)
         }).catch(err => reject(err))   
       }      
     })   
-  },  
-  getLocation() {    
-    let _this = this
-    return new Promise((resolve, reject) => {
-      wx.getLocation({
-        type: 'gcj02',
-        success: function (res) {
-          var latitude = res.latitude
-          var longitude = res.longitude
-          wx.setStorage({
-            key: 'location',
-            data: { "lng": longitude, "lat": latitude },
-          })
-          app.globalData.location = { "lng": longitude, "lat": latitude }
-          https.get(api.getLngLat, {
-            pi: 1,
-            ps: 20,
-            lng: longitude,
-            lat: latitude,
-            dis: 20
-          }).then(res => {
-            if (res) {
-              wx.setStorage({
-                key: 'nearestNbhd',
-                data: res,
-              })
-              resolve(true)
-            } else {
-              reject(false)
-            }
-
-          })
-        }
-      })
-    })
-  },
-  setLocation() {
-    const areaNbhd = wx.getStorageSync('areaNbhd')
-    return new Promise((resolve, reject) => {
-      if (!app.globalData.Nbhd) {
-        this.getLocation().then(res => {
-          const nearestNbhd = wx.getStorageSync('nearestNbhd')
-          https.get(api.getArea, { id: nearestNbhd[0].areaid }).then(res => {
-            console.log("当前区域:" + JSON.stringify(res))
-            let city = []
-            let c = res[0].hierarchy.split('|')
-            let n = res[0].hierarchyname.split('|')
-            city.push({ id: c[1], name: n[1] })
-            city.push({ id: c[2], name: n[2] })
-            city.push({ id: nearestNbhd[0].id, name: nearestNbhd[0].name })
-            wx.setStorage({
-              key: 'areaNbhd',
-              data: city,
-            })
-            app.globalData.Nbhd = city
-            this.setData({
-              locationName: city[2].name
-            })
-            resolve(true)
-          })
-        })
-      } else {
-        app.globalData.Nbhd = areaNbhd
-        this.setData({
-          locationName: areaNbhd[2].name
-        })
-        resolve(true)
-      }
-    })
-  },
-  getCart() {
-    // 获取所有购物车信息
-    getMyCart(app.globalData.userInfo.id).then(res => console.log("获取购物车成功：" + JSON.stringify(res)))
-  },
+  },   
+  // getCart() {
+  //   // 获取所有购物车信息
+  //   getMyCart(app.globalData.userInfo.id).then(res => log.log(util.getPageUrl() + " 获取购物车成功：" ,res))
+  // },  
   changeCart(e){
     let _this = this
     const { cate, index, btn} = e.currentTarget.dataset
@@ -254,7 +182,7 @@ Page({
       list = _this.data.hotGoods      
     }
     let item = list[index]
-    console.log("indexList====" + JSON.stringify(item))
+    log.log(util.getPageUrl() + " indexList: " + item)
     let goodsid = item.goodsid,     
         shopgoodsid = item.shopgoodsid     
     editCart({ uid: app.globalData.userInfo.id, goodsid: goodsid, shopgoodsid: shopgoodsid,btn: btn}).then(res => {    

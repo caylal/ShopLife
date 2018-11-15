@@ -1,4 +1,7 @@
 import { isEmpty } from '../utils/util.js';
+import { logFactory } from '../utils/log/logFactory'
+
+const log = logFactory.get("HttpProxy")
 const get = (url, queryParams = {}, pathParams = {}) => {
   return request(url, 'GET',queryParams, pathParams);
 }
@@ -36,6 +39,7 @@ const buildUrl = (url, query = {}, path = {}) => {
 
 const request = (url, method, data = {}, queryParams = {}, pathParams = {}) => {
   url = buildUrl(url, queryParams, pathParams);
+  log.log('requset: ' + method.toLowerCase() +' ' + url, data)
   return new Promise((resolve, reject) => {
     wx.request({
       url: url,
@@ -45,6 +49,7 @@ const request = (url, method, data = {}, queryParams = {}, pathParams = {}) => {
         'Content-Type': 'application/json'
       },
       success: res => {
+        log.log('response: ' + method.toLowerCase() + ' ' + url ,res)
         if(!!res && res.data && res.data.code === 100){
           resolve(res.data.result);
         }else{

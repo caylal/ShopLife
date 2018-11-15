@@ -25,7 +25,7 @@
   <view class='category'>
     <!-- 左侧导航 -->
     <scroll-view class='nav-left' scroll-y="true" style="height:{{srollHeight}}px">
-      <view class="nav-list" wx:for="{{navList}}" bindtap="switchRightTab" data-id='{{item.id}}'>
+      <view class="nav-list" wx:for="{{navList}}" bindtap="switchRightTab" data-id='{{item.id}}' wx:key="{{item.id}}">
           <view class="nav-item {{curId == item.id ? 'active' : ''}}">{{item.name}}</view>
           <view class="nav-child" wx:if="{{item.children.length > 0}}" style="display:{{curId == item.id ? 'block' : 'none'}}">
             <block wx:for="{{item.children}}" wx:for-item="child" wx:key="{{child.id}}">
@@ -47,7 +47,7 @@
             <view class="good-bot">
               <view class="price">￥{{item.retailprice}}</view>
               <view class="good-opt">
-                <view wx:if="{{item.quantity}}" catchtap="changeCart" data-id="{{item.id}}" data-index="{{index}}" data-btn="cut"><span class="iconfont icon-offline"></span></view>
+                <view wx:if="{{item.quantity > 1}}" catchtap="changeCart" data-id="{{item.id}}" data-index="{{index}}" data-btn="cut"><span class="iconfont icon-offline"></span></view>
                 <view class='good-num'>{{item.quantity}}</view>
                 <view catchtap="changeCart" data-id="{{item.id}}" data-btn="add" data-index="{{index}}"> <span class="iconfont icon-addition"></span></view>             
               </view>

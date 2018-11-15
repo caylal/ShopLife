@@ -1,6 +1,9 @@
 import util from '../../../utils/util.js';
 import api from '../../../api/api.js';
 import https from '../../../service/https.js'
+import { logFactory } from '../../../utils/log/logFactory.js'
+
+const log = logFactory.get("Cart")
 var app = getApp();
 Page({
 
@@ -67,7 +70,7 @@ Page({
         })        
         https.get(api.getAddressOfMy, { userid: app.globalData.userInfo.id}).then(res => {
           if(!util.isEmpty(res)){
-            console.log("addr:=====" + JSON.stringify(res))
+            log.log(util.getPageUrl() + " getaddr: ", res)
             res.map(item => {
               item.lng = item.lng.toFixed(2)
               item.lat = item.lat.toFixed(2)
@@ -111,7 +114,7 @@ Page({
         address: _this.data.address.id,
         goods: goodsStr
       }).then(res => {
-        console.log("所有商品门店： " + JSON.stringify(res))      
+        log.log(util.getPageUrl() + " 所有商品门店： ", res)      
        
         res.map(ress => { 
           ress.closinghour = util.formatTime(ress.closinghour, 2)
@@ -162,13 +165,13 @@ Page({
     const close = closinghour.split(":")
     const open = openingtime.split(":")
    
-    console.log("closehour:" + close)
-    console.log("openhour:" + open)
+    log.log(util.getPageUrl() + " closehour: " ,close)
+    log.log(util.getPageUrl() + " openhour: " , open)
     
     const date = new Date()
     const currenthour = date.toLocaleTimeString('chinese', { hour12: false })
     const current = currenthour.split(":")
-    console.log("currenthour:" + current)
+    log.log(util.getPageUrl() + " currenthour: " , current)
   
     const c_time = date.setHours(current[0], current[1])
     const op_time = date.setHours(open[0], open[1])
@@ -223,13 +226,20 @@ Page({
             shopsList[index].expanded = true
           }
 
-          console.log("勾选的门店商品： " + JSON.stringify(shopsList[index].checkshop ))
+          log.log(util.getPageUrl() + " 勾选的门店商品： " ,shopsList[index].checkshop )
         }else{
+          shopsList[index].checked = checked
           wx.showModal({
             title: '提示信息',
             content: '该门店没有以上商品，请重新选择门店',
           })
         }
+      } else {
+        shopsList[index].checked = checked
+        wx.showModal({
+          title: '提示信息',
+          content: '无商品可分配',
+        })
       }
       let clist = []
       shopsList.forEach(res => {
@@ -286,7 +296,7 @@ Page({
         content: '请选择门店',
       })
     }else{
-      console.log("所有门店商品：" + JSON.stringify(shoplist))
+      log.log(util.getPageUrl() + " 所有门店商品：" ,shoplist)
       let slist = []
 
       shoplist.forEach(res => {
@@ -294,7 +304,7 @@ Page({
           slist = slist.concat(res.checkshop)
         }
       })
-      console.log("所选择的商品：" + JSON.stringify(slist))
+      log.log(util.getPageUrl() + " 所选择的商品：" ,slist)
       let listMap = slist.map(item => {
         return{
           shoppingcartid: item.shoppingcartid,
@@ -305,7 +315,7 @@ Page({
           retailprice: item.goodsretailprice
         }
       })
-      console.log("商品map:" + JSON.stringify(listMap))
+      log.log(util.getPageUrl() + " 商品map: " ,listMap)
       let data = { 
         userid: app.globalData.userInfo.id,
         addressid: _this.data.address.id, 
@@ -314,9 +324,9 @@ Page({
         items:listMap
       }
       https.post(api.createOrder, data).then(res => {
-        console.log("订单回调：" + JSON.stringify(res) )
+        log.log(util.getPageUrl() + " 订单回调：" ,res)
         if(!util.isEmpty(res)){
-          wx.navigateTo({
+          wx.redirectTo({
             url: '../../orders/detail/index?id=' + res.id,
           })
         }

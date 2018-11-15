@@ -2,6 +2,9 @@
 import util from '../../utils/util.js';
 import api from '../../api/api.js';
 import https from '../../service/https.js'
+import { logFactory } from '../../utils/log/logFactory.js'
+
+const log = logFactory.get("Payment")
 Page({
 
   /**
@@ -68,6 +71,12 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
+    
+  },
+  //发起支付请求
+  requestPayment(){
+    let _this = this    
 
   }
+
 })

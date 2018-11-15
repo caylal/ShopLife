@@ -1,6 +1,9 @@
 import util from '../../utils/util.js'
 import api from '../../api/api.js'
 import https from '../../service/https.js'
+import { logFactory } from '../../utils/log/logFactory.js'
+
+const log = logFactory.get("Neighbor")
 const app = getApp()
 Page({
 
@@ -44,7 +47,7 @@ Page({
         title: '加载中...'
       });
       https.get(api.getNeighborShop, data).then( res => {
-        console.log("getNbhdShop:" + JSON.stringify(res))
+        log.log(util.getPageUrl() + " getNbhdShop: " ,res)
         if(!util.isEmpty(res)){
           res.map(item => {
             item.distance = util.transDistance(item.distance)
@@ -71,7 +74,7 @@ Page({
     })
   },
   showShopView(event){
-    console.log("itemId:" + event.currentTarget.dataset.id)
+    console.log(util.getPageUrl() + " itemId:" + event.currentTarget.dataset.id)
     let itemId = event.currentTarget.dataset.id    
     wx.navigateTo({
       url: '../category/index?itemId=' + itemId

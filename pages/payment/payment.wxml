@@ -1,7 +1,7 @@
 <view class='container'>
   <view class="total">
     <view class="label">订单金额</view>
-    <view class="txt">{{actualPrice}}元</view>
+    <view class="txt">{{info.total}} 元</view>
   </view>
   <view class="pay-list">       
       <view class="b">           
@@ -11,5 +11,5 @@
           </view>
       </view>
   </view>
-  <view class="pay-btn" bindtap="startPay">确定</view>
+  <view class="pay-btn" bindtap="requestPayment">确定</view>
 </view>

@@ -1,45 +1,55 @@
 import https from '../service/https.js'
 import {isEmpty} from '../utils/util.js'
 import api from '../api/api.js'
+import { logFactory } from '../utils/log/logFactory.js'
+
+const log = logFactory.get("Service")
 
 /**获取用户购物车信息 */
-const getMyCart = (uid, pindex = 1, psize = 10) => {
+const getMyCart = (uid) => {
   wx.removeStorageSync('myCart')
-  return new Promise((resolve, reject) => {
-    https.get(api.getCartOfMy, {
-      pi: pindex,
-      ps: psize,
-      uid: uid
-    }).then(res => {
-      if (!isEmpty(res)) {
-        const list = []
-        res.forEach(item => {
-          item.items.forEach(val => {
-            list.push(val)
+  const id = uid
+  function getCart(pindex = 1, psize = 10){
+    return new Promise((resolve, reject) => {
+      https.get(api.getCartOfMy, {
+        pi: pindex,
+        ps: psize,
+        uid: id
+      }).then(res => {
+        if (!isEmpty(res)) {
+          const list = []
+          res.forEach(item => {
+            item.items.forEach(val => {
+              list.push(val)
+            })
           })
-        })
-        console.log("myCartList===:" + JSON.stringify(list))
-        const storeCart = wx.getStorageSync('myCart') || []
-        const lalist = storeCart.concat(list)
-        wx.setStorage({
-          key: 'myCart',
-          data: lalist,
-        })
-        console.log("购物车数量：" + list.length)
-        if (list.length == 10) {
-          getMyCart(uid, pindex + 1)
+          log.log("myCartList: ", list)
+          const storeCart = wx.getStorageSync('myCart') || []
+          const lalist = storeCart.concat(list)
+          wx.setStorage({
+            key: 'myCart',
+            data: lalist,
+          })
+          log.log("购物车：", lalist)
+          log.log("购物车数量：", list.length)
+          if (list.length == psize) {
+            getCart(pindex + 1)
+          } else {
+            resolve(lalist)
+          }
         } else {
-          resolve(lalist)
+          resolve(res)
+          log.log("购物车无数据：", res)
         }
-      }
+      }).catch(err => reject(err))
+    })
+  }
 
-    }).catch(err => reject(err))
-  })
-
+  return getCart()
 }
 const filterGood = (good) => {
   const list = wx.getStorageSync('myCart')
-  console.log("myCart:" + JSON.stringify(list))
+  log.log("filterMyCart: " , list)
   let data;
   if (list.length > 0) {
     list.forEach(val => {
@@ -88,37 +98,93 @@ const editCart = (data) => {
       }
     }
     https.post(api.createCart, data).then(res => {
-      console.log("addorcut:===" + JSON.stringify(res))
+      log.log("addorcut:" , res)
       const listall = wx.getStorageSync('myCart')
-      let list = []
-      if (listall.length > 0) {
-        list = listall.filter(item => {
-          return item.shoppingcartid == res.id
-        })
-      }
-      if (list.length <= 0) {
-        getMyCart(uid)
-      } else {
-        listall.map(item => {
-          if (item.shoppingcartid == res.id) {
-            item.quantity = res.quantity
+      if (btn == "cut"){
+        let filter_list = listall.filter(val => val.shoppingcartid !== res.id);
+        listall.forEach(item => {
+          if(item.shoppingcartid === res.id) {
+            if(item.quantity > 1) {
+              item.quantity = item.quantity - 1
+              filter_list.push(item)
+            } 
           }
         })
+        log.log("剩余购物车商品：", filter_list)
         wx.setStorage({
           key: 'myCart',
-          data: listall,
+          data: filter_list,
         })
-      }
-      if (res) {
         resolve(res)
-      }
+      }else{
+        let list = []
+        if (listall.length > 0) {
+          list = listall.filter(item => {
+            return item.shoppingcartid == res.id
+          })
+          log.log("购物车是否有此商品：" + res.id, listall)
+        }
+        if (list.length <= 0) {
+          getMyCart(uid).then(ress => {
+            resolve(res)
+          })
+        } else {
+          listall.map(item => {
+            if (item.shoppingcartid == res.id) {
+              item.quantity = res.quantity
+            }
+          })
+          wx.setStorage({
+            key: 'myCart',
+            data: listall,
+          })
+          resolve(res)
+        }      
+      }      
+      
     }).catch(err => reject(err))
   })
 
+}
+
+const getAllCity = () => {
+  const allCityMap = wx.getStorageSync('allCityMap');
+  if(isEmpty(allCityMap)){
+    https.get(api.getAllCity).then(res => {
+      if (!isEmpty(res)) {
+        wx.setStorage({
+          key: 'allCitys',
+          data: res,
+        })
+        const map_data = mapCity(res)  // 简化数据，解决渲染慢的问题     
+        wx.setStorage({
+          key: 'allCityMap',
+          data: map_data,
+        })
+        log.log("allCtiy: ", res)
+      } else {
+        log.log("city无数据：", res)
+      }
+    })
+  }else{
+    log.log("已缓存allCtiy: " , allCityMap)
+  }  
+}
+const mapCity = (data) => {
+  for (let i = 0; i < data.length; i++) {
+    data[i].cities = data[i].cities.map(item => {
+      return {
+        id: item.id,
+        namecn: item.namecn
+      }
+    })
+  }
+  return data
 }
 
 module.exports = {
   getMyCart,
   filterGood,
   editCart,
+  getAllCity
 }

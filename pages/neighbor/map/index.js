@@ -1,4 +1,7 @@
 // pages/neighbor/map/index.js
+import { logFactory }  from '../../../utils/log/logFactory.js'
+
+const log = logFactory.get("Neighbor")
 const app = getApp()
 Page({
 
@@ -15,7 +18,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log("before:" + JSON.stringify(options.item))
+    log.log(util.getPageUrl() + " before:" ,options.item)
     this.setData({
       latitude: app.globalData.location.lat,
       longitude: app.globalData.location.lng
@@ -44,7 +47,7 @@ Page({
       obj.label.content = item.name      
       arr.push(obj)
     })
-    console.log("markers: "+ JSON.stringify(arr))
+    log.log(util.getPageUrl() + " markers: ",arr)
     this.setData({
       markers: arr,     
     })

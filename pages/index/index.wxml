@@ -1,5 +1,5 @@
 <!--index.wxml-->
- <import src="../../goods/goodsitem"/> 
+ <import src="../goods/goodsitem"/> 
 <view class="container">
   
   <view class="banner">
@@ -12,7 +12,7 @@
       </swiper>
   </view>
   <view class="header">
-    <navigator class="position" url="../location/location">      
+    <navigator class="position" url="/pages/location/location?index=true">      
       <span class='iconfont icon-zuobiaofill h-icon'></span>
       <text class="position-text">{{locationName}}</text>
       <span class='iconfont icon-xiajiantou j-icon'></span>

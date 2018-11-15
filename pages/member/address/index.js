@@ -1,6 +1,10 @@
 import util from '../../../utils/util.js';
 import api from '../../../api/api.js';
 import https from '../../../service/https.js'
+import { logFactory } from '../../../utils/log/logFactory.js'
+
+const log = logFactory.get("Member")
+
 const app = getApp()
 Page({
 
@@ -82,7 +86,7 @@ Page({
         lat: app.globalData.location.lat,
         address: adr_data.address
       }).then(res => {
-        console.log("添加地址成功" + JSON.stringify(res))
+        log.log(util.getPageUrl() + " 添加地址成功: ", res)
         if(!util.isEmpty(res)){
           wx.showToast({
             title: '添加成功！',
@@ -104,7 +108,7 @@ Page({
         lat: adr_data.lat,
         address: adr_data.address
       }, undefined, { id: adr_data.id}).then(res => {
-        console.log("修改地址成功" + JSON.stringify(res))
+        log.log(util.getPageUrl() + " 修改地址成功: " ,res)
         if(!util.isEmpty(res)){
           wx.showToast({
             title: '修改成功！',
@@ -156,7 +160,7 @@ Page({
             }
           })
         } else if (res.cancel) {
-          console.log('用户点击取消')
+          log.log(util.getPageUrl() + ' 用户点击取消', res)
         }
       }
     })
