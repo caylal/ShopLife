@@ -53,4 +53,9 @@ export const Level = {
   INFO: 3,
   ON: 4
 }
+export const Auth = {
+  "enable": true,
+  "tokenUrl": "post auth/token",
+  "refreshTokenUrl": "get auth/refresh",
+}
 

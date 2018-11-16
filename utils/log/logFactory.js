@@ -1,4 +1,4 @@
-import { logConfig, Level } from '../log/logConfig'
+import { logConfig, Level } from '../config.js'
 import { ConsoleLog } from '../log/logConsole'
 
 export  class logFactory{

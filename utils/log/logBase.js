@@ -1,5 +1,5 @@
 import util from '../util'
-import { Level } from '../log/logConfig'
+import { Level } from '../config.js'
 
 const DEFAULT_OPTIONS = {
   name: 'default',

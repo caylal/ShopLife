@@ -37,7 +37,7 @@ const buildUrl = (url, query = {}, path = {}) => {
   return result;
 }
 
-const request = (url, method, data = {}, queryParams = {}, pathParams = {}) => {
+const dorequest = (url, method, data = {}, queryParams = {}, pathParams = {}) => {
   url = buildUrl(url, queryParams, pathParams);
   log.log('requset: ' + method.toLowerCase() +' ' + url, data)
   return new Promise((resolve, reject) => {
@@ -63,53 +63,14 @@ const request = (url, method, data = {}, queryParams = {}, pathParams = {}) => {
   })
 }
 
-/**封装微信的request */
-// const request = (url, data = {}, method = "Get") => {
-//   return new Promise((resolve, reject) => {
-//     wx.request({
-//       url: url,
-//       data: data,
-//       method: method,
-//       header: {
-//         'Content-Type': 'application/json'
-//       },
-//       success: res => {
-//         console.log("success");
-//         if (res.statusCode == 200 && res.data._wrapperCode == 200) {
-//           resolve(res.data.result)
-//         } else if (res.statusCode == 200 && res.data.result == null) {
-//           resolve(res.data.result)
-//         }
-//         else {
-//           reject(res.data.error)
-//         }
-//       },
-//       fail: res => {
-//         console.log("failed");
-//         reject(res.errMsg);
-//       }
-//     })
-//   })
-// }
-// const delOrPutRequest = (url, id, data = {}, method = "DELETE") => {
-//   return new Promise((resolve, reject) => {
-//     wx.request({
-//       url: url + '/' + id,
-//       method: method,
-//       data: data,
-//       success: res => {
-//         if (res.statusCode == 200 && res.data._wrapperCode == 200) {
-//           resolve(res.data.result)
-//         } else {
-//           reject(res.data.error)
-//         }
-//       },
-//       fail: res => {
-//         reject(res.errMsg)
-//       }
-//     })
-//   })
-// }
+const request = (url, method,data = {}, queryParams = {}, pathParams = {}) => {
+
+}
+
+const guard = (api) => {
+  let result = false;
+  
+}
 
 module.exports = {
   get,
