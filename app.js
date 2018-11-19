@@ -1,6 +1,5 @@
 //app.js
 import util from 'utils/util.js'
-import api from 'api/api.js'
 import user from 'service/user.js'
 
 App({

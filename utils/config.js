@@ -55,7 +55,7 @@ export const Level = {
 }
 export const Auth = {
   "enable": true,
-  "tokenUrl": "post auth/token",
+  "tokenUrl": "post vauth/token",
   "refreshTokenUrl": "get auth/refresh",
 }
 

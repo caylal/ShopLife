@@ -1,9 +1,7 @@
 import util from '../../utils/util.js'
-import api from '../../api/api.js'
+import { Apis } from '../../api/api.js'
 import https from '../../service/https.js'
-import {
-  logFactory
-} from '../../utils/log/logFactory.js'
+import { logFactory } from '../../utils/log/logFactory.js'
 const log = logFactory.get("Location")
 const app = getApp()
 let cityAreaNbhd = []
@@ -98,7 +96,7 @@ Page({
           data: {"lng": longitude, "lat": latitude}
         })
         app.globalData.location = { "lng": longitude,"lat": latitude }
-        https.get(api.getLngLat, {
+        https.get(Apis.nbhd.queryLngLat, {
           pi: 1,
           ps: 20,
           lng: longitude,
@@ -132,7 +130,7 @@ Page({
   },
   getNbhd(e) {
     let { id,areaid, name }= e.currentTarget.dataset
-    https.get(api.getArea, { id: areaid }).then(res => {
+    https.get(Apis.area.restful.query, { id: areaid }).then(res => {
       log.log(util.getPageUrl() + " 当前区域: ", res)
       let city = []
       let c = res[0].hierarchy.split('|')
@@ -179,7 +177,7 @@ Page({
       wx.hideLoading()
       console.timeEnd("渲染计时")
     } else {
-      https.get(api.getAllCity).then(res => {
+      https.get(Apis.area.queryCity).then(res => {
         if(!util.isEmpty(res)) {
           const data = res
           log.log(util.getPageUrl() + " city: ", data)
@@ -254,7 +252,7 @@ Page({
       name: choose_a.namecn
     }
     cityAreaNbhd.push(choose_area)
-    https.get(api.getAreaNeighbor, {
+    https.get(Apis.nbhd.queryArea, {
       pi: _this.data.pageIndex,
       ps: _this.data.pageSize,
       areaid: choose_a.id

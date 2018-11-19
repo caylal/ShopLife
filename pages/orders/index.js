@@ -1,5 +1,5 @@
 import util from '../../utils/util.js';
-import api from '../../api/api.js';
+import { Apis } from '../../api/api.js';
 import https from '../../service/https.js'
 import { logFactory } from '../../utils/log/logFactory.js'
 
@@ -41,7 +41,7 @@ Page({
       }
       wx.hideLoading()
     }else{
-      https.get(api.getOrderOfMy, {
+      https.get(Apis.order.queryOfMy, {
         pi: _this.data.pageIndex,
         ps: _this.data.pageSize,
         uid: app.globalData.userInfo.id

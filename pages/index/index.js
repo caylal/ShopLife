@@ -1,6 +1,6 @@
 //index.js
 import util from '../../utils/util.js'
-import api from '../../api/api.js'
+import { Apis } from '../../api/api.js'
 import https from '../../service/https.js'
 import { getMyCart, editCart, getAllCity } from '../../service/service.js'
 import { logFactory } from '../../utils/log/logFactory.js'
@@ -71,7 +71,7 @@ Page({
         })  
         resolve(true)
       }else{
-        https.get(api.getBannerOfnbhd,{
+        https.get(Apis.banner.queryBanner,{
           pi: _this.data.pageIndex,
           ps: _this.data.pageSize, 
           nbhd: app.globalData.Nbhd[2].id
@@ -103,7 +103,7 @@ Page({
         })  
         resolve(true)
       }else{
-        https.get(api.getRecommendGoodOfMy, { 
+        https.get(Apis.rec.queryOfMy, { 
           pi: _this.data.pageIndex, 
           ps: _this.data.pageSize, 
           uid: app.globalData.userInfo.id, 
@@ -112,7 +112,7 @@ Page({
           if(!util.isEmpty(res)){
             res.map(item => {         
               item.cate = "rec"  
-              item.url = `/pages/goods/detail/detail?url=${api.getRecommendGood}&&id=${item.id }`
+              item.url = `/pages/goods/detail/detail?url=${Apis.rec.restful.query}&&id=${item.id }`
               let num = parseFloat(item.retailprice);
               num = num.toFixed(2);
               item.retailprice = num         
@@ -142,7 +142,7 @@ Page({
         })  
         resolve(true)
       }else{
-        https.get(api.getHotGoodsOfNbhd, {
+        https.get(Apis.hot.queryOfNbhd, {
           pi: _this.data.pageIndex, 
           ps: _this.data.pageSize, 
           nbhd: app.globalData.Nbhd[2].id
@@ -150,7 +150,7 @@ Page({
           if(!util.isEmpty(res)){
             res.map(item => { 
               item.cate = "hot"  
-              item.url = `/pages/goods/detail/detail?url=${api.getHotGood}&&id=${item.id}`          
+              item.url = `/pages/goods/detail/detail?url=${Apis.hot.restful.query}&&id=${item.id}`          
             })
             log.log(util.getPageUrl() + " resultmap:", res)
             _this.setData({

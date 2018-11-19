@@ -37,7 +37,7 @@ const buildUrl = (url, query = {}, path = {}) => {
   return result;
 }
 
-const dorequest = (url, method, data = {}, queryParams = {}, pathParams = {}) => {
+const request = (url, method, data = {}, queryParams = {}, pathParams = {}) => {
   url = buildUrl(url, queryParams, pathParams);
   log.log('requset: ' + method.toLowerCase() +' ' + url, data)
   return new Promise((resolve, reject) => {
@@ -63,7 +63,7 @@ const dorequest = (url, method, data = {}, queryParams = {}, pathParams = {}) =>
   })
 }
 
-const request = (url, method,data = {}, queryParams = {}, pathParams = {}) => {
+const dorequest = (url, method,data = {}, queryParams = {}, pathParams = {}) => {
 
 }
 

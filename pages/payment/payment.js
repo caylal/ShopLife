@@ -1,6 +1,6 @@
 // pages/payment/payment.js
 import util from '../../utils/util.js';
-import api from '../../api/api.js';
+import { Apis } from '../../api/api.js';
 import https from '../../service/https.js'
 import { logFactory } from '../../utils/log/logFactory.js'
 

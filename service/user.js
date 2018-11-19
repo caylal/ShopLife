@@ -1,12 +1,12 @@
 import util from '../utils/util.js'
-import api from '../api/api.js'
+import { Apis } from '../api/api.js'
 import https from '../service/https.js'
 
 const loginByCustom = (info) => { 
   return new Promise((resolve, reject) => {   
     wx.login({
       success: res => {
-        https.get(api.AuthLogin, { code: res.code }).then(res => {
+        https.get(Apis.auth.login, { code: res.code }).then(res => {
           // 存储用户信息
 
           wx.setStorageSync('userInfo', res.user_model)
@@ -26,7 +26,7 @@ const loginByCustom = (info) => {
           //     province: info.province,
           //     city: info.city
           //   }            
-          //   https.put(api.updateUserInfo, userInfo, undefined, { id: userid}).then(res => {
+          //   https.put(Apis.user.restful.put, userInfo, undefined, { id: userid}).then(res => {
           //     console.log("第三方用户信息更新: " + JSON.stringify(res))
           //     wx.setStorageSync('userInfo', res)
           //     resolve(res.user_model)

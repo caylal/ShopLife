@@ -1,6 +1,6 @@
 import https from '../service/https.js'
 import {isEmpty} from '../utils/util.js'
-import api from '../api/api.js'
+import { Apis } from '../api/api.js'
 import { logFactory } from '../utils/log/logFactory.js'
 
 const log = logFactory.get("Service")
@@ -11,7 +11,7 @@ const getMyCart = (uid) => {
   const id = uid
   function getCart(pindex = 1, psize = 10){
     return new Promise((resolve, reject) => {
-      https.get(api.getCartOfMy, {
+      https.get(Apis.cart.queryOfMy, {
         pi: pindex,
         ps: psize,
         uid: id
@@ -97,7 +97,7 @@ const editCart = (data) => {
         quantity: quantity
       }
     }
-    https.post(api.createCart, data).then(res => {
+    https.post(Apis.cart.restful.post, data).then(res => {
       log.log("addorcut:" , res)
       const listall = wx.getStorageSync('myCart')
       if (btn == "cut"){
@@ -150,7 +150,7 @@ const editCart = (data) => {
 const getAllCity = () => {
   const allCityMap = wx.getStorageSync('allCityMap');
   if(isEmpty(allCityMap)){
-    https.get(api.getAllCity).then(res => {
+    https.get(Apis.area.queryCity).then(res => {
       if (!isEmpty(res)) {
         wx.setStorage({
           key: 'allCitys',

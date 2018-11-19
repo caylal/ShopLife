@@ -1,5 +1,5 @@
 import util from '../../../utils/util.js';
-import api from '../../../api/api.js';
+import { Apis } from '../../../api/api.js';
 import https from '../../../service/https.js'
 const app = getApp()
 Page({ 
@@ -39,7 +39,7 @@ Page({
         addressList: list
       })
     }else{
-      https.get(api.getAddressOfMy, { userid: app.globalData.userInfo.id}).then(res => {
+      https.get(Apis.addr.queryOfMy, { userid: app.globalData.userInfo.id}).then(res => {
         res.map(item => {
           item.lng = item.lng.toFixed(2)
           item.lat = item.lat.toFixed(2)

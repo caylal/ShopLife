@@ -1,5 +1,5 @@
 import util from '../../../utils/util.js';
-import api from '../../../api/api.js';
+import { Apis } from '../../../api/api.js';
 import https from '../../../service/https.js'
 import { logFactory } from '../../../utils/log/logFactory.js'
 
@@ -77,7 +77,7 @@ Page({
       return false
     }
     if(_this.data.isAdd){      
-      https.post(api.setAddressOfMy,{
+      https.post(Apis.addr.restful.post,{
         userid: app.globalData.userInfo.id,
         neighborhoodid: areaNbhd[2].id,
         username: adr_data.username,
@@ -98,7 +98,7 @@ Page({
         }      
       })
     }else{
-      https.put(api.editAddressOfMy,{
+      https.put(Apis.addr.restful.put,{
         id: adr_data.id,
         userid: app.globalData.userInfo.id,
         neighborhoodid: adr_data.neighborhoodid,
@@ -143,7 +143,7 @@ Page({
       success: function(res) {
         if (res.confirm) {
           const data = _this.data.address
-          https.deletes(api.editAddressOfMy, undefined, undefined, { id: data.id}).then(res => {
+          https.deletes(Apis.addr.restful.delete, undefined, undefined, { id: data.id}).then(res => {
             if(res){
               wx.showToast({
                 title: '删除成功',

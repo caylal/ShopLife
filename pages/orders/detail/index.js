@@ -1,5 +1,5 @@
 import util from '../../../utils/util.js';
-import api from '../../../api/api.js';
+import { Apis } from '../../../api/api.js';
 import https from '../../../service/https.js'
 import { logFactory } from '../../../utils/log/logFactory.js'
 
@@ -26,7 +26,7 @@ Page({
       list = orderlist.filter(item => item.id == id)
     }
     if(list.length <= 0){
-      https.get(api.getOrderOfMy, {
+      https.get(Apis.order.queryOfMy, {
         pi: 1,
         ps: 10,
         uid: app.globalData.userInfo.id

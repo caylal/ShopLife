@@ -1,5 +1,5 @@
 import util from '../../utils/util.js';
-import api from '../../api/api.js'
+import { Apis } from '../../api/api.js'
 import https from '../../service/https.js'
 import { editCart, filterGood, getMyCart } from '../../service/service.js'
 import { logFactory } from '../../utils/log/logFactory.js'
@@ -42,7 +42,7 @@ Page({
     if (!util.isEmpty(options.itemId)) {
       this.showShopInfo(options.itemId)
     } else {
-      this.getNavList({ url: api.getAllCategory, data: { pi: this.data.pageIndex, ps: this.data.pageSize, ob: 'createdt', rs: 1 } })
+      this.getNavList({ url: Apis.cate.queryCate, data: { pi: this.data.pageIndex, ps: this.data.pageSize, ob: 'createdt', rs: 1 } })
     } 
   },
   // 右侧分类tab点击
@@ -113,15 +113,15 @@ Page({
       showNbhd:true
     })
     log.log(util.getPageUrl() + " shop: ",this.data.shop)
-    let data = { url: api.getShopGoodAll, data: { shop: id}} // 门店id
+    let data = { url: Apis.shop.queryCate, data: { shop: id}} // 门店id
     _this.getNavList(data)
   },
   // 获取分类的商品
   getShopByCate(data){
     let _this = this
-    let url = api.getGoodsByCate;
+    let url = Apis.goods.queryByCate;
     if (_this.data.showNbhd){
-      url = api.getShopGoodsByCate
+      url = Apis.shop.queryGoodsByCate
     }
     Object.assign(data, { pi: _this.data.pageIndex, ps: _this.data.pageSize})     
    
@@ -132,10 +132,10 @@ Page({
         result.map(item => {
           let quantity;
           if (_this.data.showNbhd) {
-            item.url = `/pages/goods/detail/detail?url=${api.getShopGood}&&id=${item.id}`
+            item.url = `/pages/goods/detail/detail?url=${Apis.shop.goods}&&id=${item.id}`
           }
           else {
-            item.url = `/pages/goods/detail/detail?url=${api.getGood}&&id=${item.id}`
+            item.url = `/pages/goods/detail/detail?url=${Apis.goods.restful.query}&&id=${item.id}`
           }
           item.goodsid = item.id
           quantity = filterGood(item)

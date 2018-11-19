@@ -1,5 +1,5 @@
 import util from '../../utils/util.js'
-import api from '../../api/api.js'
+import { Apis } from '../../api/api.js'
 import https from '../../service/https.js'
 import { logFactory } from '../../utils/log/logFactory.js'
 
@@ -46,7 +46,7 @@ Page({
       wx.showLoading({
         title: '加载中...'
       });
-      https.get(api.getNeighborShop, data).then( res => {
+      https.get(Apis.shop.queryNbhd, data).then( res => {
         log.log(util.getPageUrl() + " getNbhdShop: " ,res)
         if(!util.isEmpty(res)){
           res.map(item => {

@@ -1,5 +1,5 @@
 import util from '../../../utils/util.js';
-import api from '../../../api/api.js';
+import { Apis } from '../../../api/api.js';
 import https from '../../../service/https.js'
 import { logFactory } from '../../../utils/log/logFactory.js'
 
@@ -68,7 +68,7 @@ Page({
         wx.showLoading({
           title:'加载中',
         })        
-        https.get(api.getAddressOfMy, { userid: app.globalData.userInfo.id}).then(res => {
+        https.get(Apis.addr.queryOfMy, { userid: app.globalData.userInfo.id}).then(res => {
           if(!util.isEmpty(res)){
             log.log(util.getPageUrl() + " getaddr: ", res)
             res.map(item => {
@@ -110,7 +110,7 @@ Page({
     })
     if(goodsid.length > 0){
       let goodsStr = goodsid.join('|')
-      https.get(api.getShopByAddrWithGoods,{
+      https.get(Apis.shop.queryGoodsByAddress,{
         address: _this.data.address.id,
         goods: goodsStr
       }).then(res => {
@@ -323,7 +323,7 @@ Page({
         arrivalend: "2",
         items:listMap
       }
-      https.post(api.createOrder, data).then(res => {
+      https.post(Apis.order.restful.post, data).then(res => {
         log.log(util.getPageUrl() + " 订单回调：" ,res)
         if(!util.isEmpty(res)){
           wx.redirectTo({

@@ -1,5 +1,5 @@
 import util from '../../utils/util.js';
-import api from '../../api/api.js';
+import { Apis } from '../../api/api.js';
 import https from '../../service/https.js'
 import { editCart } from '../../service/service.js'
 import { logFactory } from '../../utils/log/logFactory.js'
@@ -27,7 +27,7 @@ Page({
   },
   getMyCarts(){
     let _this = this
-    https.get(api.getCartOfMy,{
+    https.get(Apis.cart.queryOfMy,{
       pi: _this.data.pageIndex,
       ps: _this.data.pageSize,
       uid: app.globalData.userInfo.id
@@ -39,9 +39,9 @@ Page({
           value.checked = false
           value.items.map(item => {
             if (item.hasOwnProperty('shopid')) {
-              item.url = `/pages/goods/detail/detail?url=${api.getShopGood}&&id=${item.shopgoodsid}`
+              item.url = `/pages/goods/detail/detail?url=${Apis.shop.goods}&&id=${item.shopgoodsid}`
             } else {
-              item.url = `/pages/goods/detail/detail?url=${api.getGood}&&id=${item.goodsid}`
+              item.url = `/pages/goods/detail/detail?url=${Apis.goods.restful.query}&&id=${item.goodsid}`
             }
             item.checked = false;
             return item
@@ -198,7 +198,7 @@ Page({
       })
     } else {
       list.forEach( res => {
-        https.deletes(api.deleteCart, undefined, undefined, { id: res.shoppingcartid}).then(result => {          
+        https.deletes(Apis.cart.restful.delete, undefined, undefined, { id: res.shoppingcartid}).then(result => {          
           if(result){
             const cart = allCart.filter(item => {
               return item.shoppingcartid != res.shoppingcartid
