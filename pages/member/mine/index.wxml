@@ -1,9 +1,9 @@
 <view class="container">
   <view class="user-box">
     <view class="user-info" wx:if="{{showInfo}}">
-      <view class="u-img"><image src="../../../images/pic.jpg"></image></view>
+      <view class="u-img"><image src="{{userInfo.avatar}}"></image></view>
       <view class="u-tel"><view class="tel"><text>电话:</text><text class="u-mrg">15676210481</text></view><view class="edit"><span class="iconfont icon-bianji icon-edit"></span></view></view>
-      <view class="u-tel"> <view class="tel"><text>昵称:</text><text class="u-mrg">广东雨神</text></view> <view class="edit"><span class="iconfont icon-bianji icon-edit"></span></view></view>
+      <view class="u-tel"> <view class="tel"><text>昵称:</text><text class="u-mrg">{{userInfo.nickname}}</text></view> <view class="edit"><span class="iconfont icon-bianji icon-edit"></span></view></view>
     </view>
     <view class="user-addr">
       <view class="addr-box">

@@ -14,6 +14,10 @@ Page({
     wx.setNavigationBarTitle({
       title: util.pageTitle.member.setting
     });
+    const info = wx.getStorageSync('userInfo')
+    this.setData({
+      userInfo: info
+    })
     if (options && !util.isEmpty(options.showInfo)){
       this.setData({
         showInfo: false

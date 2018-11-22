@@ -2,11 +2,15 @@ import util from '../../utils/util.js';
 
 Page({
   data: {
-    motto: '我的',   
+    info: {}  
   }, 
   onLoad: function () {
     wx.setNavigationBarTitle({
       title: util.pageTitle.member.index
     });
+    const info = wx.getStorageSync('userInfo')
+    this.setData({
+      info: info
+    })
   }
 })

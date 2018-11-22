@@ -253,7 +253,7 @@ Page({
       })
 
       wx.navigateTo({
-        url: 'confirmOrder/index',
+        url: 'confirmOrder/index?list=' +JSON.stringify(list),
       })
     }
    

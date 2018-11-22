@@ -6,10 +6,10 @@
       <view class="set"><navigator url="mine/index"><span class="iconfont icon-setup setup"></span></navigator></view>
     </view>
     <view class="user">
-      <image class="user-pic" src='../../images/pic.jpg'></image>
+      <image class="user-pic" src='{{info.avatar}}'></image>
       <view class="user-name">
-        <text class=" s-all name">广东雨神</text>
-        <text class="s-all adr">发源地： 深圳龙华区中央原著1栋</text>
+        <text class=" s-all name">{{info.nickname}}</text>
+        <!-- <text class="s-all adr">发源地： 深圳龙华区中央原著1栋</text> -->
       </view>
     </view>
   </view>

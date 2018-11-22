@@ -24,7 +24,7 @@
   </view>
   <view class='category'>
     <!-- 左侧导航 -->
-    <scroll-view class='nav-left' scroll-y="true" style="height:{{srollHeight}}px">
+    <scroll-view class='nav-left' scroll-y="true" style="height:{{srollHeight}}px" bindscrolltolower="lowerLeft">
       <view class="nav-list" wx:for="{{navList}}" bindtap="switchRightTab" data-id='{{item.id}}' wx:key="{{item.id}}">
           <view class="nav-item {{curId == item.id ? 'active' : ''}}">{{item.name}}</view>
           <view class="nav-child" wx:if="{{item.children.length > 0}}" style="display:{{curId == item.id ? 'block' : 'none'}}">
@@ -36,7 +36,7 @@
     </scroll-view>
 
     <!-- 右侧商品 -->
-    <scroll-view class='nav-right' scroll-y="true" style="height:{{srollHeight}}px">
+    <scroll-view class='nav-right' scroll-y="true" style="height:{{srollHeight}}px" bindscrolltolower="lowerRight">
       <view wx:for="{{goodsList}}" wx:key="{{item.id}}">
         <navigator class="good-item" url="{{item.url}}">
           <image class="good-pic" src="{{item.img}}"></image>

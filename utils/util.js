@@ -88,6 +88,10 @@ const getPageUrl = () => {
   return currentPage.route
 }
 
+const transExpiresDt = (expires) => {
+  return new Date().valueOf() + (expires - 5) * 1000;
+}
+
 const pageTitle = {
   home: "近邻生活",
   nbhd: {
@@ -133,5 +137,6 @@ module.exports = {
   numDate,
   transDistance,
   transDate,
-  getPageUrl
+  getPageUrl,
+  transExpiresDt
 }

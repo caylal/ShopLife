@@ -120,7 +120,7 @@ Page({
 function OrderState(state){
   let status = {}
   switch(state){
-    case "init": status.value = 0 ,status.desc = "初始化"
+    case "init": status.value = 1, status.desc = "待支付"
       break;
     case "waitingforpay": status.value = 1 ,status.desc = "待支付"
       break;
@@ -132,7 +132,7 @@ function OrderState(state){
       break;
     case "cancel": status.value = 5 ,status.desc = "已取消"
       break;
-    default: status.value = 0 ,status.desc = "初始化"
+    default: status.value = 1 ,status.desc = "待支付"
       break;
   }
   return status

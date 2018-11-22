@@ -101,7 +101,7 @@
 }
 .shoplist .shop-box{
   width: 100%;
-  background:#f4f4f4;
+  background:#fafafa;
   margin-top: 5rpx;
   border-width:1px 0;
   border-color:#ccc;

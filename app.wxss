@@ -2,7 +2,7 @@
 .container {
   height: 100%;
   display: flex;
-  background: #f4f4f4; 
+  background: #fafafa; 
   flex-direction: column;  
   box-sizing: border-box;
   font-size: 34rpx;

@@ -3,7 +3,7 @@
   <view class="search-bar">
       <view class="search-bar__form">
         <view class="search-bar__box">
-          <icon class="weui-icon-search_in-box" type="search" size="14" color='#fff'></icon>
+          <icon class="weui-icon-search_in-box" type="search" size="16" color='#fff'></icon>
           <input type="text" class="search-input" placeholder-style='color: #fff' placeholder="请输入查询内容" value="{{SearchVal}}" bindinput="SearchData"/>
           <view class="weui-icon-clear" wx:if="{{SearchVal.length > 0}}" bindtap="SearchClear">
             <icon type="clear" size="14"></icon>

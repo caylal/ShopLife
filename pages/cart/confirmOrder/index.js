@@ -54,7 +54,7 @@ Page({
     }
     
   },
-  getAddress(){
+  getAddress(){ //获取用户地址
     let _this = this 
     const store_addr = wx.getStorageSync('myAddress')
     return new Promise((resolve, reject) => {
@@ -96,7 +96,7 @@ Page({
       url: '../../member/mine/index?showInfo='+ false,
     })
   },
-  getCartList(){
+  getCartList(){ //根据用户地址及购物车商品获取门店
     let list = wx.getStorageSync('checkOrder')
     let _this = this
     let goodsid = [] //所有商品id

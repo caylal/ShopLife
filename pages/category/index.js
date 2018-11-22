@@ -20,8 +20,12 @@ Page({
     srollHeight: 300,
     shop: {},
     showNbhd:false,
+    btL: true,
+    btR: true,
     pageIndex:1,
-    pageSize: 20,
+    pageSize: 10,
+    piL: 1,
+    piR: 1
   },
 
   /**
@@ -151,24 +155,81 @@ Page({
       wx.hideLoading()
     })
   },
-  // filterGood(good){
-  //   const list = this.data.cartList
-  //   let res = list.filter(item => {
-  //     if (!this.data.showNbhd){
-  //       if (!item.hasOwnProperty("shopid")){
-  //         return item.goodsid == good.id
-  //       }        
-  //     }else{
-  //       return item.shopid == good.shopid && item.goodsid == good.goodsid
-  //     }
-  //   })    
-  //   if (res.length > 0){
-  //     return res[0].quantity
-  //   }
-  //   else{
-  //     return false
-  //   }
-  // },
+  lowerLeft(e){ //左边栏底部触发事件
+    let _this = this
+    let { piL, showNbhd, btL}  = _this.data 
+    if (!showNbhd) {
+      if(!!btL){
+        _this.setData({
+          piL: piL + 1
+        })
+        wx.showLoading({
+          title: '加载中',
+        })
+        https.get(Apis.cate.queryCate, {
+          pi: _this.data.piL,
+          ps: _this.data.pageSize,
+          ob: 'createdt',
+          rs: 1
+        }).then(res => {
+          let list = _this.data.navList
+          _this.setData({
+            navList: list.concat(res),
+            btL: res.length <= _this.data.pageSize ? false : true
+          })
+          wx.hideLoading()
+        })
+      }     
+    } 
+  },
+  lowerRight(){ //右边栏底部触发事件
+    let _this = this
+    let { piR, showNbhd, btR }  = _this.data  
+    if(!!btR){
+      _this.setData({
+        piR: piR + 1
+      })
+      let info = {}
+      let url = Apis.goods.queryByCate;
+      if (showNbhd) {
+        url = Apis.shop.queryGoodsByCate
+        info = { shop: _this.data.shop.id, cate: _this.data.curId, pi: _this.data.piR, ps: _this.data.pageSize }
+      } else {
+        info = { cate: _this.data.curId, pi: _this.data.piR, ps: _this.data.pageSize }
+      }
+      wx.showLoading({
+        title: '加载中',
+      })
+      https.get(url, info).then(res => {
+        log.log(util.getPageUrl() + " concatGoodList: ", res)
+        const result = res
+        if (!util.isEmpty(res)) {
+          result.map(item => {
+            let quantity;
+            if (showNbhd) {
+              item.url = `/pages/goods/detail/detail?url=${Apis.shop.goods}&&id=${item.id}`
+            }
+            else {
+              item.url = `/pages/goods/detail/detail?url=${Apis.goods.restful.query}&&id=${item.id}`
+            }
+            item.goodsid = item.id
+            quantity = filterGood(item)
+            if (quantity) {
+              item.quantity = quantity
+            }
+            return item
+          })
+          let list = _this.data.goodsList
+          _this.setData({
+            goodsList: list.concat(result),
+            btR: result.length <= _this.data.pageSize ? false : true
+          })
+        }
+        wx.hideLoading()
+      })
+    } 
+   
+  },
   // 添加购物车
   changeCart(e){
     const { id, btn, index } = e.currentTarget.dataset

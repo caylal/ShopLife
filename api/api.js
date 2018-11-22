@@ -61,6 +61,7 @@ export const Apis = {
   },
   auth: {
     login: BASE_URL + 'auth/login/wx',                      // 登录      
+    refresh: BASE_URL + 'auth/refresh'
   },
   user: {
     restful: new Restful('user')

@@ -91,7 +91,7 @@
   position: fixed;
   font-size: 34rpx;
   box-sizing: border-box;
-  background-color: #efeff4;
+  background-color: #fafafa;
   top:0; 
   border-bottom: 1rpx solid #d7d6dc; 
   z-index: 12;
@@ -104,8 +104,8 @@
 
 .weui-icon-search_in-box {
   position: absolute;
-  left: 10px;
-  top: 7px;
+  left: 20rpx;
+  top: 20rpx;
 }
 .search-bar__form {   
   width: 100%;
