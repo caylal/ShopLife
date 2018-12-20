@@ -69,7 +69,7 @@ Page({
             } 
           }     
         } else {
-          wx.navigateTo({
+          wx.redirectTo({
             url: "/pages/authorize/index"
           })
         }
@@ -78,11 +78,7 @@ Page({
     }
   },
   onShow() {
-    let pages = getCurrentPages()
-    let currPage = pages[pages.length - 1]
-    if (!util.isEmpty(currPage.data.back)) {
-      this.onLoad();
-    }
+   
   }, 
   getLocation() {
     let _this = this

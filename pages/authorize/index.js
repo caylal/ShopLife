@@ -10,6 +10,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    isAuthed: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo')   
   },
 
@@ -17,22 +18,28 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    let _this = this
     wx.getSetting({
       success: function (res) {
         if (res.authSetting['scope.userInfo']) {
-          // 已经授权，可以直接调用 getUserInfo 获取头像昵称  
+          // 已经授权，可以直接调用 getUserInfo 获取头像昵称
+          _this.setData({
+            isAuthed: true
+          })          
           wx.getUserInfo({
             success: res => {
               log.log(util.getPageUrl() + ' wx.getUserInfo: ', res)
               user.loginByCustom(res.userInfo).then(res => {
                 app.globalData.userInfo = res
                 log.log(util.getPageUrl() + ' loginByCustomer: ', res)
-                let pages = getCurrentPages() // 获取当前页面
-                let prevPage = pages[pages.length - 2]
-                prevPage.setData({
-                  back: true
+                wx.redirectTo({
+                  url: "/pages/location/location"
                 })
-                wx.navigateBack()
+              }).catch(err => {
+                log.log(util.getPageUrl(), err)               
+                wx.showToast({
+                  title: err,
+                })                
               })
             }
           })
@@ -44,18 +51,17 @@ Page({
   bindGetUserInfo(e) {
     let _this = this
     if (e.detail.userInfo) {
-      log.log(util.getPageUrl() + '用户信息：', e.detail.userInfo)      
+      log.log(util.getPageUrl() + '用户信息：', e.detail.userInfo) 
       user.loginByCustom(e.detail.userInfo).then(res => {
         getApp().globalData.userInfo = res
-        let pages = getCurrentPages() // 获取当前页面
-        let prevPage = pages[pages.length - 2]
-        prevPage.setData({
-          back: true
+        wx.redirectTo({
+          url: "/pages/location/location"
         })
-        wx.navigateBack()
       }).catch(err => {
-        //登录失败
-        wx.navigateBack()
+        //登录失败,跳转错误页面       
+        wx.showToast({
+          title: err,
+        })       
       })
     }else{
       wx.showModal({

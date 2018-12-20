@@ -5,12 +5,13 @@
 		"es6": true,
 		"postcss": true,
 		"minified": true,
-		"newFeature": true
+		"newFeature": true,
+		"autoAudits": false
 	},
 	"compileType": "miniprogram",
 	"libVersion": "2.2.0",
-	"appid": "wx2b45c1f6d2e1694d",
-	"projectname": "shopLife",
+	"appid": "wx382cf2e5e6778d61",
+	"projectname": "nearby",
 	"isGameTourist": false,
 	"condition": {
 		"search": {

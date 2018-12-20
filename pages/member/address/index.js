@@ -91,8 +91,8 @@ Page({
           wx.showToast({
             title: '添加成功！',
             icon: 'none',
-            success: function (res) {
-             _this.cancelBtn(true)
+            success: function (ress) {
+             _this.cancelBtn(true, res)
             }
           })
         }      
@@ -113,8 +113,8 @@ Page({
           wx.showToast({
             title: '修改成功！',
             icon: 'none',
-            success: function (res) {
-             _this.cancelBtn(true)
+            success: function (ress) {
+             _this.cancelBtn(true, res)
             }
           })
         }      
@@ -122,12 +122,14 @@ Page({
     }
    
   },
-  cancelBtn(fresh = false){
+  cancelBtn(fresh = false,data = {}){
     if(fresh){
       let pages = getCurrentPages() // 获取当前页面
       let prevPage = pages[pages.length - 2]
       prevPage.setData({
-        isFresh: true
+        isFresh: true,
+        checked: true,
+        info: JSON.stringify(data)
       })
     }   
     wx.navigateBack({

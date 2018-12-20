@@ -3,11 +3,15 @@ import { Apis } from '../api/api.js'
 import https from '../service/https.js'
 
 const loginByCustom = (info) => {
+  wx.showLoading({
+    title: '登录中',
+  })
   return new Promise((resolve, reject) => {
     wx.login({
-      success: res => {
+      success: res => {             
         https.get(Apis.auth.login, { code: res.code }).then(res => {
           // 存储用户信息
+          
           if (res && res.user_model) {
             res.user_model.expired = util.transExpiresDt(res.user_model.expires_in)
             if (!res.user_model.nickname) {
@@ -34,8 +38,15 @@ const loginByCustom = (info) => {
               wx.setStorageSync('userInfo', res.user_model)
               resolve(res.user_model)
             }
+            
+          } else {
+            reject("服务器异常")
           }
-        }).catch(err => reject(err))
+          wx.hideLoading()
+        }).catch(err => {
+          wx.hideLoading()
+          reject(err)
+        })
       }
     })
 

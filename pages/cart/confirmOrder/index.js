@@ -42,15 +42,14 @@ Page({
         isFresh: currPage.data.isFresh
       })          
     } 
-    if(!checked){
-      this.onLoad() 
-    } 
-    else{
+    if(checked){
       let infoObj = JSON.parse(addinfo)
       this.setData({
         address: infoObj
       })
       this.getCartList()
+    }else {
+      this.onLoad();
     }
     
   },

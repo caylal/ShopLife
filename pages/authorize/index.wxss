@@ -1,25 +1,37 @@
 .auth-box{
-  padding:200rpx 0;
+  padding-top:150rpx;
   background: #fff;
+  display: flex;
+  flex-direction: column;
 }
 .header {
-    margin: 90rpx 0 90rpx 50rpx;
+    margin: 90rpx 0 50rpx 50rpx;
     border-bottom: 1px solid #ccc;
-    text-align: center;
     width: 650rpx;
     height: 300rpx;
     line-height: 450rpx;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
- 
-.header image {
-    width: 200rpx;
-    height: 200rpx;
-    border-radius: 50%;
+.header-u{
+  width: 250rpx;
+  height: 250rpx;
+  overflow: hidden;
+  display: block;
+  border-radius: 50%;
 }
- 
+.u-avatar{
+  width: 200rpx;
+  height: 200rpx;
+  border-radius: 50%;
+  overflow: hidden;
+  display: block;
+  margin: 20rpx;
+}
 .content {
-    margin-left: 50rpx;
-    margin-bottom: 90rpx;
+    margin: 30rpx 0 30rpx 50rpx; 
 }
  
 .content text {
@@ -30,6 +42,6 @@
  
 .bottom {
     border-radius: 80rpx;
-    margin: 70rpx 50rpx;
+    margin:50rpx;
     font-size: 35rpx;
 }

@@ -17,8 +17,7 @@
     "pages/member/msg/index",
     "pages/member/mine/index",
     "pages/member/address/index",
-    "pages/payment/payment",
-    "pages/welcome/index"      
+    "pages/payment/payment"     
   ],
   "window":{
     "backgroundTextStyle":"light",
