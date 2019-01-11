@@ -63,7 +63,17 @@ Page({
             data: _this.data.nbhdList,
           })
           wx.hideLoading()
+        } else {
+          wx.hideLoading()
+          wx.showToast({
+            title: '服务器错误',
+          })
         }
+      }).catch(err => {
+        wx.hideLoading()
+        wx.showToast({
+          title: '服务器错误',
+        })
       })
     }   
   },

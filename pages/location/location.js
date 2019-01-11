@@ -126,11 +126,11 @@ Page({
   },
   getNbhd(e) {
     let { id,areaid, name }= e.currentTarget.dataset
-    https.get(Apis.area.restful.query, { id: areaid }).then(res => {
+    https.get(Apis.area.restful.get,undefined,{ id: areaid }).then(res => {
       log.log(util.getPageUrl() + " 当前区域: ", res)
       let city = []
-      let c = res[0].hierarchy.split('|')
-      let n = res[0].hierarchyname.split('|')
+      let c = res.hierarchy.split('|')
+      let n = res.hierarchyname.split('|')
       city.push({id: c[1], name: n[1]})
       city.push({id: c[2], name: n[2]})
       city.push({id: id, name: name})

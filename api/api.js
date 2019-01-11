@@ -1,11 +1,11 @@
-const BASE_URL = "http://www.lifenearby.cn:8081/api/"; //"http://120.79.213.228:8081/api/";
+const BASE_URL = "https://www.lifenearby.cn:8081/api/";
 
 
 class Restful {
   constructor(url){
     this.post = BASE_URL + url
     this.delete = BASE_URL + url + '/{id}'
-    this.put = BASE_URL + url + '/{id}'
+    this.put = BASE_URL + url
     this.get = BASE_URL + url + '/{id}'
     this.query = BASE_URL + url
   }

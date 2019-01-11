@@ -107,7 +107,7 @@ Page({
         lng: adr_data.lng,     //所在经纬度位置
         lat: adr_data.lat,
         address: adr_data.address
-      }, undefined, { id: adr_data.id}).then(res => {
+      }).then(res => {
         log.log(util.getPageUrl() + " 修改地址成功: " ,res)
         if(!util.isEmpty(res)){
           wx.showToast({

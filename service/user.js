@@ -8,35 +8,36 @@ const loginByCustom = (info) => {
   })
   return new Promise((resolve, reject) => {
     wx.login({
-      success: res => {             
+      success: res => {  
+        console.log("aaa:" + res.code)           
         https.get(Apis.auth.login, { code: res.code }).then(res => {
-          // 存储用户信息
-          
-          if (res && res.user_model) {
-            res.user_model.expired = util.transExpiresDt(res.user_model.expires_in)
-            if (!res.user_model.nickname) {
-              const userid = res.user_model.id
-              const userInfo = {
-                id: userid,
-                name: info.nickName,
-                nickname: info.nickName,
-                avatar: info.avatarUrl,
-                gender: info.gender === 1 ? "male" : "female",
-                language: info.language,
-                country: info.country,
-                province: info.province,
-                city: info.city
-              }
-
-              https.put(Apis.user.restful.put, userInfo, undefined, { id: userid }).then(ress => {
-                Object.assign(res.user_model, userInfo)
-                console.log("第三方用户信息更新: " + JSON.stringify(res.user_model))
-                wx.setStorageSync('userInfo', res)
-                resolve(res.user_model)
+          // 存储用户信息          
+          if (res && res.user) {
+            res.token.expired = util.transExpiresDt(res.token.expires_in)
+            const userid = res.user.id
+            const userInfo = {
+              id: userid,
+              name: info.nickName,
+              nickname: info.nickName,
+              avatar: info.avatarUrl,
+              gender: info.gender === 1 ? "male" : "female",
+              language: info.language,
+              country: info.country,
+              province: info.province,
+              city: info.city
+            }
+            Object.assign(res.user, userInfo)
+            if (!res.user.nickname) {
+              https.put(Apis.user.restful.put, userInfo).then(ress => {                
+                console.log("第三方用户信息更新: " + JSON.stringify(res.user))
+                wx.setStorageSync('userInfo', res.user)
+                wx.setStorageSync('token', res.token)
+                resolve(res)
               })
             } else {
-              wx.setStorageSync('userInfo', res.user_model)
-              resolve(res.user_model)
+              wx.setStorageSync('userInfo', res.user)
+              wx.setStorageSync('token', res.token)
+              resolve(res)
             }
             
           } else {
@@ -84,7 +85,8 @@ const checkSession = () => {
 const checkLogin = () => {
   return new Promise((resolve, reject) => {
     const user = wx.getStorageSync('userInfo')
-    if (user && user.id && user.appid) {
+    const token = wx.getStorageSync('token')
+    if (user && token) {
       resolve(true)
     } else {
       reject(false)

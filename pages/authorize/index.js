@@ -30,7 +30,8 @@ Page({
             success: res => {
               log.log(util.getPageUrl() + ' wx.getUserInfo: ', res)
               user.loginByCustom(res.userInfo).then(res => {
-                app.globalData.userInfo = res
+                app.globalData.userInfo = res.user
+                app.globalData.token = res.token
                 log.log(util.getPageUrl() + ' loginByCustomer: ', res)
                 wx.redirectTo({
                   url: "/pages/location/location"
@@ -53,7 +54,8 @@ Page({
     if (e.detail.userInfo) {
       log.log(util.getPageUrl() + '用户信息：', e.detail.userInfo) 
       user.loginByCustom(e.detail.userInfo).then(res => {
-        getApp().globalData.userInfo = res
+        getApp().globalData.userInfo = res.user
+        getApp().globalData.token = res.token
         wx.redirectTo({
           url: "/pages/location/location"
         })

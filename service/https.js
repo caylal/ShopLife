@@ -6,7 +6,7 @@ import { Apis } from '../api/api.js'
 const log = logFactory.get("HttpProxy")
 let freshState = false
 const get = (url, queryParams = {}, pathParams = {}) => {
-  return request(url, 'GET',queryParams, pathParams);
+  return request(url, 'GET', queryParams, undefined, pathParams);
 }
 
 const post = (url, data = {}, queryParams = {}, pathParams = {}) => {
@@ -43,8 +43,8 @@ const buildUrl = (url, query = {}, path = {}) => {
 const doRequest = (url, method, tokenChenk, data = {}, queryParams = {}, pathParams = {}) => {
   url = buildUrl(url, queryParams, pathParams);
   if(tokenChenk){
-    const userInfo = wx.getStorageSync('userInfo');
-    Object.assign(data, { access_token: userInfo.access_token})
+    const token = wx.getStorageSync('token')
+    Object.assign(data, { access_token: token.access_token})
   }
   log.log('requset: ' + method.toLowerCase() +' ' + url, data)
   return new Promise((resolve, reject) => {
@@ -73,37 +73,36 @@ const doRequest = (url, method, tokenChenk, data = {}, queryParams = {}, pathPar
 const request = (url, method, data = {}, queryParams = {}, pathParams = {}) => {
   return new Promise((resolve, reject) => {
     if (guard(url)) {
-      const userInfo = wx.getStorageSync('userInfo');
+      const token = wx.getStorageSync('token')
       const dtNow = new Date().valueOf()
-      if (!!userInfo && userInfo.expired < dtNow) {
+      if (!!token && token.expired < dtNow) {
         if (!freshState) {
           freshState = true;
-          doRequest(Apis.auth.refresh, 'GET', false, { refreshToken: userInfo.refresh_token }).then(res => {
-            userInfo.access_token = res.access_token
-            userInfo.refresh_token = res.refresh_token
-            userInfo.expires_in = res.expires_in
-            userInfo.expired = transExpiresDt(res.expires_in)
-            wx.setStorageSync('userInfo', userInfo)
-            freshState = false
+          doRequest(Apis.auth.refresh, 'GET', false, { refreshToken: token.refresh_token }).then(res => {
+            if(res.token) {
+              res.token.expired = transExpiresDt(res.token.expires_in)
+              wx.setStorageSync('token', res.token)              
+              freshState = false
 
-            doRequest(url, method, true, data, queryParams, pathParams).then(res => {
-              resolve(res)
-            })
-          })
+              doRequest(url, method, true, data, queryParams, pathParams).then(res => {
+                resolve(res)
+              }).catch(err => reject(err))
+            } 
+          }).catch(err => reject(err))
         } else {
           // token处于刷新中
-          let result = recurRequest(url, method, data, queryParams, pathParams)
+          let result = recurRequest(url, method, data, queryParams,pathParams)
           resolve(result)
         }
       } else {
-        doRequest(url, method, true, data, queryParams, pathParams).then(res => {
+        doRequest(url, method, true, data, queryParams,pathParams).then(res => {
           resolve(res)
-        })
+        }).catch(err => reject(err))
       }
     } else {
       doRequest(url, method, false, data, queryParams, pathParams).then(res => {
         resolve(res)
-      })
+      }).catch(err => reject(err))
     }
   })
 }
