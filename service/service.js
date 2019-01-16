@@ -181,10 +181,29 @@ const mapCity = (data) => {
   }
   return data
 }
+//支付
+const payment = (order, fee) => {
+  return new Promise((resolve, reject) => {
+    https.get(Apis.order.payment,{
+      appId: getApp().globalData.wx.openid,
+      fee: fee,
+      orderId:order
+    }).then(res => {
+      if(res) {
+        resolve(res)
+      }else {
+        reject(res)
+      }
+    }).catch(err => {
+      reject(err)
+    })
+  })
+}
 
 module.exports = {
   getMyCart,
   filterGood,
   editCart,
-  getAllCity
+  getAllCity,
+  payment
 }

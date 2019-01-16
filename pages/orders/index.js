@@ -84,10 +84,12 @@ Page({
     let id = e.currentTarget.dataset.type;
     let list = [];
     let order = wx.getStorageSync('myOrderList')
-    if(id == '0'){
-      list = order
-    }else{
-      list = order.filter(item => item.state.value == id)
+    if(order){
+      if (id == '0') {
+        list = order
+      } else {
+        list = order.filter(item => item.state.value == id)
+      }   
     }   
     this.setData({
       currentid: e.currentTarget.dataset.id,

@@ -2,6 +2,7 @@
 import util from '../../utils/util.js';
 import { Apis } from '../../api/api.js';
 import https from '../../service/https.js'
+import service from '../../service/service.js'
 import { logFactory } from '../../utils/log/logFactory.js'
 
 const log = logFactory.get("Payment")
@@ -76,7 +77,7 @@ Page({
   //发起支付请求
   requestPayment(){
     let _this = this    
-
+    service.payment()
   }
 
 })

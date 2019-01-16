@@ -367,7 +367,7 @@ Page({
   },
   // 重新选择社区结束
   //搜索框输入
-  SearchData(e) {
+  searchData(e) {
     let _this = this;
     _this.setData({
       SearchVal: e.detail.value
@@ -375,32 +375,47 @@ Page({
     log.log(util.getPageUrl() + ' SearchData: ', _this.data.SearchVal)
   },
   //清空搜索框
-  SearchClear(e) {
+  searchClear(e) {
     let _this = this;
     _this.setData({
       SearchVal: ""
     })
   },
   //提交搜索
-  SearchConfirm(e) {
+  searchConfirm(e) {
     let key = e.target.dataset.key;
     let _this = this;
-    if (key == 'back') {
-      wx.switchTab({
-        url: '/pages/index/index',
-      })
-    } else {
-
+    let isIndex = this.data.isIndex
+    let nbhd_list = this.data.nearestNbhd;
+    let search_key = this.data.SearchVal;
+    if(isIndex) {
+      if(!util.isEmpty(search_key)){
+        let search = []
+        if (nbhd_list) {
+          search = nbhd_list.filter(item => item.name.indexOf(search_key) >= 0)
+          _this.setData({
+            nearestNbhd: search
+          })
+        }
+      }else {
+        let list = wx.getStorageSync('nearestNbhd')
+          _this.setData({
+            nearestNbhd: list
+          })
+      }
+      
+    }else {
+      if (key == 'back') {
+        wx.switchTab({
+          url: '/pages/index/index',
+        })
+      } else {
+        
+      }
     }
+    
   },
-  //清除搜索记录
-  SearchDeleteAll() {
-
-  },
-  //搜索历史记录
-  SearchKeyTap() {
-
-  }
+ 
 })
 
 const getStoreOfCity = id => {

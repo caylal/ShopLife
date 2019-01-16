@@ -32,6 +32,7 @@ Page({
               user.loginByCustom(res.userInfo).then(res => {
                 app.globalData.userInfo = res.user
                 app.globalData.token = res.token
+                app.globalData.wx = res.wx
                 log.log(util.getPageUrl() + ' loginByCustomer: ', res)
                 wx.redirectTo({
                   url: "/pages/location/location"
@@ -56,6 +57,7 @@ Page({
       user.loginByCustom(e.detail.userInfo).then(res => {
         getApp().globalData.userInfo = res.user
         getApp().globalData.token = res.token
+        getApp().globalData.wx = res.wx
         wx.redirectTo({
           url: "/pages/location/location"
         })

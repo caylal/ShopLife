@@ -19,18 +19,22 @@
     "pages/member/address/index",
     "pages/payment/payment"     
   ],
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于获取附近生活服务"
+    }
+  },
   "window":{
-    "backgroundTextStyle":"light",
-    "navigationBarBackgroundColor": "#d22222",
-  
+    "backgroundTextStyle":"dark",
+    "navigationBarBackgroundColor": "#fafafa",  
     "navigationBarTitleText": "",
-    "navigationBarTextStyle":"white"
+    "navigationBarTextStyle":"black"
   },
   "tabBar": {
-    "color": "#2c2c2c",
-    "selectedColor": "#d81e06",
-    "borderStyle": "black",
     "backgroundColor": "#fafafa",
+    "color": "#666",
+    "selectedColor": "#d81e06",
+    "borderStyle": "white",
     "list": [
       {
         "pagePath": "pages/index/index",

@@ -32,11 +32,13 @@ const loginByCustom = (info) => {
                 console.log("第三方用户信息更新: " + JSON.stringify(res.user))
                 wx.setStorageSync('userInfo', res.user)
                 wx.setStorageSync('token', res.token)
+                wx.setStorageSync('wx', res.wx)
                 resolve(res)
               })
             } else {
               wx.setStorageSync('userInfo', res.user)
               wx.setStorageSync('token', res.token)
+              wx.setStorageSync('wx', res.wx)
               resolve(res)
             }
             

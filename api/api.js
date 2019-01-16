@@ -53,7 +53,8 @@ export const Apis = {
   },
   order: {
     restful: new Restful('order'),
-    queryOfMy: BASE_URL + 'order/my',                       // 获取我的订单信息参数{pi: 1, ps: 20,uid:} 
+    queryOfMy: BASE_URL + 'order/my',                     // 获取我的订单信息参数{pi: 1, ps: 20,uid:}
+    payment: BASE_URL + "order/pay/wx"                     
   },
   addr: {
     restful: new Restful('address'),

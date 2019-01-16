@@ -23,6 +23,7 @@ App({
     userInfo: null,
     Nbhd: null,
     location:null,    
-    token: null 
+    token: null ,
+    wx: null
   }
 })
